@@ -2,31 +2,50 @@
 <html lang="ka">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>cxadniaki</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>CryptoX Simulator</title>
 
 <style>
+
 *{
-    box-sizing:border-box;
     margin:0;
     padding:0;
-    font-family:Arial,sans-serif;
+    box-sizing:border-box;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+:root{
+    --bg:#080b12;
+    --panel:#10151f;
+    --panel2:#151c28;
+    --border:#232d3d;
+    --text:#ffffff;
+    --muted:#8490a3;
+    --blue:#20b8ff;
+    --green:#20d98b;
+    --red:#ff5267;
 }
 
 body{
-    background:#f0f2f5;
-    color:#1c1e21;
+    background:var(--bg);
+    color:var(--text);
+    min-height:100vh;
 }
 
-/* HEADER */
+/* ================= HEADER ================= */
+
 header{
-    height:60px;
-    background:white;
+    height:70px;
+    background:#0c111a;
+    border-bottom:1px solid var(--border);
+
     display:flex;
     align-items:center;
     justify-content:space-between;
+
     padding:0 25px;
-    box-shadow:0 1px 4px #ccc;
+
     position:sticky;
     top:0;
     z-index:100;
@@ -34,260 +53,433 @@ header{
 
 .logo{
     font-size:25px;
-    font-weight:bold;
-    color:#1877f2;
+    font-weight:800;
+    color:var(--blue);
 }
 
-.search{
-    width:300px;
-    background:#f0f2f5;
-    border:0;
-    border-radius:20px;
-    padding:11px 16px;
-    outline:none;
+.logo span{
+    color:white;
 }
 
-.header-buttons{
+.header-right{
     display:flex;
-    gap:8px;
+    align-items:center;
+    gap:12px;
 }
 
-.header-buttons button{
+.balance-mini{
+    background:var(--panel2);
+    border:1px solid var(--border);
+    padding:9px 14px;
+    border-radius:9px;
+    font-weight:bold;
+}
+
+.profile-btn{
+    width:40px;
+    height:40px;
+    border-radius:50%;
     border:0;
-    border-radius:8px;
-    padding:10px 15px;
+    background:var(--blue);
     cursor:pointer;
     font-weight:bold;
 }
 
-.login{
-    background:#e4e6eb;
+/* ================= LAYOUT ================= */
+
+.app{
+    display:flex;
+    min-height:calc(100vh - 70px);
 }
 
-.signup{
-    background:#1877f2;
+/* SIDEBAR */
+
+.sidebar{
+    width:230px;
+    background:#0c111a;
+    border-right:1px solid var(--border);
+    padding:20px 12px;
+    flex-shrink:0;
+}
+
+.nav-btn{
+    width:100%;
+    padding:13px 15px;
+    margin-bottom:7px;
+
+    border:0;
+    background:transparent;
+    color:#9aa5b7;
+
+    text-align:left;
+    border-radius:9px;
+
+    cursor:pointer;
+    font-size:14px;
+}
+
+.nav-btn:hover,
+.nav-btn.active{
+    background:#172333;
     color:white;
 }
 
-/* LAYOUT */
-.container{
-    max-width:1200px;
+.nav-icon{
+    width:25px;
+    display:inline-block;
+}
+
+/* CONTENT */
+
+.content{
+    flex:1;
+    max-width:1400px;
     margin:auto;
+    padding:25px;
+}
+
+.page{
+    display:none;
+}
+
+.page.active{
+    display:block;
+}
+
+/* ================= DASHBOARD ================= */
+
+.welcome{
+    margin-bottom:25px;
+}
+
+.welcome h1{
+    font-size:32px;
+    margin-bottom:7px;
+}
+
+.muted{
+    color:var(--muted);
+}
+
+.stats{
     display:grid;
-    grid-template-columns:240px 1fr 240px;
-    gap:20px;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+}
+
+.card{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:13px;
     padding:20px;
 }
 
-/* SIDEBARS */
-.sidebar,
-.rightbar{
-    background:white;
-    border-radius:10px;
-    padding:15px;
-    height:max-content;
+.stat-title{
+    color:var(--muted);
+    font-size:13px;
 }
 
-.menu{
-    padding:12px;
-    border-radius:8px;
-    cursor:pointer;
-    margin-bottom:5px;
+.stat-value{
+    font-size:26px;
+    font-weight:bold;
+    margin-top:9px;
 }
 
-.menu:hover{
-    background:#f0f2f5;
+.green{
+    color:var(--green);
 }
 
-/* PROFILE */
-.profile{
-    background:white;
-    border-radius:10px;
+.red{
+    color:var(--red);
+}
+
+.blue{
+    color:var(--blue);
+}
+
+/* ================= MARKET ================= */
+
+.section-title{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
     margin-bottom:15px;
+}
+
+.search{
+    background:var(--panel);
+    border:1px solid var(--border);
+    color:white;
+    padding:12px 15px;
+    border-radius:9px;
+    outline:none;
+    width:260px;
+}
+
+.market-table{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:13px;
     overflow:hidden;
 }
 
-.cover{
-    height:150px;
-    background:linear-gradient(135deg,#1877f2,#6c5ce7);
+.market-row{
+    display:grid;
+    grid-template-columns:2fr 1.3fr 1fr 1fr;
+    align-items:center;
+
+    padding:17px 20px;
+
+    border-bottom:1px solid var(--border);
 }
 
-.profile-info{
-    padding:15px;
-    text-align:center;
+.market-row:last-child{
+    border-bottom:0;
 }
 
-.avatar{
-    width:90px;
-    height:90px;
+.market-header{
+    color:var(--muted);
+    font-size:12px;
+}
+
+.coin-info{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.coin-icon{
+    width:40px;
+    height:40px;
     border-radius:50%;
-    background:#ddd;
-    margin:-60px auto 10px;
-    border:5px solid white;
+    background:#1b2535;
+
     display:flex;
     align-items:center;
     justify-content:center;
-    font-size:40px;
-}
 
-/* CREATE POST */
-.create-post{
-    background:white;
-    padding:15px;
-    border-radius:10px;
-    margin-bottom:15px;
-}
-
-.post-input{
-    width:100%;
-    padding:14px;
-    border:0;
-    background:#f0f2f5;
-    border-radius:20px;
-    outline:none;
-}
-
-.post-actions{
-    display:flex;
-    justify-content:space-around;
-    margin-top:15px;
-}
-
-.post-actions button{
-    border:0;
-    background:white;
-    padding:10px 20px;
-    border-radius:8px;
-    cursor:pointer;
-}
-
-.post-actions button:hover{
-    background:#f0f2f5;
-}
-
-/* POST */
-.post{
-    background:white;
-    border-radius:10px;
-    padding:15px;
-    margin-bottom:15px;
-}
-
-.post-header{
-    display:flex;
-    align-items:center;
-    gap:10px;
-}
-
-.small-avatar{
-    width:42px;
-    height:42px;
-    background:#ddd;
-    border-radius:50%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-}
-
-.post-text{
-    margin:15px 0;
-    font-size:16px;
-}
-
-.post-buttons{
-    display:flex;
-    border-top:1px solid #ddd;
-    padding-top:8px;
-}
-
-.post-buttons button{
-    flex:1;
-    background:white;
-    border:0;
-    padding:10px;
-    cursor:pointer;
-    border-radius:7px;
-}
-
-.post-buttons button:hover{
-    background:#f0f2f5;
-}
-
-.liked{
-    color:#1877f2;
     font-weight:bold;
 }
 
-/* COMMENTS */
-.comments{
-    margin-top:10px;
+.coin-name{
+    font-weight:bold;
 }
 
-.comment{
-    background:#f0f2f5;
-    border-radius:15px;
-    padding:8px 12px;
-    margin-top:7px;
+.coin-symbol{
+    color:var(--muted);
+    font-size:12px;
+    margin-top:3px;
 }
 
-.comment-box{
-    display:flex;
-    gap:5px;
-    margin-top:10px;
-}
-
-.comment-box input{
-    flex:1;
+.trade-small{
     border:0;
-    background:#f0f2f5;
-    padding:10px;
-    border-radius:20px;
+    background:var(--blue);
+    color:#001018;
+    padding:8px 13px;
+    border-radius:7px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+/* ================= TRADE ================= */
+
+.trade-layout{
+    display:grid;
+    grid-template-columns:1.5fr 1fr;
+    gap:20px;
+}
+
+.chart-card{
+    min-height:500px;
+}
+
+.chart-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.big-price{
+    font-size:34px;
+    font-weight:bold;
+    margin-top:10px;
+}
+
+canvas{
+    width:100%;
+    height:330px;
+    margin-top:25px;
+}
+
+.trade-box{
+    display:flex;
+    flex-direction:column;
+    gap:13px;
+}
+
+.trade-box label{
+    color:var(--muted);
+    font-size:13px;
+}
+
+.trade-box select,
+.trade-box input{
+    background:#080b12;
+    border:1px solid var(--border);
+    color:white;
+    padding:14px;
+    border-radius:8px;
     outline:none;
 }
 
-.comment-box button{
-    border:0;
-    background:#1877f2;
-    color:white;
-    border-radius:20px;
-    padding:0 15px;
+.buy-sell{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin-top:10px;
 }
 
-/* FRIENDS */
-.friend{
+.buy{
+    background:var(--green);
+    color:#00170d;
+}
+
+.sell{
+    background:var(--red);
+    color:white;
+}
+
+.buy,
+.sell{
+    border:0;
+    padding:14px;
+    border-radius:8px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+/* ================= WALLET ================= */
+
+.wallet-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+}
+
+.wallet-balance{
+    font-size:36px;
+    font-weight:bold;
+    margin-top:8px;
+}
+
+.asset{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:15px 0;
+
+    border-bottom:1px solid var(--border);
+}
+
+.asset:last-child{
+    border-bottom:0;
+}
+
+.asset-left{
     display:flex;
     align-items:center;
     gap:10px;
-    padding:10px 0;
 }
 
-.friend-avatar{
-    width:38px;
-    height:38px;
+/* ================= HISTORY ================= */
+
+.history{
+    margin-top:20px;
+}
+
+.history-row{
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    padding:14px 0;
+    border-bottom:1px solid var(--border);
+}
+
+/* ================= PROFILE ================= */
+
+.profile-card{
+    max-width:600px;
+}
+
+.avatar-big{
+    width:90px;
+    height:90px;
     border-radius:50%;
-    background:#ddd;
+
+    background:var(--blue);
+
     display:flex;
     align-items:center;
     justify-content:center;
+
+    font-size:35px;
+    color:#001018;
+
+    margin-bottom:20px;
 }
 
-/* MODAL */
+.profile-input{
+    width:100%;
+    padding:13px;
+    margin-top:8px;
+    margin-bottom:15px;
+
+    background:#080b12;
+    color:white;
+
+    border:1px solid var(--border);
+    border-radius:8px;
+}
+
+.primary{
+    background:var(--blue);
+    color:#001018;
+
+    border:0;
+    padding:12px 18px;
+
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+/* ================= MODAL ================= */
+
 .modal{
+    display:none;
+
     position:fixed;
     inset:0;
-    background:rgba(0,0,0,.6);
-    display:none;
+
+    background:rgba(0,0,0,.75);
+
     align-items:center;
     justify-content:center;
+
     z-index:500;
 }
 
 .modal-box{
     width:90%;
-    max-width:400px;
-    background:white;
+    max-width:420px;
+
+    background:var(--panel);
+
+    border:1px solid var(--border);
+
+    border-radius:13px;
+
     padding:25px;
-    border-radius:12px;
 }
 
 .modal-box h2{
@@ -297,785 +489,1923 @@ header{
 .modal-box input{
     width:100%;
     padding:13px;
+
     margin-bottom:12px;
-    border:1px solid #ddd;
-    border-radius:7px;
-}
 
-.modal-box button{
-    width:100%;
-    padding:13px;
-    border:0;
-    background:#1877f2;
+    background:#080b12;
+    border:1px solid var(--border);
+
     color:white;
-    border-radius:7px;
-    font-weight:bold;
+
+    border-radius:8px;
 }
 
-.close{
+.modal-close{
     float:right;
     cursor:pointer;
     font-size:22px;
+    color:var(--muted);
 }
 
-/* CHAT */
-.chat{
+/* ================= NOTIFICATION ================= */
+
+.toast{
     position:fixed;
+
     right:20px;
     bottom:20px;
-    width:300px;
-    background:white;
-    border-radius:10px;
-    box-shadow:0 3px 20px #aaa;
+
+    background:#182333;
+
+    border:1px solid var(--border);
+
+    padding:14px 18px;
+
+    border-radius:9px;
+
     display:none;
-    overflow:hidden;
+
+    z-index:1000;
 }
 
-.chat-header{
-    background:#1877f2;
-    color:white;
-    padding:13px;
-    font-weight:bold;
+/* ================= MOBILE NAV ================= */
+
+.mobile-nav{
+    display:none;
 }
 
-.chat-messages{
-    height:250px;
-    padding:10px;
-    overflow-y:auto;
-}
+/* ================= RESPONSIVE ================= */
 
-.chat-input{
-    display:flex;
-    border-top:1px solid #ddd;
-}
+@media(max-width:1000px){
 
-.chat-input input{
-    flex:1;
-    border:0;
-    padding:12px;
-    outline:none;
-}
+    .sidebar{
+        width:190px;
+    }
 
-.chat-input button{
-    border:0;
-    background:#1877f2;
-    color:white;
-    padding:0 15px;
-}
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
 
-/* MOBILE */
-@media(max-width:900px){
-
-    .container{
+    .trade-layout{
         grid-template-columns:1fr;
     }
 
-    .sidebar,
-    .rightbar{
+}
+
+@media(max-width:700px){
+
+    header{
+        padding:0 13px;
+    }
+
+    .balance-mini{
         display:none;
     }
 
-    .search{
-        width:180px;
+    .sidebar{
+        display:none;
     }
 
-}
-
-@media(max-width:500px){
-
-    header{
-        padding:0 10px;
+    .content{
+        padding:15px;
+        padding-bottom:85px;
     }
 
-    .logo{
+    .welcome h1{
+        font-size:25px;
+    }
+
+    .stats{
+        grid-template-columns:1fr 1fr;
+        gap:10px;
+    }
+
+    .stat-value{
         font-size:20px;
     }
 
+    .section-title{
+        align-items:flex-start;
+        flex-direction:column;
+        gap:10px;
+    }
+
     .search{
+        width:100%;
+    }
+
+    .market-header{
         display:none;
     }
 
-    .header-buttons button{
-        padding:8px 10px;
+    .market-row{
+        grid-template-columns:1fr auto;
+        gap:10px;
+        padding:15px;
     }
 
-    .container{
-        padding:10px;
+    .market-row > div:nth-child(2),
+    .market-row > div:nth-child(3){
+        display:none;
     }
 
-    .chat{
-        width:calc(100% - 30px);
-        right:15px;
-        bottom:15px;
+    .wallet-grid{
+        grid-template-columns:1fr;
     }
+
+    .chart-card{
+        min-height:400px;
+    }
+
+    canvas{
+        height:260px;
+    }
+
+    .mobile-nav{
+        position:fixed;
+        display:grid;
+
+        grid-template-columns:repeat(5,1fr);
+
+        left:0;
+        right:0;
+        bottom:0;
+
+        height:65px;
+
+        background:#0c111a;
+        border-top:1px solid var(--border);
+
+        z-index:300;
+    }
+
+    .mobile-nav button{
+        border:0;
+        background:transparent;
+        color:#7e8a9c;
+        font-size:11px;
+    }
+
+    .mobile-nav button.active{
+        color:var(--blue);
+    }
+
 }
+
 </style>
 </head>
 
+
 <body>
 
-<!-- HEADER -->
+<!-- ================= HEADER ================= -->
+
 <header>
 
-    <div class="logo">cxadniaki</div>
+    <div class="logo">
+        Crypto<span>X</span>
+    </div>
 
-    <input
-        class="search"
-        id="search"
-        placeholder="მოძებნე..."
-        oninput="searchPosts()"
-    >
+    <div class="header-right">
 
-    <div class="header-buttons">
-        <button class="login" onclick="openAuth('login')">
-            შესვლა
+        <div class="balance-mini">
+            $<span id="headerBalance">10,000.00</span>
+        </div>
+
+        <button
+            class="profile-btn"
+            onclick="showPage('profile')"
+        >
+            👤
         </button>
 
-        <button class="signup" onclick="openAuth('signup')">
-            რეგისტრაცია
-        </button>
     </div>
 
 </header>
 
 
-<!-- MAIN -->
-<div class="container">
+<div class="app">
 
-    <!-- LEFT -->
-    <aside class="sidebar">
+<!-- ================= SIDEBAR ================= -->
 
-        <div class="menu">🏠 მთავარი</div>
-        <div class="menu">👤 ჩემი პროფილი</div>
-        <div class="menu">👥 მეგობრები</div>
-        <div class="menu" onclick="openChat()">💬 Messenger</div>
-        <div class="menu">🔔 შეტყობინებები</div>
-        <div class="menu">⚙️ პარამეტრები</div>
+<aside class="sidebar">
 
-    </aside>
+    <button
+        class="nav-btn active"
+        onclick="showPage('dashboard',this)"
+    >
+        <span class="nav-icon">🏠</span>
+        Dashboard
+    </button>
+
+    <button
+        class="nav-btn"
+        onclick="showPage('markets',this)"
+    >
+        <span class="nav-icon">📊</span>
+        Markets
+    </button>
+
+    <button
+        class="nav-btn"
+        onclick="showPage('trade',this)"
+    >
+        <span class="nav-icon">💱</span>
+        Trade
+    </button>
+
+    <button
+        class="nav-btn"
+        onclick="showPage('wallet',this)"
+    >
+        <span class="nav-icon">💼</span>
+        Wallet
+    </button>
+
+    <button
+        class="nav-btn"
+        onclick="showPage('history',this)"
+    >
+        <span class="nav-icon">📜</span>
+        History
+    </button>
+
+    <button
+        class="nav-btn"
+        onclick="showPage('profile',this)"
+    >
+        <span class="nav-icon">👤</span>
+        Profile
+    </button>
+
+</aside>
 
 
-    <!-- FEED -->
-    <main>
+<!-- ================= CONTENT ================= -->
 
-        <!-- PROFILE -->
-        <div class="profile">
+<main class="content">
 
-            <div class="cover"></div>
 
-            <div class="profile-info">
+<!-- ================= DASHBOARD ================= -->
 
-                <div class="avatar">👤</div>
+<section
+    id="dashboard"
+    class="page active"
+>
 
-                <h2 id="profileName">cxadniaki User</h2>
+    <div class="welcome">
 
-                <p style="color:#65676b;margin-top:5px;">
-                    მოგესალმები cxadniaki-ზე
+        <h1>
+            Welcome to CryptoX 🚀
+        </h1>
+
+        <p class="muted">
+            Cryptocurrency demo trading dashboard
+        </p>
+
+    </div>
+
+
+    <div class="stats">
+
+        <div class="card">
+
+            <div class="stat-title">
+                Available USD
+            </div>
+
+            <div class="stat-value">
+                $<span id="statBalance">
+                    10,000.00
+                </span>
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="stat-title">
+                Portfolio Value
+            </div>
+
+            <div class="stat-value">
+                $<span id="portfolioValue">
+                    10,000.00
+                </span>
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="stat-title">
+                Total Profit / Loss
+            </div>
+
+            <div
+                class="stat-value green"
+                id="profitLoss"
+            >
+                +$0.00
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="stat-title">
+                Demo Status
+            </div>
+
+            <div class="stat-value blue">
+                LIVE
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <br>
+
+
+    <div class="section-title">
+
+        <h2>
+            Popular Coins
+        </h2>
+
+        <button
+            class="primary"
+            onclick="showPage('markets')"
+        >
+            View All
+        </button>
+
+    </div>
+
+
+    <div
+        class="market-table"
+        id="dashboardCoins"
+    >
+    </div>
+
+</section>
+
+
+<!-- ================= MARKETS ================= -->
+
+<section
+    id="markets"
+    class="page"
+>
+
+    <div class="section-title">
+
+        <div>
+
+            <h1>
+                Markets
+            </h1>
+
+            <p class="muted">
+                Live cryptocurrency prices
+            </p>
+
+        </div>
+
+        <input
+            class="search"
+            id="coinSearch"
+            placeholder="Search coin..."
+            oninput="renderMarkets()"
+        >
+
+    </div>
+
+
+    <div
+        class="market-table"
+        id="marketsTable"
+    >
+    </div>
+
+</section>
+
+
+<!-- ================= TRADE ================= -->
+
+<section
+    id="trade"
+    class="page"
+>
+
+    <div class="section-title">
+
+        <div>
+
+            <h1>
+                Trade
+            </h1>
+
+            <p class="muted">
+                Buy and sell using demo funds
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="trade-layout">
+
+
+        <div class="card chart-card">
+
+            <div class="chart-header">
+
+                <div>
+
+                    <h2 id="chartCoin">
+                        Bitcoin
+                    </h2>
+
+                    <div class="big-price">
+                        $<span id="tradePrice">
+                            0.00
+                        </span>
+                    </div>
+
+                </div>
+
+                <span
+                    id="tradeChange"
+                    class="green"
+                >
+                    +0.00%
+                </span>
+
+            </div>
+
+
+            <canvas id="priceChart"></canvas>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="trade-box">
+
+                <h2>
+                    Place Order
+                </h2>
+
+                <label>
+                    Asset
+                </label>
+
+                <select id="tradeSelect">
+                    <option value="bitcoin">
+                        Bitcoin (BTC)
+                    </option>
+
+                    <option value="ethereum">
+                        Ethereum (ETH)
+                    </option>
+
+                    <option value="solana">
+                        Solana (SOL)
+                    </option>
+
+                    <option value="binancecoin">
+                        BNB
+                    </option>
+
+                    <option value="ripple">
+                        XRP
+                    </option>
+                </select>
+
+
+                <label>
+                    Amount USD
+                </label>
+
+                <input
+                    id="tradeAmount"
+                    type="number"
+                    min="1"
+                    placeholder="100"
+                >
+
+
+                <div class="buy-sell">
+
+                    <button
+                        class="buy"
+                        onclick="buy()"
+                    >
+                        BUY
+                    </button>
+
+                    <button
+                        class="sell"
+                        onclick="sell()"
+                    >
+                        SELL
+                    </button>
+
+                </div>
+
+
+                <p
+                    id="tradeInfo"
+                    class="muted"
+                >
+                    Enter an amount to trade.
                 </p>
 
             </div>
 
         </div>
 
+    </div>
 
-        <!-- CREATE POST -->
-        <div class="create-post">
+</section>
 
-            <input
-                class="post-input"
-                id="postInput"
-                placeholder="რას ფიქრობ?"
-            >
 
-            <div class="post-actions">
+<!-- ================= WALLET ================= -->
 
-                <button onclick="createPost()">
-                    📝 პოსტი
-                </button>
+<section
+    id="wallet"
+    class="page"
+>
 
-                <button onclick="alert('ფოტოს დამატება მალე იქნება')">
-                    📷 ფოტო
-                </button>
+    <div class="section-title">
 
-                <button onclick="alert('ვიდეოს დამატება მალე იქნება')">
-                    🎥 ვიდეო
-                </button>
+        <div>
 
+            <h1>
+                Wallet
+            </h1>
+
+            <p class="muted">
+                Your demo assets
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="wallet-grid">
+
+        <div class="card">
+
+            <div class="muted">
+                USD Balance
+            </div>
+
+            <div class="wallet-balance">
+                $<span id="walletBalance">
+                    10,000.00
+                </span>
             </div>
 
         </div>
 
 
-        <!-- POSTS -->
-        <div id="feed">
+        <div class="card">
 
-            <div class="post">
-
-                <div class="post-header">
-
-                    <div class="small-avatar">
-                        👤
-                    </div>
-
-                    <div>
-                        <b>cxadniaki</b>
-                        <p style="color:#65676b;font-size:12px;">
-                            ცოტა ხნის წინ
-                        </p>
-                    </div>
-
-                </div>
-
-                <div class="post-text">
-                    მოგესალმებით cxadniaki-ზე! 🚀
-                </div>
-
-                <div class="post-buttons">
-
-                    <button onclick="likePost(this)">
-                        👍 მოწონება
-                    </button>
-
-                    <button onclick="focusComment(this)">
-                        💬 კომენტარი
-                    </button>
-
-                    <button onclick="sharePost()">
-                        ↗️ გაზიარება
-                    </button>
-
-                </div>
-
-                <div class="comments">
-
-                    <div class="comment">
-                        წარმატებები! 🔥
-                    </div>
-
-                </div>
-
-                <div class="comment-box">
-
-                    <input
-                        placeholder="დაწერე კომენტარი..."
-                    >
-
-                    <button onclick="addComment(this)">
-                        გაგზავნა
-                    </button>
-
-                </div>
-
+            <div class="muted">
+                Portfolio
             </div>
 
-
-            <div class="post">
-
-                <div class="post-header">
-
-                    <div class="small-avatar">
-                        😎
-                    </div>
-
-                    <div>
-                        <b>Gio</b>
-                        <p style="color:#65676b;font-size:12px;">
-                            1 საათის წინ
-                        </p>
-                    </div>
-
-                </div>
-
-                <div class="post-text">
-                    როგორ მოგწონთ ახალი cxadniaki? ❤️
-                </div>
-
-                <div class="post-buttons">
-
-                    <button onclick="likePost(this)">
-                        👍 მოწონება
-                    </button>
-
-                    <button onclick="focusComment(this)">
-                        💬 კომენტარი
-                    </button>
-
-                    <button onclick="sharePost()">
-                        ↗️ გაზიარება
-                    </button>
-
-                </div>
-
-                <div class="comments"></div>
-
-                <div class="comment-box">
-
-                    <input
-                        placeholder="დაწერე კომენტარი..."
-                    >
-
-                    <button onclick="addComment(this)">
-                        გაგზავნა
-                    </button>
-
-                </div>
-
+            <div class="wallet-balance">
+                $<span id="walletPortfolio">
+                    10,000.00
+                </span>
             </div>
 
         </div>
 
-    </main>
+    </div>
 
 
-    <!-- RIGHT -->
-    <aside class="rightbar">
-
-        <h3>მეგობრები</h3>
-
-        <div class="friend">
-
-            <div class="friend-avatar">😎</div>
-
-            <span>Gio</span>
-
-        </div>
-
-        <div class="friend">
-
-            <div class="friend-avatar">🙂</div>
-
-            <span>Nika</span>
-
-        </div>
-
-        <div class="friend">
-
-            <div class="friend-avatar">🔥</div>
-
-            <span>Dato</span>
-
-        </div>
-
-        <hr style="margin:15px 0;border:0;border-top:1px solid #ddd;">
-
-        <h3>ონლაინ</h3>
-
-        <p style="margin-top:12px;color:#31a24c;">
-            🟢 3 მეგობარი ონლაინ
-        </p>
-
-    </aside>
-
-</div>
+    <br>
 
 
-<!-- AUTH MODAL -->
-<div class="modal" id="authModal">
+    <div class="card">
 
-    <div class="modal-box">
+        <h2>
+            Assets
+        </h2>
 
-        <span class="close" onclick="closeAuth()">×</span>
-
-        <h2 id="authTitle">შესვლა</h2>
-
-        <input
-            id="authName"
-            placeholder="სახელი"
-        >
-
-        <input
-            id="authEmail"
-            type="email"
-            placeholder="Email"
-        >
-
-        <input
-            id="authPassword"
-            type="password"
-            placeholder="პაროლი"
-        >
-
-        <button onclick="authSubmit()">
-            გაგრძელება
-        </button>
-
-        <p
-            id="authMessage"
-            style="text-align:center;margin-top:12px;color:#65676b;"
-        ></p>
+        <div id="assetsList"></div>
 
     </div>
 
-</div>
+</section>
 
 
-<!-- CHAT -->
-<div class="chat" id="chat">
+<!-- ================= HISTORY ================= -->
 
-    <div class="chat-header">
-        💬 Messenger
-        <span
-            onclick="closeChat()"
-            style="float:right;cursor:pointer;"
-        >
-            ×
-        </span>
-    </div>
+<section
+    id="history"
+    class="page"
+>
 
-    <div class="chat-messages" id="chatMessages">
+    <h1>
+        Transaction History
+    </h1>
 
-        <div class="comment">
-            გამარჯობა 👋
+    <p class="muted">
+        Your demo trades
+    </p>
+
+
+    <div class="card history">
+
+        <div class="history-row">
+
+            <b>Type</b>
+            <b>Asset</b>
+            <b>Amount</b>
+
+        </div>
+
+        <div id="historyList">
         </div>
 
     </div>
 
-    <div class="chat-input">
+</section>
+
+
+<!-- ================= PROFILE ================= -->
+
+<section
+    id="profile"
+    class="page"
+>
+
+    <h1>
+        Profile
+    </h1>
+
+    <p class="muted">
+        Manage your demo account
+    </p>
+
+    <br>
+
+
+    <div class="card profile-card">
+
+        <div class="avatar-big">
+            👤
+        </div>
+
+
+        <label>
+            Username
+        </label>
 
         <input
-            id="chatInput"
-            placeholder="დაწერე..."
-            onkeydown="if(event.key==='Enter') sendMessage()"
+            class="profile-input"
+            id="username"
+            placeholder="Crypto Trader"
         >
 
-        <button onclick="sendMessage()">
-            ➤
+
+        <label>
+            Email
+        </label>
+
+        <input
+            class="profile-input"
+            id="email"
+            placeholder="demo@example.com"
+        >
+
+
+        <button
+            class="primary"
+            onclick="saveProfile()"
+        >
+            Save Profile
         </button>
 
     </div>
 
+</section>
+
+
+</main>
+
+</div>
+
+
+<!-- ================= MOBILE NAV ================= -->
+
+<nav class="mobile-nav">
+
+    <button
+        class="active"
+        onclick="showPage('dashboard',this)"
+    >
+        🏠<br>
+        Home
+    </button>
+
+    <button
+        onclick="showPage('markets',this)"
+    >
+        📊<br>
+        Markets
+    </button>
+
+    <button
+        onclick="showPage('trade',this)"
+    >
+        💱<br>
+        Trade
+    </button>
+
+    <button
+        onclick="showPage('wallet',this)"
+    >
+        💼<br>
+        Wallet
+    </button>
+
+    <button
+        onclick="showPage('profile',this)"
+    >
+        👤<br>
+        Profile
+    </button>
+
+</nav>
+
+
+<!-- ================= TOAST ================= -->
+
+<div
+    class="toast"
+    id="toast"
+>
 </div>
 
 
 <script>
 
-/* AUTH */
+/* =====================================================
+   COINS
+===================================================== */
 
-let authMode="login";
+const coins = {
 
-function openAuth(mode){
+    bitcoin:{
+        name:"Bitcoin",
+        symbol:"BTC",
+        icon:"₿"
+    },
 
-    authMode=mode;
+    ethereum:{
+        name:"Ethereum",
+        symbol:"ETH",
+        icon:"Ξ"
+    },
 
-    document.getElementById("authModal")
-        .style.display="flex";
+    solana:{
+        name:"Solana",
+        symbol:"SOL",
+        icon:"S"
+    },
 
-    document.getElementById("authTitle")
-        .innerText =
-        mode==="login"
-        ? "შესვლა"
-        : "რეგისტრაცია";
+    binancecoin:{
+        name:"BNB",
+        symbol:"BNB",
+        icon:"B"
+    },
 
-    document.getElementById("authName")
-        .style.display =
-        mode==="login"
-        ? "none"
-        : "block";
-
-}
-
-function closeAuth(){
-
-    document.getElementById("authModal")
-        .style.display="none";
-
-}
-
-function authSubmit(){
-
-    const name =
-        document.getElementById("authName").value;
-
-    const email =
-        document.getElementById("authEmail").value;
-
-    const password =
-        document.getElementById("authPassword").value;
-
-    if(!email || !password){
-
-        document.getElementById("authMessage")
-            .innerText="შეავსე ყველა აუცილებელი ველი.";
-
-        return;
+    ripple:{
+        name:"XRP",
+        symbol:"XRP",
+        icon:"X"
     }
 
-    if(authMode==="signup" && name){
+};
 
-        document.getElementById("profileName")
-            .innerText=name;
 
-        localStorage.setItem(
-            "cxadniakiUser",
-            name
+/* =====================================================
+   STATE
+===================================================== */
+
+let prices = {};
+
+let historyPrices = [];
+
+let balance =
+    Number(
+        localStorage.getItem("cx_balance")
+    ) || 10000;
+
+let holdings =
+    JSON.parse(
+        localStorage.getItem("cx_holdings")
+    ) || {
+
+        bitcoin:0,
+        ethereum:0,
+        solana:0,
+        binancecoin:0,
+        ripple:0
+
+    };
+
+let transactions =
+    JSON.parse(
+        localStorage.getItem("cx_transactions")
+    ) || [];
+
+
+/* =====================================================
+   PAGE NAVIGATION
+===================================================== */
+
+function showPage(page,button){
+
+    document
+        .querySelectorAll(".page")
+        .forEach(p=>{
+            p.classList.remove("active");
+        });
+
+    const target =
+        document.getElementById(page);
+
+    if(target)
+        target.classList.add("active");
+
+
+    document
+        .querySelectorAll(".nav-btn")
+        .forEach(b=>{
+            b.classList.remove("active");
+        });
+
+
+    document
+        .querySelectorAll(".mobile-nav button")
+        .forEach(b=>{
+            b.classList.remove("active");
+        });
+
+
+    if(button)
+        button.classList.add("active");
+
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
+}
+
+
+/* =====================================================
+   FETCH LIVE PRICES
+===================================================== */
+
+async function loadPrices(){
+
+    try{
+
+        const ids =
+            Object.keys(coins).join(",");
+
+        const url =
+        "https://api.coingecko.com/api/v3/simple/price"
+        +
+        "?ids="
+        + ids
+        +
+        "&vs_currencies=usd"
+        +
+        "&include_24hr_change=true";
+
+
+        const response =
+            await fetch(url);
+
+        const data =
+            await response.json();
+
+        prices=data;
+
+
+        renderMarkets();
+
+        renderDashboard();
+
+        updateWallet();
+
+        updateTrade();
+
+    }catch(error){
+
+        console.log(error);
+
+        showToast(
+            "Market data unavailable"
         );
 
     }
 
-    document.getElementById("authMessage")
-        .innerText =
-        authMode==="login"
-        ? "შესვლა წარმატებულია ✅"
-        : "რეგისტრაცია წარმატებულია ✅";
-
 }
 
 
-/* CREATE POST */
+/* =====================================================
+   FORMAT
+===================================================== */
 
-function createPost(){
+function money(value){
 
-    const input =
-        document.getElementById("postInput");
-
-    const text =
-        input.value.trim();
-
-    if(!text){
-
-        alert("დაწერე რამე.");
-
-        return;
-    }
-
-    const post =
-        document.createElement("div");
-
-    post.className="post";
-
-    post.innerHTML=`
-
-        <div class="post-header">
-
-            <div class="small-avatar">
-                👤
-            </div>
-
-            <div>
-                <b>cxadniaki User</b>
-                <p style="color:#65676b;font-size:12px;">
-                    ახლა
-                </p>
-            </div>
-
-        </div>
-
-        <div class="post-text">
-            ${escapeHTML(text)}
-        </div>
-
-        <div class="post-buttons">
-
-            <button onclick="likePost(this)">
-                👍 მოწონება
-            </button>
-
-            <button onclick="focusComment(this)">
-                💬 კომენტარი
-            </button>
-
-            <button onclick="sharePost()">
-                ↗️ გაზიარება
-            </button>
-
-        </div>
-
-        <div class="comments"></div>
-
-        <div class="comment-box">
-
-            <input placeholder="დაწერე კომენტარი...">
-
-            <button onclick="addComment(this)">
-                გაგზავნა
-            </button>
-
-        </div>
-    `;
-
-    document
-        .getElementById("feed")
-        .prepend(post);
-
-    input.value="";
-
-}
-
-
-/* LIKE */
-
-function likePost(button){
-
-    button.classList.toggle("liked");
-
-    if(button.classList.contains("liked")){
-
-        button.innerText="👍 მოწონებულია";
-
-    }else{
-
-        button.innerText="👍 მოწონება";
-
-    }
-
-}
-
-
-/* COMMENT */
-
-function addComment(button){
-
-    const box =
-        button.parentElement;
-
-    const input =
-        box.querySelector("input");
-
-    const text =
-        input.value.trim();
-
-    if(!text) return;
-
-    const comments =
-        box.parentElement
-        .querySelector(".comments");
-
-    const comment =
-        document.createElement("div");
-
-    comment.className="comment";
-
-    comment.innerHTML =
-        "👤 <b>თქვენ:</b> "
-        + escapeHTML(text);
-
-    comments.appendChild(comment);
-
-    input.value="";
-
-}
-
-
-/* FOCUS COMMENT */
-
-function focusComment(button){
-
-    const post =
-        button.closest(".post");
-
-    const input =
-        post.querySelector(".comment-box input");
-
-    input.focus();
-
-}
-
-
-/* SHARE */
-
-function sharePost(){
-
-    alert(
-        "პოსტის გაზიარება მალე დაემატება 🚀"
+    return Number(value).toLocaleString(
+        "en-US",
+        {
+            minimumFractionDigits:2,
+            maximumFractionDigits:2
+        }
     );
 
 }
 
 
-/* SEARCH */
+function coinPrice(value){
 
-function searchPosts(){
+    if(value >= 1000)
+        return money(value);
 
-    const query =
-        document.getElementById("search")
-        .value
-        .toLowerCase();
+    if(value >= 1)
+        return value.toFixed(2);
 
-    document
-        .querySelectorAll(".post")
-        .forEach(post=>{
-
-            const text =
-                post.innerText.toLowerCase();
-
-            post.style.display =
-                text.includes(query)
-                ? "block"
-                : "none";
-
-        });
+    return value.toFixed(5);
 
 }
 
 
-/* CHAT */
+/* =====================================================
+   MARKETS
+===================================================== */
 
-function openChat(){
+function renderMarkets(){
 
-    document.getElementById("chat")
-        .style.display="block";
+    const table =
+        document.getElementById("marketsTable");
+
+    const search =
+        (
+            document.getElementById("coinSearch")
+            ?.value || ""
+        ).toLowerCase();
+
+
+    table.innerHTML = `
+
+        <div class="market-row market-header">
+
+            <div>ASSET</div>
+            <div>PRICE</div>
+            <div>24H CHANGE</div>
+            <div>ACTION</div>
+
+        </div>
+
+    `;
+
+
+    Object.entries(coins)
+    .filter(([id,c])=>{
+
+        return (
+            c.name.toLowerCase().includes(search)
+            ||
+            c.symbol.toLowerCase().includes(search)
+        );
+
+    })
+    .forEach(([id,c])=>{
+
+        const data=prices[id];
+
+        if(!data)
+            return;
+
+
+        const change =
+            data.usd_24h_change || 0;
+
+
+        const direction =
+            change >= 0
+            ? "green"
+            : "red";
+
+
+        const row =
+            document.createElement("div");
+
+        row.className="market-row";
+
+
+        row.innerHTML=`
+
+            <div class="coin-info">
+
+                <div class="coin-icon">
+                    ${c.icon}
+                </div>
+
+                <div>
+
+                    <div class="coin-name">
+                        ${c.name}
+                    </div>
+
+                    <div class="coin-symbol">
+                        ${c.symbol}
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div>
+                $${coinPrice(data.usd)}
+            </div>
+
+
+            <div class="${direction}">
+                ${change >= 0 ? "+" : ""}
+                ${change.toFixed(2)}%
+            </div>
+
+
+            <div>
+
+                <button
+                    class="trade-small"
+                    onclick="selectTrade('${id}')"
+                >
+                    Trade
+                </button>
+
+            </div>
+
+        `;
+
+
+        table.appendChild(row);
+
+    });
 
 }
 
-function closeChat(){
 
-    document.getElementById("chat")
-        .style.display="none";
+/* =====================================================
+   DASHBOARD
+===================================================== */
+
+function renderDashboard(){
+
+    const box =
+        document.getElementById("dashboardCoins");
+
+    box.innerHTML = `
+
+        <div class="market-row market-header">
+
+            <div>ASSET</div>
+            <div>PRICE</div>
+            <div>24H</div>
+            <div></div>
+
+        </div>
+
+    `;
+
+
+    Object.entries(coins)
+    .slice(0,4)
+    .forEach(([id,c])=>{
+
+        const data=prices[id];
+
+        if(!data)
+            return;
+
+
+        const change =
+            data.usd_24h_change || 0;
+
+
+        const row =
+            document.createElement("div");
+
+        row.className="market-row";
+
+
+        row.innerHTML=`
+
+            <div class="coin-info">
+
+                <div class="coin-icon">
+                    ${c.icon}
+                </div>
+
+                <div>
+
+                    <div class="coin-name">
+                        ${c.name}
+                    </div>
+
+                    <div class="coin-symbol">
+                        ${c.symbol}
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div>
+                $${coinPrice(data.usd)}
+            </div>
+
+
+            <div class="${change>=0?'green':'red'}">
+                ${change>=0?"+":""}
+                ${change.toFixed(2)}%
+            </div>
+
+
+            <div>
+
+                <button
+                    class="trade-small"
+                    onclick="selectTrade('${id}')"
+                >
+                    Trade
+                </button>
+
+            </div>
+
+        `;
+
+
+        box.appendChild(row);
+
+    });
 
 }
 
-function sendMessage(){
 
-    const input =
-        document.getElementById("chatInput");
+/* =====================================================
+   SELECT TRADE
+===================================================== */
 
-    const text =
-        input.value.trim();
+function selectTrade(id){
 
-    if(!text) return;
+    document.getElementById("tradeSelect")
+        .value=id;
 
-    const message =
-        document.createElement("div");
+    showPage("trade");
 
-    message.className="comment";
-
-    message.innerText =
-        "თქვენ: " + text;
-
-    document
-        .getElementById("chatMessages")
-        .appendChild(message);
-
-    input.value="";
+    updateTrade();
 
 }
 
 
-/* SECURITY */
+/* =====================================================
+   TRADE UI
+===================================================== */
 
-function escapeHTML(text){
+function updateTrade(){
 
-    const div =
-        document.createElement("div");
+    const id =
+        document.getElementById("tradeSelect")
+        .value;
 
-    div.textContent=text;
+    const data =
+        prices[id];
 
-    return div.innerHTML;
+    if(!data)
+        return;
+
+
+    const coin =
+        coins[id];
+
+
+    document.getElementById("chartCoin")
+        .innerText=coin.name;
+
+
+    document.getElementById("tradePrice")
+        .innerText=coinPrice(data.usd);
+
+
+    const change =
+        data.usd_24h_change || 0;
+
+
+    const changeEl =
+        document.getElementById("tradeChange");
+
+
+    changeEl.innerText =
+        (change>=0?"+":"")
+        +
+        change.toFixed(2)
+        +
+        "%";
+
+
+    changeEl.className =
+        change>=0
+        ? "green"
+        : "red";
+
+
+    historyPrices.push(data.usd);
+
+
+    if(historyPrices.length>40)
+        historyPrices.shift();
+
+
+    drawChart();
 
 }
 
 
-/* LOAD USER */
+document
+    .getElementById("tradeSelect")
+    .addEventListener(
+        "change",
+        updateTrade
+    );
 
-const savedUser =
-    localStorage.getItem("cxadniakiUser");
 
-if(savedUser){
+/* =====================================================
+   CHART
+===================================================== */
 
-    document.getElementById("profileName")
-        .innerText=savedUser;
+function drawChart(){
+
+    const canvas =
+        document.getElementById("priceChart");
+
+    if(!canvas)
+        return;
+
+
+    const ctx =
+        canvas.getContext("2d");
+
+
+    const width =
+        canvas.clientWidth * 2;
+
+    const height =
+        canvas.clientHeight * 2;
+
+
+    canvas.width=width;
+    canvas.height=height;
+
+
+    ctx.clearRect(
+        0,
+        0,
+        width,
+        height
+    );
+
+
+    if(historyPrices.length<2)
+        return;
+
+
+    const min =
+        Math.min(...historyPrices);
+
+    const max =
+        Math.max(...historyPrices);
+
+
+    const range =
+        max-min || 1;
+
+
+    ctx.beginPath();
+
+
+    historyPrices.forEach(
+        (price,index)=>{
+
+            const x =
+                index *
+                width /
+                (historyPrices.length-1);
+
+
+            const y =
+                height -
+                (
+                    (price-min)
+                    /
+                    range
+                )
+                *
+                (height-40)
+                -
+                20;
+
+
+            if(index===0)
+                ctx.moveTo(x,y);
+            else
+                ctx.lineTo(x,y);
+
+        }
+    );
+
+
+    ctx.strokeStyle="#20b8ff";
+    ctx.lineWidth=5;
+
+    ctx.stroke();
 
 }
+
+
+/* =====================================================
+   BUY
+===================================================== */
+
+function buy(){
+
+    const id =
+        document.getElementById("tradeSelect")
+        .value;
+
+    const amount =
+        Number(
+            document.getElementById("tradeAmount")
+            .value
+        );
+
+
+    const price =
+        prices[id]?.usd;
+
+
+    if(!amount || amount<=0){
+
+        showToast(
+            "Enter a valid amount"
+        );
+
+        return;
+
+    }
+
+
+    if(!price){
+
+        showToast(
+            "Price unavailable"
+        );
+
+        return;
+
+    }
+
+
+    if(amount>balance){
+
+        showToast(
+            "Not enough demo USD"
+        );
+
+        return;
+
+    }
+
+
+    const quantity =
+        amount/price;
+
+
+    balance-=amount;
+
+    holdings[id]+=quantity;
+
+
+    transactions.unshift({
+
+        type:"BUY",
+
+        coin:id,
+
+        amount:amount,
+
+        quantity:quantity,
+
+        time:new Date()
+        .toLocaleString()
+
+    });
+
+
+    save();
+
+    updateAll();
+
+
+    showToast(
+        "BUY completed successfully 🚀"
+    );
+
+}
+
+
+/* =====================================================
+   SELL
+===================================================== */
+
+function sell(){
+
+    const id =
+        document.getElementById("tradeSelect")
+        .value;
+
+    const amount =
+        Number(
+            document.getElementById("tradeAmount")
+            .value
+        );
+
+
+    const price =
+        prices[id]?.usd;
+
+
+    if(!amount || amount<=0){
+
+        showToast(
+            "Enter a valid amount"
+        );
+
+        return;
+
+    }
+
+
+    if(!price){
+
+        showToast(
+            "Price unavailable"
+        );
+
+        return;
+
+    }
+
+
+    const quantity =
+        amount/price;
+
+
+    if(holdings[id]<quantity){
+
+        showToast(
+            "Not enough crypto"
+        );
+
+        return;
+
+    }
+
+
+    holdings[id]-=quantity;
+
+    balance+=amount;
+
+
+    transactions.unshift({
+
+        type:"SELL",
+
+        coin:id,
+
+        amount:amount,
+
+        quantity:quantity,
+
+        time:new Date()
+        .toLocaleString()
+
+    });
+
+
+    save();
+
+    updateAll();
+
+
+    showToast(
+        "SELL completed successfully"
+    );
+
+}
+
+
+/* =====================================================
+   WALLET
+===================================================== */
+
+function updateWallet(){
+
+    document.getElementById("headerBalance")
+        .innerText=money(balance);
+
+
+    document.getElementById("statBalance")
+        .innerText=money(balance);
+
+
+    document.getElementById("walletBalance")
+        .innerText=money(balance);
+
+
+    let cryptoValue=0;
+
+
+    Object.keys(coins)
+    .forEach(id=>{
+
+        if(prices[id]){
+
+            cryptoValue +=
+                holdings[id] *
+                prices[id].usd;
+
+        }
+
+    });
+
+
+    const total =
+        balance+cryptoValue;
+
+
+    document.getElementById("portfolioValue")
+        .innerText=money(total);
+
+
+    document.getElementById("walletPortfolio")
+        .innerText=money(total);
+
+
+    const profit =
+        total-10000;
+
+
+    const profitEl =
+        document.getElementById("profitLoss");
+
+
+    profitEl.innerText =
+        (profit>=0?"+":"")
+        +
+        "$"
+        +
+        money(profit);
+
+
+    profitEl.className =
+        "stat-value "
+        +
+        (
+            profit>=0
+            ? "green"
+            : "red"
+        );
+
+
+    const list =
+        document.getElementById("assetsList");
+
+
+    list.innerHTML="";
+
+
+    Object.entries(coins)
+    .forEach(([id,c])=>{
+
+        const quantity =
+            holdings[id] || 0;
+
+
+        const value =
+            prices[id]
+            ? quantity*prices[id].usd
+            : 0;
+
+
+        const div =
+            document.createElement("div");
+
+
+        div.className="asset";
+
+
+        div.innerHTML=`
+
+            <div class="asset-left">
+
+                <div class="coin-icon">
+                    ${c.icon}
+                </div>
+
+                <div>
+
+                    <b>${c.name}</b>
+
+                    <div class="muted">
+                        ${quantity.toFixed(6)}
+                        ${c.symbol}
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <b>
+                $${money(value)}
+            </b>
+
+        `;
+
+
+        list.appendChild(div);
+
+    });
+
+}
+
+
+/* =====================================================
+   HISTORY
+===================================================== */
+
+function updateHistory(){
+
+    const list =
+        document.getElementById("historyList");
+
+
+    list.innerHTML="";
+
+
+    if(transactions.length===0){
+
+        list.innerHTML=`
+
+            <p class="muted">
+                No transactions yet.
+            </p>
+
+        `;
+
+        return;
+
+    }
+
+
+    transactions
+    .slice(0,30)
+    .forEach(t=>{
+
+        const coin =
+            coins[t.coin];
+
+
+        const row =
+            document.createElement("div");
+
+
+        row.className="history-row";
+
+
+        row.innerHTML=`
+
+            <span class="${
+                t.type==="BUY"
+                ?"green"
+                :"red"
+            }">
+
+                ${t.type}
+
+            </span>
+
+
+            <span>
+                ${coin.symbol}
+            </span>
+
+
+            <span>
+                $${money(t.amount)}
+            </span>
+
+        `;
+
+
+        list.appendChild(row);
+
+    });
+
+}
+
+
+/* =====================================================
+   SAVE
+===================================================== */
+
+function save(){
+
+    localStorage.setItem(
+        "cx_balance",
+        balance
+    );
+
+
+    localStorage.setItem(
+        "cx_holdings",
+        JSON.stringify(holdings)
+    );
+
+
+    localStorage.setItem(
+        "cx_transactions",
+        JSON.stringify(transactions)
+    );
+
+}
+
+
+/* =====================================================
+   UPDATE EVERYTHING
+===================================================== */
+
+function updateAll(){
+
+    updateWallet();
+
+    updateHistory();
+
+    renderMarkets();
+
+    renderDashboard();
+
+}
+
+
+/* =====================================================
+   PROFILE
+===================================================== */
+
+function saveProfile(){
+
+    const username =
+        document.getElementById("username")
+        .value;
+
+
+    const email =
+        document.getElementById("email")
+        .value;
+
+
+    localStorage.setItem(
+        "cx_username",
+        username
+    );
+
+
+    localStorage.setItem(
+        "cx_email",
+        email
+    );
+
+
+    showToast(
+        "Profile saved ✅"
+    );
+
+}
+
+
+function loadProfile(){
+
+    const username =
+        localStorage.getItem(
+            "cx_username"
+        );
+
+
+    const email =
+        localStorage.getItem(
+            "cx_email"
+        );
+
+
+    if(username)
+        document.getElementById("username")
+            .value=username;
+
+
+    if(email)
+        document.getElementById("email")
+            .value=email;
+
+}
+
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+function showToast(message){
+
+    const toast =
+        document.getElementById("toast");
+
+
+    toast.innerText=message;
+
+    toast.style.display="block";
+
+
+    setTimeout(()=>{
+
+        toast.style.display="none";
+
+    },2500);
+
+}
+
+
+/* =====================================================
+   START
+===================================================== */
+
+loadProfile();
+
+loadPrices();
+
+updateAll();
+
+
+/* refresh market */
+
+setInterval(
+    loadPrices,
+    30000
+);
+
+
+/* update chart */
+
+setInterval(
+    updateTrade,
+    10000
+);
 
 </script>
 
