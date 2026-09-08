@@ -1,508 +1,202 @@
 <!DOCTYPE html>
 <html lang="ka">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Crypto Exchange</title>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-  <style>
-    :root {
-      --bg-black: #060709;
-      --card-bg: #12141a;
-      --card-border: #1e222d;
-      --gold: #f3ba2f;
-      --gold-dark: #d4af37;
-      --gold-glow: rgba(243, 186, 47, 0.15);
-      --text-white: #ffffff;
-      --text-gray: #8e95a5;
-      --green: #0ecb81;
-      --red: #f6465d;
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
-    body { background-color: var(--bg-black); color: var(--text-white); min-height: 100vh; display: flex; justify-content: center; padding: 0; margin: 0; }
-
-    /* App Frame Container (Crypto.com App UI Style) */
-    .app-container {
-      width: 100%;
-      max-width: 480px;
-      min-height: 100vh;
-      background: var(--bg-black);
-      display: flex;
-      flex-direction: column;
-      position: relative;
-      border-left: 1px solid #1a1d24;
-      border-right: 1px solid #1a1d24;
-      padding-bottom: 80px;
-    }
-
-    /* Top App Bar */
-    .top-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 18px 20px;
-      background: var(--bg-black);
-    }
-    .profile-icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: #1e222d;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--gold);
-      border: 1px solid var(--gold);
-    }
-    .top-nav-tabs { display: flex; gap: 15px; font-weight: 600; font-size: 15px; color: var(--text-gray); }
-    .top-nav-tabs .active { color: var(--text-white); border-bottom: 2px solid var(--gold); padding-bottom: 2px; }
-
-    /* Auth Box */
-    .auth-card {
-      background: var(--card-bg);
-      border: 1px solid var(--gold);
-      border-radius: 20px;
-      padding: 30px 20px;
-      margin: 40px 20px;
-      text-align: center;
-    }
-    .auth-card h2 { color: var(--gold); margin-bottom: 20px; font-size: 22px; }
-    .input-field {
-      width: 100%;
-      padding: 14px;
-      margin-bottom: 12px;
-      background: #1a1d26;
-      border: 1px solid var(--card-border);
-      border-radius: 12px;
-      color: #fff;
-      font-size: 15px;
-      outline: none;
-    }
-    .input-field:focus { border-color: var(--gold); }
-    
-    .btn-gold {
-      width: 100%;
-      padding: 14px;
-      background: var(--gold);
-      color: #000;
-      border: none;
-      border-radius: 25px;
-      font-weight: 700;
-      font-size: 15px;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-    .btn-outline {
-      width: 100%;
-      padding: 14px;
-      background: transparent;
-      color: var(--gold);
-      border: 1px solid var(--gold);
-      border-radius: 25px;
-      font-weight: 700;
-      font-size: 15px;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-
-    /* Main Balance Section */
-    .balance-section {
-      padding: 20px;
-      text-align: center;
-    }
-    .balance-label { font-size: 13px; color: var(--text-gray); margin-bottom: 6px; }
-    .balance-amount { font-size: 38px; font-weight: 800; color: var(--text-white); letter-spacing: -0.5px; }
-    .balance-change { color: var(--green); font-size: 13px; font-weight: 600; margin-top: 4px; }
-
-    /* Crypto.com Action Circular Buttons */
-    .action-buttons {
-      display: flex;
-      justify-content: space-around;
-      padding: 20px 10px;
-    }
-    .action-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      cursor: pointer;
-    }
-    .action-icon {
-      width: 54px;
-      height: 54px;
-      border-radius: 50%;
-      background: var(--gold);
-      color: #000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-      box-shadow: 0 4px 15px var(--gold-glow);
-      transition: transform 0.2s;
-    }
-    .action-icon:active { transform: scale(0.92); }
-    .action-label { font-size: 12px; color: var(--text-white); font-weight: 500; }
-
-    /* Amount Input Box */
-    .input-box-container {
-      padding: 0 20px;
-      margin-bottom: 15px;
-    }
-
-    /* Banner Box */
-    .promo-banner {
-      background: linear-gradient(135deg, #1e222d 0%, #12141a 100%);
-      border: 1px solid var(--card-border);
-      border-radius: 16px;
-      padding: 15px;
-      margin: 10px 20px 20px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .promo-title { font-size: 14px; font-weight: 700; color: var(--gold); }
-    .promo-sub { font-size: 11px; color: var(--text-gray); margin-top: 2px; }
-
-    /* Crypto Favorites List */
-    .crypto-list-section {
-      padding: 0 20px;
-    }
-    .section-title { font-size: 16px; font-weight: 700; color: var(--text-white); margin-bottom: 15px; }
-
-    .crypto-card {
-      background: var(--card-bg);
-      border-radius: 16px;
-      padding: 14px 16px;
-      margin-bottom: 10px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border: 1px solid var(--card-border);
-    }
-    .coin-info { display: flex; align-items: center; gap: 12px; }
-    .coin-badge {
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      background: #1a1d26;
-      border: 1px solid var(--gold);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      color: var(--gold);
-      font-size: 14px;
-    }
-    .coin-name { font-weight: 700; font-size: 15px; color: #fff; }
-    .coin-symbol { font-size: 12px; color: var(--text-gray); }
-    .coin-price { text-align: right; }
-    .price-val { font-weight: 700; font-size: 15px; }
-    .price-change { font-size: 12px; font-weight: 600; }
-    .up { color: var(--green); }
-    .down { color: var(--red); }
-
-    /* History Box */
-    .history-card {
-      background: var(--card-bg);
-      border-radius: 16px;
-      padding: 15px;
-      margin: 15px 20px;
-      border: 1px solid var(--card-border);
-      max-height: 180px;
-      overflow-y: auto;
-    }
-    .history-row { display: flex; justify-content: space-between; font-size: 13px; padding: 6px 0; border-bottom: 1px solid #1a1d26; color: var(--text-gray); }
-
-    /* Bottom Navigation Bar */
-    .bottom-nav {
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-      max-width: 480px;
-      background: #0a0c10;
-      border-top: 1px solid var(--card-border);
-      display: flex;
-      justify-content: space-around;
-      padding: 12px 0;
-      z-index: 100;
-    }
-    .nav-item { display: flex; flex-direction: column; align-items: center; color: var(--text-gray); font-size: 10px; gap: 4px; cursor: pointer; }
-    .nav-item.active { color: var(--gold); }
-    .nav-item i { font-size: 18px; }
-
-    .hidden { display: none !important; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXUS PAY - Crypto Platform</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-color: #07090e;
+            color: #f3f4f6;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+    </style>
 </head>
-<body>
+<body class="min-h-screen p-4 md:p-8">
 
-  <div class="app-container">
-
-    <!-- Auth View -->
-    <div id="auth-view" class="auth-card">
-      <h2><i class="fa-solid fa-coins"></i> CRYPTO.COM GOLD</h2>
-      <input type="email" id="email" class="input-field" placeholder="ელ-ფოსტა">
-      <input type="password" id="password" class="input-field" placeholder="პაროლი">
-      <button class="btn-gold" onclick="signIn()">შესვლა</button>
-      <button class="btn-outline" onclick="signUp()">რეგისტრაცია</button>
-    </div>
-
-    <!-- Main App Content -->
-    <div id="app-view" class="hidden">
-      <!-- Top Bar -->
-      <div class="top-bar">
-        <div class="profile-icon"><i class="fa-solid fa-user"></i></div>
-        <div class="top-nav-tabs">
-          <span class="active">Explore</span>
-          <span>Market</span>
-          <span>Earn</span>
-        </div>
-        <i class="fa-solid fa-right-from-bracket" style="color: var(--text-gray); cursor: pointer;" onclick="signOut()"></i>
-      </div>
-
-      <!-- Balance Display -->
-      <div class="balance-section">
-        <div class="balance-label">Total Balance <i class="fa-regular fa-eye"></i></div>
-        <div class="balance-amount">$<span id="usdt-balance">0.00</span></div>
-        <div class="balance-change">+$52.01 (+0.72%) 24H</div>
-      </div>
-
-      <!-- Round Action Buttons (Crypto.com Style) -->
-      <div class="action-buttons">
-        <div class="action-item" onclick="trade('BUY')">
-          <div class="action-icon"><i class="fa-solid fa-cart-shopping"></i></div>
-          <span class="action-label">Buy</span>
-        </div>
-        <div class="action-item" onclick="trade('SELL')">
-          <div class="action-icon"><i class="fa-solid fa-paper-plane"></i></div>
-          <span class="action-label">Sell</span>
-        </div>
-        <div class="action-item" onclick="deposit()">
-          <div class="action-icon"><i class="fa-solid fa-wallet"></i></div>
-          <span class="action-label">Deposit</span>
-        </div>
-        <div class="action-item" onclick="transfer()">
-          <div class="action-icon"><i class="fa-solid fa-arrow-up-right-from-square"></i></div>
-          <span class="action-label">Send</span>
-        </div>
-      </div>
-
-      <!-- Amount Input Field -->
-      <div class="input-box-container">
-        <input type="number" id="amount-input" class="input-field" placeholder="შეიყვანეთ თანხა (USDT)">
-      </div>
-
-      <!-- Promo Banner -->
-      <div class="promo-banner">
-        <div>
-          <div class="promo-title">Invite and win rewards</div>
-          <div class="promo-sub">Refer a friend and get bonuses in your wallet</div>
-        </div>
-        <i class="fa-solid fa-gift" style="color: var(--gold); font-size: 24px;"></i>
-      </div>
-
-      <!-- Favorites Crypto List -->
-      <div class="crypto-list-section">
-        <div class="section-title">Favorites</div>
-
-        <div class="crypto-card">
-          <div class="coin-info">
-            <div class="coin-badge">₿</div>
-            <div>
-              <div class="coin-name">Bitcoin</div>
-              <div class="coin-symbol">BTC</div>
+    <!-- Top Navigation -->
+    <header class="max-w-6xl mx-auto flex justify-between items-center mb-10 border-b border-slate-800/60 pb-4">
+        <div class="flex items-center gap-3">
+            <div class="bg-gradient-to-tr from-emerald-500 to-cyan-500 p-2.5 rounded-xl shadow-lg shadow-emerald-500/20">
+                <svg class="w-6 h-6 text-slate-950" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
             </div>
-          </div>
-          <div class="coin-price">
-            <div class="price-val" id="btc-price">$0.00</div>
-            <div class="price-change up" id="btc-change">+0.00%</div>
-          </div>
+            <span class="font-extrabold text-xl tracking-wider bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
+                NEXUS PAY
+            </span>
         </div>
+        <div class="flex items-center gap-2 bg-slate-900/80 border border-slate-800 px-4 py-2 rounded-full text-sm">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span class="text-slate-400">Network:</span>
+            <span class="font-medium text-emerald-400">Mainnet Secure</span>
+        </div>
+    </header>
 
-        <div class="crypto-card">
-          <div class="coin-info">
-            <div class="coin-badge">Ξ</div>
-            <div>
-              <div class="coin-name">Ethereum</div>
-              <div class="coin-symbol">ETH</div>
+    <main class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Balance Card & Quick Stats -->
+        <div class="lg:col-span-1 space-y-6">
+            <div class="relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-900/90 to-slate-950 border border-slate-800/80 rounded-3xl p-6 shadow-2xl">
+                <div class="absolute top-0 right-0 -mt-4 -mr-4 w-32 h-32 bg-emerald-500/10 rounded-full blur-3xl"></div>
+                <p class="text-sm font-medium text-slate-400 mb-1">ჯამური ბალანსი</p>
+                <h2 id="totalBalance" class="text-4xl font-black tracking-tight text-white mb-6">$5,432.50</h2>
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="bg-slate-800/40 border border-slate-700/50 p-3 rounded-2xl">
+                        <span class="text-xs text-slate-400 block mb-1">აქტიური აქტივი</span>
+                        <span class="text-lg font-bold text-emerald-400">94.2%</span>
+                    </div>
+                    <div class="bg-slate-800/40 border border-slate-700/50 p-3 rounded-2xl">
+                        <span class="text-xs text-slate-400 block mb-1">უსაფრთხოება</span>
+                        <span class="text-lg font-bold text-cyan-400 flex items-center gap-1">100%</span>
+                    </div>
+                </div>
             </div>
-          </div>
-          <div class="coin-price">
-            <div class="price-val" id="eth-price">$0.00</div>
-            <div class="price-change up" id="eth-change">+0.00%</div>
-          </div>
         </div>
 
-        <div class="crypto-card">
-          <div class="coin-info">
-            <div class="coin-badge">S</div>
+        <!-- Deposit & Withdrawal Interface -->
+        <div class="lg:col-span-2 bg-slate-900/60 backdrop-blur-xl border border-slate-800/80 rounded-3xl p-6 md:p-8 shadow-2xl flex flex-col justify-between">
             <div>
-              <div class="coin-name">Solana</div>
-              <div class="coin-symbol">SOL</div>
+                <div class="flex bg-slate-950/60 p-1.5 rounded-2xl border border-slate-800 mb-6">
+                    <button onclick="switchTab('deposit')" id="depositTabBtn" class="flex-1 py-3 rounded-xl font-semibold text-sm transition-all duration-300 bg-emerald-500 text-slate-950 shadow-lg shadow-emerald-500/20">
+                        თანხის შეტანა
+                    </button>
+                    <button onclick="switchTab('withdraw')" id="withdrawTabBtn" class="flex-1 py-3 rounded-xl font-semibold text-sm transition-all duration-300 text-slate-400 hover:text-white">
+                        თანხის გატანა
+                    </button>
+                </div>
+
+                <form id="transactionForm" onsubmit="handleTransaction(event)" class="space-y-5">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">აირჩიეთ ვალუტა</label>
+                        <select id="currencySelect" class="w-full bg-slate-950 border border-slate-800 rounded-2xl px-4 py-3.5 text-white font-medium focus:outline-none focus:border-emerald-500 transition-colors">
+                            <option value="USDT">USDT (Tether)</option>
+                            <option value="BTC">BTC (Bitcoin)</option>
+                            <option value="ETH">ETH (Ethereum)</option>
+                            <option value="SOL">SOL (Solana)</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">თანხის ოდენობა</label>
+                        <div class="relative">
+                            <input type="number" step="any" id="amountInput" placeholder="0.00" class="w-full bg-slate-950 border border-slate-800 rounded-2xl pl-4 pr-20 py-3.5 text-white font-bold text-lg focus:outline-none focus:border-emerald-500 transition-colors" required>
+                            <div id="currencyBadge" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 font-semibold bg-slate-900 px-3 py-1 rounded-xl text-sm border border-slate-800">
+                                USDT
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" id="submitBtn" class="w-full py-4 rounded-2xl font-bold text-slate-950 tracking-wide transition-all duration-300 shadow-xl bg-gradient-to-r from-emerald-400 to-emerald-500 hover:from-emerald-300 hover:to-emerald-400 shadow-emerald-500/20">
+                        ტრანზაქციის დადასტურება (Deposit)
+                    </button>
+                </form>
             </div>
-          </div>
-          <div class="coin-price">
-            <div class="price-val" id="sol-price">$0.00</div>
-            <div class="price-change down" id="sol-change">-0.00%</div>
-          </div>
         </div>
-      </div>
+    </main>
 
-      <!-- History -->
-      <div class="history-card">
-        <div style="font-size: 13px; font-weight: 700; margin-bottom: 8px; color: var(--gold);">ტრანზაქციები</div>
-        <div id="history-log"><div style="font-size: 12px; color: var(--text-gray);">ისტორია ცარიელია</div></div>
-      </div>
+    <!-- Transaction History -->
+    <section class="max-w-6xl mx-auto mt-10 bg-slate-900/60 backdrop-blur-xl border border-slate-800/80 rounded-3xl p-6 md:p-8 shadow-2xl">
+        <h3 class="text-lg font-bold text-white mb-6 flex items-center gap-2">
+            ტრანზაქციების ისტორია
+        </h3>
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="border-b border-slate-800 text-slate-400 text-xs uppercase tracking-wider">
+                        <th class="pb-3 font-semibold">ტიპი</th>
+                        <th class="pb-3 font-semibold">ოდენობა</th>
+                        <th class="pb-3 font-semibold">თარიღი</th>
+                        <th class="pb-3 font-semibold">სტატუსი</th>
+                    </tr>
+                </thead>
+                <tbody id="historyTableBody" class="divide-y divide-slate-800/40 text-sm">
+                    <tr class="hover:bg-slate-800/20 transition-colors">
+                        <td class="py-4 font-medium text-white">Deposit</td>
+                        <td class="py-4 font-bold text-white">+500 USDT</td>
+                        <td class="py-4 text-slate-400">2026-06-08 14:20</td>
+                        <td class="py-4"><span class="px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Completed</span></td>
+                    </tr>
+                    <tr class="hover:bg-slate-800/20 transition-colors">
+                        <td class="py-4 font-medium text-white">Withdraw</td>
+                        <td class="py-4 font-bold text-white">-120 BTC</td>
+                        <td class="py-4 text-slate-400">2026-06-07 09:15</td>
+                        <td class="py-4"><span class="px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Completed</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
 
-      <!-- Bottom Navigation Bar -->
-      <div class="bottom-nav">
-        <div class="nav-item active"><i class="fa-solid fa-house"></i><span>Home</span></div>
-        <div class="nav-item"><i class="fa-solid fa-chart-line"></i><span>Prices</span></div>
-        <div class="nav-item"><i class="fa-solid fa-shield-halved"></i><span>Accounts</span></div>
-        <div class="nav-item"><i class="fa-regular fa-credit-card"></i><span>Card</span></div>
-      </div>
-    </div>
+    <!-- JavaScript Logic -->
+    <script>
+        let balance = 5432.50;
+        let currentTab = 'deposit';
 
-  </div>
+        const currencySelect = document.getElementById('currencySelect');
+        const currencyBadge = document.getElementById('currencyBadge');
 
-<script>
-  const SUPABASE_URL = 'https://urhcenpmzlqplorhyyko.supabase.co';
-  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVyaGNlbnBtemxxcGxvcmh5eWtvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg4MDU5NDIsImV4cCI6MjEwNDM4MTk0Mn0.Z5h70dotH0eiljEUtNns-BJjSJu-harBeXcj81AcV3w';
-  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        currencySelect.addEventListener('change', (e) => {
+            currencyBadge.innerText = e.target.value;
+        });
 
-  let currentProfileId = null;
-  let balance = 0;
-  let btcPrice = 0;
+        function switchTab(tab) {
+            currentTab = tab;
+            const depositBtn = document.getElementById('depositTabBtn');
+            const withdrawBtn = document.getElementById('withdrawTabBtn');
+            const submitBtn = document.getElementById('submitBtn');
 
-  async function init() {
-    const { data: { session } } = await supabaseClient.auth.getSession();
-    if (session) {
-      showApp();
-    }
-    fetchPrices();
-    setInterval(fetchPrices, 15000);
-  }
+            if (tab === 'deposit') {
+                depositBtn.className = "flex-1 py-3 rounded-xl font-semibold text-sm transition-all duration-300 bg-emerald-500 text-slate-950 shadow-lg shadow-emerald-500/20";
+                withdrawBtn.className = "flex-1 py-3 rounded-xl font-semibold text-sm transition-all duration-300 text-slate-400 hover:text-white";
+                submitBtn.className = "w-full py-4 rounded-2xl font-bold text-slate-950 tracking-wide transition-all duration-300 shadow-xl bg-gradient-to-r from-emerald-400 to-emerald-500 hover:from-emerald-300 hover:to-emerald-400 shadow-emerald-500/20";
+                submitBtn.innerText = "ტრანზაქციის დადასტურება (Deposit)";
+            } else {
+                withdrawBtn.className = "flex-1 py-3 rounded-xl font-semibold text-sm transition-all duration-300 bg-cyan-500 text-slate-950 shadow-lg shadow-cyan-500/20";
+                depositBtn.className = "flex-1 py-3 rounded-xl font-semibold text-sm transition-all duration-300 text-slate-400 hover:text-white";
+                submitBtn.className = "w-full py-4 rounded-2xl font-bold text-slate-950 tracking-wide transition-all duration-300 shadow-xl bg-gradient-to-r from-cyan-400 to-cyan-500 hover:from-cyan-300 hover:to-cyan-400 shadow-cyan-500/20";
+                submitBtn.innerText = "გატანის მოთხოვნა (Withdraw)";
+            }
+        }
 
-  async function signUp() {
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-    if (!email || !password) return alert('შეიყვანეთ მონაცემები');
-    const { data, error } = await supabaseClient.auth.signUp({ email, password });
-    if (error) return alert(error.message);
-    
-    if (data.user) {
-      await supabaseClient.from('profiles').insert([{ balance: 10000 }]);
-      alert('რეგისტრაცია წარმატებულია! გაიარეთ ავტორიზაცია.');
-    }
-  }
+        function handleTransaction(e) {
+            e.preventDefault();
+            const amountInput = document.getElementById('amountInput');
+            const val = parseFloat(amountInput.value);
+            const currency = currencySelect.value;
 
-  async function signIn() {
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-    if (!email || !password) return alert('შეიყვანეთ მონაცემები');
-    const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
-    if (error) return alert(error.message);
-    showApp();
-  }
+            if (!val || val <= 0) return;
 
-  async function signOut() {
-    await supabaseClient.auth.signOut();
-    document.getElementById('auth-view').classList.remove('hidden');
-    document.getElementById('app-view').classList.add('hidden');
-  }
+            if (currentTab === 'deposit') {
+                balance += val;
+                addHistoryRow('Deposit', `+${val} ${currency}`, 'Completed');
+            } else {
+                if (val > balance) {
+                    alert('არასაკმარისი ბალანსი!');
+                    return;
+                }
+                balance -= val;
+                addHistoryRow('Withdraw', `-${val} ${currency}`, 'Pending');
+            }
 
-  async function showApp() {
-    document.getElementById('auth-view').classList.add('hidden');
-    document.getElementById('app-view').classList.remove('hidden');
+            document.getElementById('totalBalance').innerText = '$' + balance.toLocaleString('en-US', { minimumFractionDigits: 2 });
+            amountInput.value = '';
+        }
 
-    let { data: profiles } = await supabaseClient.from('profiles').select('*').limit(1);
-    if (profiles && profiles.length > 0) {
-      currentProfileId = profiles[0].id;
-      balance = parseFloat(profiles[0].balance);
-    } else {
-      const { data: newProfile } = await supabaseClient.from('profiles').insert([{ balance: 10000 }]).select();
-      if (newProfile && newProfile.length > 0) {
-        currentProfileId = newProfile[0].id;
-        balance = 10000;
-      }
-    }
-    updateBalanceUI();
-  }
+        function addHistoryRow(type, amount, status) {
+            const tbody = document.getElementById('historyTableBody');
+            const dateStr = new Date().toISOString().slice(0, 19).replace('T', ' ');
+            const statusClass = status === 'Completed' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-amber-500/10 text-amber-400 border border-amber-500/20';
 
-  async function saveBalance(newBalance) {
-    balance = newBalance;
-    updateBalanceUI();
-    if (currentProfileId) {
-      await supabaseClient.from('profiles').update({ balance: newBalance }).eq('id', currentProfileId);
-    }
-  }
-
-  function updateBalanceUI() {
-    document.getElementById('usdt-balance').innerText = balance.toFixed(2);
-    document.getElementById('amount-input').value = '';
-  }
-
-  async function fetchPrices() {
-    try {
-      const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana&vs_currencies=usd&include_24hr_change=true');
-      const data = await res.json();
-      
-      btcPrice = data.bitcoin.usd;
-      document.getElementById('btc-price').innerText = '$' + btcPrice.toLocaleString();
-      document.getElementById('btc-change').innerText = (data.bitcoin.usd_24h_change >= 0 ? '+' : '') + data.bitcoin.usd_24h_change.toFixed(2) + '%';
-      
-      document.getElementById('eth-price').innerText = '$' + data.ethereum.usd.toLocaleString();
-      document.getElementById('eth-change').innerText = (data.ethereum.usd_24h_change >= 0 ? '+' : '') + data.ethereum.usd_24h_change.toFixed(2) + '%';
-      
-      document.getElementById('sol-price').innerText = '$' + data.solana.usd.toLocaleString();
-      document.getElementById('sol-change').innerText = (data.solana.usd_24h_change >= 0 ? '+' : '') + data.solana.usd_24h_change.toFixed(2) + '%';
-    } catch (err) {
-      console.log('API Error:', err);
-    }
-  }
-
-  async function deposit() {
-    const val = parseFloat(document.getElementById('amount-input').value);
-    if (!val || val <= 0) return alert('ჩაწერეთ თანხა');
-    await saveBalance(balance + val);
-    addHistory(`Deposit: +${val} USDT`);
-  }
-
-  async function transfer() {
-    const val = parseFloat(document.getElementById('amount-input').value);
-    if (!val || val > balance) return alert('არასაკმარისი ბალანსი');
-    await saveBalance(balance - val);
-    addHistory(`Send: -${val} USDT`);
-  }
-
-  async function trade(type) {
-    const val = parseFloat(document.getElementById('amount-input').value);
-    if (!val || val <= 0) return alert('ჩაწერეთ თანხა');
-    if (type === 'BUY' && val > balance) return alert('არასაკმარისი ბალანსი');
-
-    if (type === 'BUY') {
-      await saveBalance(balance - val);
-      addHistory(`Buy BTC: ${val} USDT`);
-    } else {
-      await saveBalance(balance + val);
-      addHistory(`Sell BTC: +${val} USDT`);
-    }
-  }
-
-  function addHistory(text) {
-    const log = document.getElementById('history-log');
-    if (log.children[0] && log.children[0].innerText === 'ისტორია ცარიელია') {
-      log.innerHTML = '';
-    }
-    const item = document.createElement('div');
-    item.className = 'history-row';
-    item.innerHTML = `<span>${new Date().toLocaleTimeString()}</span><strong style="color:var(--gold);">${text}</strong>`;
-    log.prepend(item);
-  }
-
-  init();
-</script>
-
+            const row = document.createElement('tr');
+            row.className = "hover:bg-slate-800/20 transition-colors";
+            row.innerHTML = `
+                <td class="py-4 font-medium text-white">${type}</td>
+                <td class="py-4 font-bold text-white">${amount}</td>
+                <td class="py-4 text-slate-400">${dateStr}</td>
+                <td class="py-4"><span class="px-3 py-1 rounded-full text-xs font-semibold ${statusClass}">${status}</span></td>
+            `;
+            tbody.prepend(row);
+        }
+    </script>
 </body>
 </html>
