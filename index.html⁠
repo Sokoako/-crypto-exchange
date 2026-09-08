@@ -2,187 +2,216 @@
 <html lang="ka">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-
-<title>CryptoX Simulator</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Royal Casino Simulator</title>
 
 <style>
-
 *{
+    box-sizing:border-box;
     margin:0;
     padding:0;
-    box-sizing:border-box;
-    font-family:Arial,Helvetica,sans-serif;
 }
 
 :root{
-    --bg:#080b12;
-    --panel:#10151f;
-    --panel2:#151c28;
-    --border:#232d3d;
-    --text:#ffffff;
-    --muted:#8490a3;
-    --blue:#20b8ff;
-    --green:#20d98b;
-    --red:#ff5267;
+    --bg:#07070d;
+    --panel:#10101a;
+    --panel2:#171724;
+    --gold:#f5c451;
+    --gold2:#ffdf7e;
+    --red:#e63946;
+    --green:#20d68b;
+    --text:#fff;
+    --muted:#8d8da2;
+    --border:rgba(255,255,255,.08);
 }
 
 body{
-    background:var(--bg);
+    background:
+      radial-gradient(circle at 50% -10%,#30230b 0%,transparent 35%),
+      radial-gradient(circle at 100% 50%,#17102d 0%,transparent 30%),
+      var(--bg);
     color:var(--text);
+    font-family:Arial,Helvetica,sans-serif;
     min-height:100vh;
 }
 
-/* ================= HEADER ================= */
+button{
+    border:0;
+    cursor:pointer;
+    color:white;
+    font-weight:bold;
+}
 
-header{
-    height:70px;
-    background:#0c111a;
-    border-bottom:1px solid var(--border);
-
+.app{
     display:flex;
-    align-items:center;
-    justify-content:space-between;
+    min-height:100vh;
+}
 
-    padding:0 25px;
+/* SIDEBAR */
 
-    position:sticky;
+.sidebar{
+    width:250px;
+    background:rgba(12,12,20,.96);
+    border-right:1px solid var(--border);
+    padding:25px 15px;
+    position:fixed;
+    left:0;
     top:0;
-    z-index:100;
+    bottom:0;
+    z-index:20;
 }
 
 .logo{
+    text-align:center;
     font-size:25px;
-    font-weight:800;
-    color:var(--blue);
+    font-weight:900;
+    color:var(--gold);
+    margin-bottom:35px;
+    text-shadow:0 0 20px rgba(245,196,81,.35);
 }
 
 .logo span{
     color:white;
 }
 
-.header-right{
+.nav{
     display:flex;
-    align-items:center;
-    gap:12px;
+    flex-direction:column;
+    gap:8px;
 }
 
-.balance-mini{
-    background:var(--panel2);
-    border:1px solid var(--border);
-    padding:9px 14px;
-    border-radius:9px;
-    font-weight:bold;
-}
-
-.profile-btn{
-    width:40px;
-    height:40px;
-    border-radius:50%;
-    border:0;
-    background:var(--blue);
-    cursor:pointer;
-    font-weight:bold;
-}
-
-/* ================= LAYOUT ================= */
-
-.app{
-    display:flex;
-    min-height:calc(100vh - 70px);
-}
-
-/* SIDEBAR */
-
-.sidebar{
-    width:230px;
-    background:#0c111a;
-    border-right:1px solid var(--border);
-    padding:20px 12px;
-    flex-shrink:0;
-}
-
-.nav-btn{
-    width:100%;
-    padding:13px 15px;
-    margin-bottom:7px;
-
-    border:0;
+.nav button{
     background:transparent;
-    color:#9aa5b7;
-
     text-align:left;
-    border-radius:9px;
-
-    cursor:pointer;
-    font-size:14px;
+    padding:14px;
+    border-radius:12px;
+    color:#aaaabd;
+    font-size:15px;
+    transition:.2s;
 }
 
-.nav-btn:hover,
-.nav-btn.active{
-    background:#172333;
-    color:white;
+.nav button:hover,
+.nav button.active{
+    background:linear-gradient(90deg,rgba(245,196,81,.16),transparent);
+    color:var(--gold);
 }
 
-.nav-icon{
-    width:25px;
-    display:inline-block;
+.balanceBox{
+    position:absolute;
+    bottom:25px;
+    left:15px;
+    right:15px;
+    padding:16px;
+    background:linear-gradient(145deg,#191923,#0d0d14);
+    border:1px solid var(--border);
+    border-radius:16px;
 }
 
-/* CONTENT */
+.balanceBox small{
+    color:var(--muted);
+}
 
-.content{
-    flex:1;
-    max-width:1400px;
-    margin:auto;
+.balance{
+    color:var(--gold);
+    font-size:23px;
+    font-weight:900;
+    margin-top:6px;
+}
+
+/* MAIN */
+
+.main{
+    margin-left:250px;
+    width:calc(100% - 250px);
     padding:25px;
 }
 
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    margin-bottom:25px;
+}
+
+.welcome h1{
+    font-size:27px;
+}
+
+.welcome p{
+    color:var(--muted);
+    margin-top:5px;
+}
+
+.topBalance{
+    background:linear-gradient(135deg,#211b0c,#15120b);
+    border:1px solid rgba(245,196,81,.25);
+    padding:12px 18px;
+    border-radius:14px;
+    color:var(--gold);
+    font-weight:bold;
+}
+
+/* PAGES */
+
 .page{
     display:none;
+    animation:fade .35s ease;
 }
 
 .page.active{
     display:block;
 }
 
-/* ================= DASHBOARD ================= */
-
-.welcome{
-    margin-bottom:25px;
+@keyframes fade{
+    from{opacity:0;transform:translateY(8px)}
+    to{opacity:1;transform:translateY(0)}
 }
 
-.welcome h1{
-    font-size:32px;
-    margin-bottom:7px;
-}
+/* CARDS */
 
-.muted{
-    color:var(--muted);
-}
-
-.stats{
+.grid{
     display:grid;
     grid-template-columns:repeat(4,1fr);
     gap:15px;
 }
 
 .card{
-    background:var(--panel);
+    background:linear-gradient(145deg,rgba(25,25,37,.95),rgba(13,13,20,.95));
     border:1px solid var(--border);
-    border-radius:13px;
+    border-radius:18px;
     padding:20px;
+    box-shadow:0 10px 35px rgba(0,0,0,.2);
 }
 
-.stat-title{
+.stat{
+    position:relative;
+    overflow:hidden;
+}
+
+.stat:after{
+    content:"";
+    position:absolute;
+    width:80px;
+    height:80px;
+    background:var(--gold);
+    opacity:.06;
+    border-radius:50%;
+    right:-25px;
+    top:-25px;
+}
+
+.stat small{
     color:var(--muted);
-    font-size:13px;
 }
 
-.stat-value{
-    font-size:26px;
-    font-weight:bold;
-    margin-top:9px;
+.stat h2{
+    margin-top:8px;
+    font-size:25px;
+}
+
+.gold{
+    color:var(--gold);
 }
 
 .green{
@@ -193,845 +222,945 @@ header{
     color:var(--red);
 }
 
-.blue{
-    color:var(--blue);
-}
+/* HERO */
 
-/* ================= MARKET ================= */
-
-.section-title{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:15px;
-}
-
-.search{
-    background:var(--panel);
-    border:1px solid var(--border);
-    color:white;
-    padding:12px 15px;
-    border-radius:9px;
-    outline:none;
-    width:260px;
-}
-
-.market-table{
-    background:var(--panel);
-    border:1px solid var(--border);
-    border-radius:13px;
+.hero{
+    margin-top:20px;
+    padding:30px;
+    border-radius:22px;
+    min-height:190px;
+    background:
+      linear-gradient(90deg,rgba(0,0,0,.8),rgba(0,0,0,.2)),
+      radial-gradient(circle at 80% 50%,#6b4710,transparent 35%),
+      #17120b;
+    border:1px solid rgba(245,196,81,.18);
+    position:relative;
     overflow:hidden;
 }
 
-.market-row{
-    display:grid;
-    grid-template-columns:2fr 1.3fr 1fr 1fr;
-    align-items:center;
-
-    padding:17px 20px;
-
-    border-bottom:1px solid var(--border);
+.hero h2{
+    color:var(--gold);
+    font-size:32px;
 }
 
-.market-row:last-child{
-    border-bottom:0;
+.hero p{
+    color:#aaa;
+    margin-top:8px;
+    max-width:500px;
 }
 
-.market-header{
-    color:var(--muted);
-    font-size:12px;
+.hero .chips{
+    position:absolute;
+    right:8%;
+    top:25px;
+    font-size:90px;
+    opacity:.18;
 }
 
-.coin-info{
+/* GAME HEADER */
+
+.gameHeader{
     display:flex;
+    justify-content:space-between;
     align-items:center;
+    margin-bottom:20px;
+}
+
+.gameHeader h2{
+    font-size:27px;
+}
+
+.backBtn{
+    background:#20202d;
+    padding:10px 15px;
+    border-radius:10px;
+}
+
+/* SLOTS */
+
+.slotMachine{
+    max-width:850px;
+    margin:auto;
+}
+
+.slotScreen{
+    background:#09090e;
+    border:3px solid #5a4417;
+    border-radius:25px;
+    padding:30px;
+    box-shadow:
+      0 0 0 5px #19130a,
+      0 20px 70px rgba(0,0,0,.5);
+}
+
+.reels{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
     gap:12px;
 }
 
-.coin-icon{
-    width:40px;
-    height:40px;
-    border-radius:50%;
-    background:#1b2535;
-
+.reel{
+    height:150px;
+    border-radius:18px;
+    background:linear-gradient(#222231,#0b0b11);
+    border:2px solid #39394a;
     display:flex;
-    align-items:center;
     justify-content:center;
-
-    font-weight:bold;
-}
-
-.coin-name{
-    font-weight:bold;
-}
-
-.coin-symbol{
-    color:var(--muted);
-    font-size:12px;
-    margin-top:3px;
-}
-
-.trade-small{
-    border:0;
-    background:var(--blue);
-    color:#001018;
-    padding:8px 13px;
-    border-radius:7px;
-    font-weight:bold;
-    cursor:pointer;
-}
-
-/* ================= TRADE ================= */
-
-.trade-layout{
-    display:grid;
-    grid-template-columns:1.5fr 1fr;
-    gap:20px;
-}
-
-.chart-card{
-    min-height:500px;
-}
-
-.chart-header{
-    display:flex;
-    justify-content:space-between;
     align-items:center;
+    font-size:80px;
+    box-shadow:inset 0 0 30px rgba(0,0,0,.8);
 }
 
-.big-price{
-    font-size:34px;
-    font-weight:bold;
-    margin-top:10px;
+.reel.spin{
+    animation:spin .15s linear infinite;
 }
 
-canvas{
-    width:100%;
-    height:330px;
-    margin-top:25px;
+@keyframes spin{
+    0%{transform:translateY(-7px)}
+    50%{transform:translateY(7px)}
+    100%{transform:translateY(-7px)}
 }
 
-.trade-box{
+.slotControls{
+    margin-top:20px;
     display:flex;
-    flex-direction:column;
-    gap:13px;
+    gap:10px;
 }
 
-.trade-box label{
-    color:var(--muted);
-    font-size:13px;
-}
-
-.trade-box select,
-.trade-box input{
-    background:#080b12;
+.amountInput{
+    flex:1;
+    background:#11111a;
     border:1px solid var(--border);
     color:white;
     padding:14px;
-    border-radius:8px;
+    border-radius:12px;
     outline:none;
 }
 
-.buy-sell{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:10px;
-    margin-top:10px;
+.primary{
+    background:linear-gradient(135deg,#f5c451,#b47a16);
+    color:#16120a;
+    padding:14px 25px;
+    border-radius:12px;
+    box-shadow:0 5px 20px rgba(245,196,81,.15);
 }
 
-.buy{
-    background:var(--green);
-    color:#00170d;
+.primary:hover{
+    transform:translateY(-1px);
 }
 
-.sell{
-    background:var(--red);
-    color:white;
-}
-
-.buy,
-.sell{
-    border:0;
-    padding:14px;
-    border-radius:8px;
+.result{
+    text-align:center;
+    min-height:35px;
+    margin-top:18px;
     font-weight:bold;
-    cursor:pointer;
+    color:var(--gold);
 }
 
-/* ================= WALLET ================= */
+/* ROULETTE */
 
-.wallet-grid{
+.rouletteWrap{
     display:grid;
     grid-template-columns:1fr 1fr;
+    gap:25px;
+    align-items:center;
+}
+
+.wheel{
+    width:330px;
+    height:330px;
+    margin:auto;
+    border-radius:50%;
+    border:10px solid #b88a28;
+    background:
+      conic-gradient(
+        #e63946 0deg 30deg,
+        #101016 30deg 60deg,
+        #e63946 60deg 90deg,
+        #101016 90deg 120deg,
+        #e63946 120deg 150deg,
+        #101016 150deg 180deg,
+        #e63946 180deg 210deg,
+        #101016 210deg 240deg,
+        #e63946 240deg 270deg,
+        #101016 270deg 300deg,
+        #e63946 300deg 330deg,
+        #101016 330deg 360deg
+      );
+    position:relative;
+    box-shadow:0 0 50px rgba(245,196,81,.15);
+}
+
+.wheel:after{
+    content:"★";
+    position:absolute;
+    width:85px;
+    height:85px;
+    background:#161620;
+    border:5px solid #d4a93c;
+    border-radius:50%;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:var(--gold);
+    font-size:28px;
+}
+
+.wheel.spinWheel{
+    animation:wheelSpin 2.5s cubic-bezier(.12,.8,.2,1);
+}
+
+@keyframes wheelSpin{
+    from{transform:rotate(0deg)}
+    to{transform:rotate(1080deg)}
+}
+
+.betOptions{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+    margin:15px 0;
+}
+
+.bet{
+    background:#191924;
+    padding:14px;
+    border:1px solid var(--border);
+    border-radius:12px;
+}
+
+.bet.selected{
+    border-color:var(--gold);
+    color:var(--gold);
+}
+
+/* DICE */
+
+.diceBox{
+    max-width:700px;
+    margin:auto;
+    text-align:center;
+}
+
+.dice{
+    font-size:130px;
+    height:180px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    animation:none;
+}
+
+.dice.roll{
+    animation:diceRoll .6s ease;
+}
+
+@keyframes diceRoll{
+    0%{transform:rotate(0) scale(1)}
+    50%{transform:rotate(360deg) scale(1.2)}
+    100%{transform:rotate(720deg) scale(1)}
+}
+
+.diceChoices{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+    margin:15px 0;
+}
+
+.choice{
+    padding:15px;
+    border-radius:12px;
+    background:#191924;
+    border:1px solid var(--border);
+}
+
+.choice.selected{
+    border-color:var(--gold);
+    color:var(--gold);
+}
+
+/* BLACKJACK */
+
+.blackjack{
+    max-width:950px;
+    margin:auto;
+}
+
+.table{
+    min-height:400px;
+    border-radius:30px;
+    padding:25px;
+    background:
+      radial-gradient(circle,#164c36,#071e16 70%);
+    border:8px solid #6a4d19;
+    box-shadow:0 0 50px rgba(0,0,0,.4);
+}
+
+.handTitle{
+    color:#aaa;
+    margin-bottom:10px;
+}
+
+.cards{
+    display:flex;
+    gap:10px;
+    min-height:120px;
+    margin-bottom:25px;
+}
+
+.playCard{
+    width:78px;
+    height:110px;
+    background:#f7f7f7;
+    color:#111;
+    border-radius:10px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:28px;
+    box-shadow:0 7px 15px rgba(0,0,0,.3);
+    animation:cardIn .3s ease;
+}
+
+.playCard.redCard{
+    color:#d72638;
+}
+
+@keyframes cardIn{
+    from{opacity:0;transform:translateY(-20px) rotate(-5deg)}
+    to{opacity:1;transform:none}
+}
+
+.gameButtons{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+/* PROFILE */
+
+.profileHeader{
+    display:flex;
+    align-items:center;
     gap:20px;
 }
 
-.wallet-balance{
-    font-size:36px;
-    font-weight:bold;
-    margin-top:8px;
-}
-
-.asset{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-
-    padding:15px 0;
-
-    border-bottom:1px solid var(--border);
-}
-
-.asset:last-child{
-    border-bottom:0;
-}
-
-.asset-left{
-    display:flex;
-    align-items:center;
-    gap:10px;
-}
-
-/* ================= HISTORY ================= */
-
-.history{
-    margin-top:20px;
-}
-
-.history-row{
-    display:grid;
-    grid-template-columns:1fr 1fr 1fr;
-    padding:14px 0;
-    border-bottom:1px solid var(--border);
-}
-
-/* ================= PROFILE ================= */
-
-.profile-card{
-    max-width:600px;
-}
-
-.avatar-big{
-    width:90px;
-    height:90px;
+.avatar{
+    width:80px;
+    height:80px;
     border-radius:50%;
-
-    background:var(--blue);
-
     display:flex;
-    align-items:center;
     justify-content:center;
-
+    align-items:center;
+    background:linear-gradient(135deg,#f5c451,#7e5413);
     font-size:35px;
-    color:#001018;
-
-    margin-bottom:20px;
+    color:#17120a;
+    font-weight:900;
 }
 
-.profile-input{
+.progress{
+    height:10px;
+    background:#242431;
+    border-radius:20px;
+    overflow:hidden;
+    margin-top:10px;
+}
+
+.progress div{
+    height:100%;
+    width:55%;
+    background:linear-gradient(90deg,#f5c451,#fff0ae);
+}
+
+/* HISTORY */
+
+table{
     width:100%;
-    padding:13px;
-    margin-top:8px;
-    margin-bottom:15px;
-
-    background:#080b12;
-    color:white;
-
-    border:1px solid var(--border);
-    border-radius:8px;
+    border-collapse:collapse;
 }
 
-.primary{
-    background:var(--blue);
-    color:#001018;
-
-    border:0;
-    padding:12px 18px;
-
-    border-radius:8px;
-    cursor:pointer;
-    font-weight:bold;
+th,td{
+    padding:14px;
+    text-align:left;
+    border-bottom:1px solid var(--border);
 }
 
-/* ================= MODAL ================= */
-
-.modal{
-    display:none;
-
-    position:fixed;
-    inset:0;
-
-    background:rgba(0,0,0,.75);
-
-    align-items:center;
-    justify-content:center;
-
-    z-index:500;
-}
-
-.modal-box{
-    width:90%;
-    max-width:420px;
-
-    background:var(--panel);
-
-    border:1px solid var(--border);
-
-    border-radius:13px;
-
-    padding:25px;
-}
-
-.modal-box h2{
-    margin-bottom:20px;
-}
-
-.modal-box input{
-    width:100%;
-    padding:13px;
-
-    margin-bottom:12px;
-
-    background:#080b12;
-    border:1px solid var(--border);
-
-    color:white;
-
-    border-radius:8px;
-}
-
-.modal-close{
-    float:right;
-    cursor:pointer;
-    font-size:22px;
+th{
     color:var(--muted);
 }
 
-/* ================= NOTIFICATION ================= */
+/* CHART */
+
+.chart{
+    width:100%;
+    height:260px;
+    background:#0d0d15;
+    border-radius:15px;
+}
+
+/* TOAST */
 
 .toast{
     position:fixed;
-
-    right:20px;
-    bottom:20px;
-
-    background:#182333;
-
-    border:1px solid var(--border);
-
-    padding:14px 18px;
-
-    border-radius:9px;
-
-    display:none;
-
-    z-index:1000;
+    right:25px;
+    bottom:25px;
+    background:#191923;
+    border:1px solid var(--gold);
+    color:white;
+    padding:15px 20px;
+    border-radius:12px;
+    transform:translateY(120px);
+    opacity:0;
+    transition:.3s;
+    z-index:100;
 }
 
-/* ================= MOBILE NAV ================= */
+.toast.show{
+    transform:none;
+    opacity:1;
+}
 
-.mobile-nav{
+/* MOBILE */
+
+.mobileNav{
     display:none;
 }
 
-/* ================= RESPONSIVE ================= */
-
-@media(max-width:1000px){
+@media(max-width:900px){
 
     .sidebar{
-        width:190px;
+        display:none;
     }
 
-    .stats{
+    .main{
+        margin-left:0;
+        width:100%;
+        padding:15px;
+        padding-bottom:90px;
+    }
+
+    .grid{
         grid-template-columns:repeat(2,1fr);
     }
 
-    .trade-layout{
+    .rouletteWrap{
         grid-template-columns:1fr;
     }
 
-}
-
-@media(max-width:700px){
-
-    header{
-        padding:0 13px;
+    .wheel{
+        width:270px;
+        height:270px;
     }
 
-    .balance-mini{
-        display:none;
+    .mobileNav{
+        position:fixed;
+        display:flex;
+        left:10px;
+        right:10px;
+        bottom:10px;
+        height:65px;
+        background:rgba(20,20,29,.96);
+        backdrop-filter:blur(15px);
+        border:1px solid var(--border);
+        border-radius:18px;
+        z-index:50;
+        justify-content:space-around;
+        align-items:center;
     }
 
-    .sidebar{
-        display:none;
+    .mobileNav button{
+        background:none;
+        color:#8d8da2;
+        font-size:11px;
     }
 
-    .content{
-        padding:15px;
-        padding-bottom:85px;
+    .mobileNav button.active{
+        color:var(--gold);
     }
 
-    .welcome h1{
+    .topbar{
+        align-items:flex-start;
+    }
+
+    .topBalance{
+        font-size:13px;
+    }
+
+    .hero h2{
         font-size:25px;
     }
 
-    .stats{
+    .hero .chips{
+        font-size:60px;
+    }
+}
+
+@media(max-width:550px){
+
+    .grid{
         grid-template-columns:1fr 1fr;
         gap:10px;
     }
 
-    .stat-value{
-        font-size:20px;
-    }
-
-    .section-title{
-        align-items:flex-start;
-        flex-direction:column;
-        gap:10px;
-    }
-
-    .search{
-        width:100%;
-    }
-
-    .market-header{
-        display:none;
-    }
-
-    .market-row{
-        grid-template-columns:1fr auto;
-        gap:10px;
+    .card{
         padding:15px;
     }
 
-    .market-row > div:nth-child(2),
-    .market-row > div:nth-child(3){
-        display:none;
+    .stat h2{
+        font-size:20px;
     }
 
-    .wallet-grid{
-        grid-template-columns:1fr;
+    .reel{
+        height:110px;
+        font-size:55px;
     }
 
-    .chart-card{
-        min-height:400px;
+    .slotScreen{
+        padding:15px;
     }
 
-    canvas{
-        height:260px;
+    .slotControls{
+        flex-direction:column;
     }
 
-    .mobile-nav{
-        position:fixed;
-        display:grid;
-
-        grid-template-columns:repeat(5,1fr);
-
-        left:0;
-        right:0;
-        bottom:0;
-
-        height:65px;
-
-        background:#0c111a;
-        border-top:1px solid var(--border);
-
-        z-index:300;
+    .primary{
+        width:100%;
     }
 
-    .mobile-nav button{
-        border:0;
-        background:transparent;
-        color:#7e8a9c;
-        font-size:11px;
+    .playCard{
+        width:58px;
+        height:85px;
+        font-size:22px;
     }
 
-    .mobile-nav button.active{
-        color:var(--blue);
+    .cards{
+        gap:5px;
     }
 
+    th,td{
+        padding:9px 5px;
+        font-size:12px;
+    }
 }
-
 </style>
 </head>
 
-
 <body>
 
-<!-- ================= HEADER ================= -->
+<div class="app">
 
-<header>
+<!-- SIDEBAR -->
 
-    <div class="logo">
-        Crypto<span>X</span>
-    </div>
+<aside class="sidebar">
 
-    <div class="header-right">
+    <div class="logo">♛ <span>ROYAL</span> CASINO</div>
 
-        <div class="balance-mini">
-            $<span id="headerBalance">10,000.00</span>
-        </div>
+    <div class="nav">
 
-        <button
-            class="profile-btn"
-            onclick="showPage('profile')"
-        >
-            👤
+        <button class="active" onclick="showPage('home',this)">
+            🏠 Dashboard
+        </button>
+
+        <button onclick="showPage('slots',this)">
+            🎰 Slots
+        </button>
+
+        <button onclick="showPage('roulette',this)">
+            🎡 Roulette
+        </button>
+
+        <button onclick="showPage('blackjack',this)">
+            🃏 Blackjack
+        </button>
+
+        <button onclick="showPage('dice',this)">
+            🎲 Dice
+        </button>
+
+        <button onclick="showPage('stats',this)">
+            📊 Statistics
+        </button>
+
+        <button onclick="showPage('history',this)">
+            📜 History
+        </button>
+
+        <button onclick="showPage('profile',this)">
+            👤 Profile
         </button>
 
     </div>
 
-</header>
-
-
-<div class="app">
-
-<!-- ================= SIDEBAR ================= -->
-
-<aside class="sidebar">
-
-    <button
-        class="nav-btn active"
-        onclick="showPage('dashboard',this)"
-    >
-        <span class="nav-icon">🏠</span>
-        Dashboard
-    </button>
-
-    <button
-        class="nav-btn"
-        onclick="showPage('markets',this)"
-    >
-        <span class="nav-icon">📊</span>
-        Markets
-    </button>
-
-    <button
-        class="nav-btn"
-        onclick="showPage('trade',this)"
-    >
-        <span class="nav-icon">💱</span>
-        Trade
-    </button>
-
-    <button
-        class="nav-btn"
-        onclick="showPage('wallet',this)"
-    >
-        <span class="nav-icon">💼</span>
-        Wallet
-    </button>
-
-    <button
-        class="nav-btn"
-        onclick="showPage('history',this)"
-    >
-        <span class="nav-icon">📜</span>
-        History
-    </button>
-
-    <button
-        class="nav-btn"
-        onclick="showPage('profile',this)"
-    >
-        <span class="nav-icon">👤</span>
-        Profile
-    </button>
+    <div class="balanceBox">
+        <small>Virtual Balance</small>
+        <div class="balance" id="sideBalance">10,000 🪙</div>
+    </div>
 
 </aside>
 
 
-<!-- ================= CONTENT ================= -->
+<main class="main">
 
-<main class="content">
+<!-- TOPBAR -->
 
-
-<!-- ================= DASHBOARD ================= -->
-
-<section
-    id="dashboard"
-    class="page active"
->
+<div class="topbar">
 
     <div class="welcome">
+        <h1>Royal Casino 🎰</h1>
+        <p>Virtual casino simulator</p>
+    </div>
 
-        <h1>
-            Welcome to CryptoX 🚀
-        </h1>
+    <div class="topBalance">
+        🪙 <span id="topBalance">10,000</span>
+    </div>
 
-        <p class="muted">
-            Cryptocurrency demo trading dashboard
+</div>
+
+
+<!-- HOME -->
+
+<section id="home" class="page active">
+
+    <div class="grid">
+
+        <div class="card stat">
+            <small>Balance</small>
+            <h2 class="gold" id="statBalance">10,000 🪙</h2>
+        </div>
+
+        <div class="card stat">
+            <small>Total Games</small>
+            <h2 id="statGames">0</h2>
+        </div>
+
+        <div class="card stat">
+            <small>Total Wins</small>
+            <h2 class="green" id="statWins">0</h2>
+        </div>
+
+        <div class="card stat">
+            <small>XP Level</small>
+            <h2 class="gold" id="statLevel">Level 1</h2>
+        </div>
+
+    </div>
+
+
+    <div class="hero">
+
+        <h2>WELCOME TO ROYAL 👑</h2>
+
+        <p>
+            ითამაშე სხვადასხვა თამაშის დემო-ვერსია,
+            დააგროვე ვირტუალური მონეტები და აიმაღლე დონე.
+            აქ რეალური ფული არ გამოიყენება.
         </p>
 
+        <div class="chips">🎰</div>
+
     </div>
 
 
-    <div class="stats">
+    <div class="card" style="margin-top:20px">
 
-        <div class="card">
+        <h2>🔥 Games</h2>
 
-            <div class="stat-title">
-                Available USD
+        <div class="grid" style="margin-top:15px">
+
+            <div class="card" onclick="showPage('slots')" style="cursor:pointer">
+                <div style="font-size:45px">🎰</div>
+                <h3>Lucky Slots</h3>
+                <p style="color:#888;margin-top:5px">Spin the reels</p>
             </div>
 
-            <div class="stat-value">
-                $<span id="statBalance">
-                    10,000.00
-                </span>
+            <div class="card" onclick="showPage('roulette')" style="cursor:pointer">
+                <div style="font-size:45px">🎡</div>
+                <h3>Roulette</h3>
+                <p style="color:#888;margin-top:5px">Red or black</p>
             </div>
 
-        </div>
-
-
-        <div class="card">
-
-            <div class="stat-title">
-                Portfolio Value
+            <div class="card" onclick="showPage('blackjack')" style="cursor:pointer">
+                <div style="font-size:45px">🃏</div>
+                <h3>Blackjack</h3>
+                <p style="color:#888;margin-top:5px">Beat the dealer</p>
             </div>
 
-            <div class="stat-value">
-                $<span id="portfolioValue">
-                    10,000.00
-                </span>
-            </div>
-
-        </div>
-
-
-        <div class="card">
-
-            <div class="stat-title">
-                Total Profit / Loss
-            </div>
-
-            <div
-                class="stat-value green"
-                id="profitLoss"
-            >
-                +$0.00
-            </div>
-
-        </div>
-
-
-        <div class="card">
-
-            <div class="stat-title">
-                Demo Status
-            </div>
-
-            <div class="stat-value blue">
-                LIVE
+            <div class="card" onclick="showPage('dice')" style="cursor:pointer">
+                <div style="font-size:45px">🎲</div>
+                <h3>Dice</h3>
+                <p style="color:#888;margin-top:5px">Roll the dice</p>
             </div>
 
         </div>
 
     </div>
 
+</section>
 
-    <br>
+
+<!-- SLOTS -->
+
+<section id="slots" class="page">
+
+    <div class="gameHeader">
+        <h2>🎰 Lucky Slots</h2>
+        <button class="backBtn" onclick="showPage('home')">← Back</button>
+    </div>
+
+    <div class="slotMachine">
+
+        <div class="slotScreen">
+
+            <div class="reels">
+
+                <div class="reel" id="r1">🍒</div>
+                <div class="reel" id="r2">⭐</div>
+                <div class="reel" id="r3">💎</div>
+
+            </div>
+
+            <div class="result" id="slotResult">
+                Ready to spin
+            </div>
+
+            <div class="slotControls">
+
+                <input
+                    id="slotAmount"
+                    class="amountInput"
+                    type="number"
+                    min="1"
+                    value="100"
+                    placeholder="Virtual coins"
+                >
+
+                <button class="primary" onclick="spinSlots()">
+                    SPIN 🎰
+                </button>
+
+            </div>
+
+        </div>
+
+        <div class="card" style="margin-top:15px">
+
+            <h3>🎯 Slot Rewards</h3>
+
+            <p style="color:#999;margin-top:10px">
+                💎 💎 💎 = x10
+            </p>
+
+            <p style="color:#999;margin-top:5px">
+                ⭐ ⭐ ⭐ = x5
+            </p>
+
+            <p style="color:#999;margin-top:5px">
+                🍒 🍒 🍒 = x3
+            </p>
+
+            <p style="color:#999;margin-top:5px">
+                ნებისმიერი ორი ერთნაირი = x2
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
 
 
-    <div class="section-title">
+<!-- ROULETTE -->
 
-        <h2>
-            Popular Coins
-        </h2>
+<section id="roulette" class="page">
 
-        <button
-            class="primary"
-            onclick="showPage('markets')"
-        >
-            View All
+    <div class="gameHeader">
+
+        <h2>🎡 Roulette</h2>
+
+        <button class="backBtn" onclick="showPage('home')">
+            ← Back
         </button>
 
     </div>
 
+    <div class="rouletteWrap">
 
-    <div
-        class="market-table"
-        id="dashboardCoins"
-    >
+        <div class="card">
+
+            <div class="wheel" id="wheel"></div>
+
+        </div>
+
+        <div class="card">
+
+            <h3>Choose Color</h3>
+
+            <div class="betOptions">
+
+                <button class="bet selected" id="redBet"
+                        onclick="selectRoulette('red')">
+                    🔴 RED
+                </button>
+
+                <button class="bet" id="blackBet"
+                        onclick="selectRoulette('black')">
+                    ⚫ BLACK
+                </button>
+
+            </div>
+
+            <input
+                id="rouletteAmount"
+                class="amountInput"
+                type="number"
+                value="100"
+                min="1"
+                style="width:100%"
+            >
+
+            <button
+                class="primary"
+                style="width:100%;margin-top:10px"
+                onclick="spinRoulette()"
+            >
+                SPIN WHEEL 🎡
+            </button>
+
+            <div class="result" id="rouletteResult">
+                Choose your color
+            </div>
+
+        </div>
+
     </div>
 
 </section>
 
 
-<!-- ================= MARKETS ================= -->
+<!-- BLACKJACK -->
 
-<section
-    id="markets"
-    class="page"
->
+<section id="blackjack" class="page">
 
-    <div class="section-title">
+    <div class="gameHeader">
 
-        <div>
+        <h2>🃏 Blackjack</h2>
 
-            <h1>
-                Markets
-            </h1>
+        <button class="backBtn" onclick="showPage('home')">
+            ← Back
+        </button>
 
-            <p class="muted">
-                Live cryptocurrency prices
-            </p>
+    </div>
+
+    <div class="blackjack">
+
+        <div class="table">
+
+            <div class="handTitle">
+                Dealer — <span id="dealerScore">0</span>
+            </div>
+
+            <div class="cards" id="dealerCards"></div>
+
+
+            <div class="handTitle">
+                You — <span id="playerScore">0</span>
+            </div>
+
+            <div class="cards" id="playerCards"></div>
+
+
+            <div class="gameButtons">
+
+                <button class="primary"
+                        onclick="startBlackjack()">
+                    New Game
+                </button>
+
+                <button class="bet"
+                        onclick="hit()">
+                    Hit
+                </button>
+
+                <button class="bet"
+                        onclick="stand()">
+                    Stand
+                </button>
+
+            </div>
+
+            <div class="result" id="blackjackResult">
+                Start a new game
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- DICE -->
+
+<section id="dice" class="page">
+
+    <div class="gameHeader">
+
+        <h2>🎲 Lucky Dice</h2>
+
+        <button class="backBtn" onclick="showPage('home')">
+            ← Back
+        </button>
+
+    </div>
+
+    <div class="diceBox card">
+
+        <div class="dice" id="dice">🎲</div>
+
+        <h3>Choose High or Low</h3>
+
+        <div class="diceChoices">
+
+            <button
+                class="choice selected"
+                id="lowChoice"
+                onclick="selectDice('low')">
+                LOW 1–3
+            </button>
+
+            <button
+                class="choice"
+                id="highChoice"
+                onclick="selectDice('high')">
+                HIGH 4–6
+            </button>
 
         </div>
 
         <input
-            class="search"
-            id="coinSearch"
-            placeholder="Search coin..."
-            oninput="renderMarkets()"
+            id="diceAmount"
+            class="amountInput"
+            type="number"
+            value="100"
+            min="1"
+            style="width:100%"
         >
 
-    </div>
+        <button
+            class="primary"
+            style="width:100%;margin-top:10px"
+            onclick="rollDice()"
+        >
+            ROLL 🎲
+        </button>
 
-
-    <div
-        class="market-table"
-        id="marketsTable"
-    >
-    </div>
-
-</section>
-
-
-<!-- ================= TRADE ================= -->
-
-<section
-    id="trade"
-    class="page"
->
-
-    <div class="section-title">
-
-        <div>
-
-            <h1>
-                Trade
-            </h1>
-
-            <p class="muted">
-                Buy and sell using demo funds
-            </p>
-
-        </div>
-
-    </div>
-
-
-    <div class="trade-layout">
-
-
-        <div class="card chart-card">
-
-            <div class="chart-header">
-
-                <div>
-
-                    <h2 id="chartCoin">
-                        Bitcoin
-                    </h2>
-
-                    <div class="big-price">
-                        $<span id="tradePrice">
-                            0.00
-                        </span>
-                    </div>
-
-                </div>
-
-                <span
-                    id="tradeChange"
-                    class="green"
-                >
-                    +0.00%
-                </span>
-
-            </div>
-
-
-            <canvas id="priceChart"></canvas>
-
-        </div>
-
-
-        <div class="card">
-
-            <div class="trade-box">
-
-                <h2>
-                    Place Order
-                </h2>
-
-                <label>
-                    Asset
-                </label>
-
-                <select id="tradeSelect">
-                    <option value="bitcoin">
-                        Bitcoin (BTC)
-                    </option>
-
-                    <option value="ethereum">
-                        Ethereum (ETH)
-                    </option>
-
-                    <option value="solana">
-                        Solana (SOL)
-                    </option>
-
-                    <option value="binancecoin">
-                        BNB
-                    </option>
-
-                    <option value="ripple">
-                        XRP
-                    </option>
-                </select>
-
-
-                <label>
-                    Amount USD
-                </label>
-
-                <input
-                    id="tradeAmount"
-                    type="number"
-                    min="1"
-                    placeholder="100"
-                >
-
-
-                <div class="buy-sell">
-
-                    <button
-                        class="buy"
-                        onclick="buy()"
-                    >
-                        BUY
-                    </button>
-
-                    <button
-                        class="sell"
-                        onclick="sell()"
-                    >
-                        SELL
-                    </button>
-
-                </div>
-
-
-                <p
-                    id="tradeInfo"
-                    class="muted"
-                >
-                    Enter an amount to trade.
-                </p>
-
-            </div>
-
+        <div class="result" id="diceResult">
+            Ready
         </div>
 
     </div>
@@ -1039,339 +1168,330 @@ canvas{
 </section>
 
 
-<!-- ================= WALLET ================= -->
+<!-- STATS -->
 
-<section
-    id="wallet"
-    class="page"
->
+<section id="stats" class="page">
 
-    <div class="section-title">
+    <div class="gameHeader">
+        <h2>📊 Statistics</h2>
+    </div>
 
-        <div>
+    <div class="grid">
 
-            <h1>
-                Wallet
-            </h1>
+        <div class="card">
+            <small>Total Games</small>
+            <h2 id="sGames">0</h2>
+        </div>
 
-            <p class="muted">
-                Your demo assets
-            </p>
+        <div class="card">
+            <small>Wins</small>
+            <h2 class="green" id="sWins">0</h2>
+        </div>
 
+        <div class="card">
+            <small>Losses</small>
+            <h2 class="red" id="sLosses">0</h2>
+        </div>
+
+        <div class="card">
+            <small>Win Rate</small>
+            <h2 class="gold" id="sRate">0%</h2>
         </div>
 
     </div>
 
+    <div class="card" style="margin-top:20px">
 
-    <div class="wallet-grid">
+        <h3>Balance History</h3>
 
-        <div class="card">
-
-            <div class="muted">
-                USD Balance
-            </div>
-
-            <div class="wallet-balance">
-                $<span id="walletBalance">
-                    10,000.00
-                </span>
-            </div>
-
-        </div>
-
-
-        <div class="card">
-
-            <div class="muted">
-                Portfolio
-            </div>
-
-            <div class="wallet-balance">
-                $<span id="walletPortfolio">
-                    10,000.00
-                </span>
-            </div>
-
-        </div>
+        <canvas id="chart" class="chart"></canvas>
 
     </div>
 
+</section>
 
-    <br>
 
+<!-- HISTORY -->
+
+<section id="history" class="page">
+
+    <div class="gameHeader">
+        <h2>📜 Game History</h2>
+    </div>
 
     <div class="card">
 
-        <h2>
-            Assets
-        </h2>
+        <table>
 
-        <div id="assetsList"></div>
+            <thead>
 
-    </div>
+                <tr>
+                    <th>Game</th>
+                    <th>Bet</th>
+                    <th>Result</th>
+                    <th>Balance</th>
+                </tr>
 
-</section>
+            </thead>
 
+            <tbody id="historyTable"></tbody>
 
-<!-- ================= HISTORY ================= -->
-
-<section
-    id="history"
-    class="page"
->
-
-    <h1>
-        Transaction History
-    </h1>
-
-    <p class="muted">
-        Your demo trades
-    </p>
-
-
-    <div class="card history">
-
-        <div class="history-row">
-
-            <b>Type</b>
-            <b>Asset</b>
-            <b>Amount</b>
-
-        </div>
-
-        <div id="historyList">
-        </div>
+        </table>
 
     </div>
 
 </section>
 
 
-<!-- ================= PROFILE ================= -->
+<!-- PROFILE -->
 
-<section
-    id="profile"
-    class="page"
->
+<section id="profile" class="page">
 
-    <h1>
-        Profile
-    </h1>
+    <div class="card">
 
-    <p class="muted">
-        Manage your demo account
-    </p>
+        <div class="profileHeader">
 
-    <br>
+            <div class="avatar">R</div>
 
+            <div>
 
-    <div class="card profile-card">
+                <h2>Royal Player</h2>
 
-        <div class="avatar-big">
-            👤
+                <p style="color:#888">
+                    VIP Simulator Member
+                </p>
+
+                <p style="margin-top:8px">
+                    ⭐ Level <span id="profileLevel">1</span>
+                </p>
+
+                <div style="width:250px">
+                    <div class="progress">
+                        <div id="xpBar"></div>
+                    </div>
+                </div>
+
+            </div>
+
         </div>
 
-
-        <label>
-            Username
-        </label>
-
-        <input
-            class="profile-input"
-            id="username"
-            placeholder="Crypto Trader"
-        >
+    </div>
 
 
-        <label>
-            Email
-        </label>
+    <div class="grid" style="margin-top:20px">
 
-        <input
-            class="profile-input"
-            id="email"
-            placeholder="demo@example.com"
-        >
+        <div class="card">
+            <small>Games</small>
+            <h2 id="pGames">0</h2>
+        </div>
+
+        <div class="card">
+            <small>Wins</small>
+            <h2 id="pWins">0</h2>
+        </div>
+
+        <div class="card">
+            <small>XP</small>
+            <h2 id="pXP">0</h2>
+        </div>
+
+        <div class="card">
+            <small>Best Balance</small>
+            <h2 id="pBest">10,000</h2>
+        </div>
+
+    </div>
 
 
-        <button
-            class="primary"
-            onclick="saveProfile()"
-        >
-            Save Profile
+    <div class="card" style="margin-top:20px">
+
+        <h3>🎁 Daily Bonus</h3>
+
+        <p style="color:#999;margin:8px 0">
+            მიიღე ყოველდღიური ვირტუალური ბონუსი.
+        </p>
+
+        <button class="primary" onclick="dailyBonus()">
+            CLAIM +500 🪙
         </button>
 
     </div>
 
 </section>
-
 
 </main>
 
 </div>
 
 
-<!-- ================= MOBILE NAV ================= -->
+<!-- MOBILE NAV -->
 
-<nav class="mobile-nav">
+<div class="mobileNav">
 
-    <button
-        class="active"
-        onclick="showPage('dashboard',this)"
-    >
-        🏠<br>
-        Home
+    <button class="active" onclick="showPage('home',this)">
+        🏠<br>Home
     </button>
 
-    <button
-        onclick="showPage('markets',this)"
-    >
-        📊<br>
-        Markets
+    <button onclick="showPage('slots',this)">
+        🎰<br>Slots
     </button>
 
-    <button
-        onclick="showPage('trade',this)"
-    >
-        💱<br>
-        Trade
+    <button onclick="showPage('roulette',this)">
+        🎡<br>Roulette
     </button>
 
-    <button
-        onclick="showPage('wallet',this)"
-    >
-        💼<br>
-        Wallet
+    <button onclick="showPage('blackjack',this)">
+        🃏<br>Cards
     </button>
 
-    <button
-        onclick="showPage('profile',this)"
-    >
-        👤<br>
-        Profile
+    <button onclick="showPage('profile',this)">
+        👤<br>Profile
     </button>
 
-</nav>
-
-
-<!-- ================= TOAST ================= -->
-
-<div
-    class="toast"
-    id="toast"
->
 </div>
+
+
+<div class="toast" id="toast"></div>
 
 
 <script>
 
-/* =====================================================
-   COINS
-===================================================== */
+/* =========================
+   GAME STATE
+========================= */
 
-const coins = {
+let state = JSON.parse(localStorage.getItem("royalCasino")) || {
 
-    bitcoin:{
-        name:"Bitcoin",
-        symbol:"BTC",
-        icon:"₿"
-    },
-
-    ethereum:{
-        name:"Ethereum",
-        symbol:"ETH",
-        icon:"Ξ"
-    },
-
-    solana:{
-        name:"Solana",
-        symbol:"SOL",
-        icon:"S"
-    },
-
-    binancecoin:{
-        name:"BNB",
-        symbol:"BNB",
-        icon:"B"
-    },
-
-    ripple:{
-        name:"XRP",
-        symbol:"XRP",
-        icon:"X"
-    }
+    balance:10000,
+    games:0,
+    wins:0,
+    losses:0,
+    xp:0,
+    level:1,
+    bestBalance:10000,
+    history:[],
+    chart:[10000],
+    lastBonus:null
 
 };
 
-
-/* =====================================================
-   STATE
-===================================================== */
-
-let prices = {};
-
-let historyPrices = [];
-
-let balance =
-    Number(
-        localStorage.getItem("cx_balance")
-    ) || 10000;
-
-let holdings =
-    JSON.parse(
-        localStorage.getItem("cx_holdings")
-    ) || {
-
-        bitcoin:0,
-        ethereum:0,
-        solana:0,
-        binancecoin:0,
-        ripple:0
-
-    };
-
-let transactions =
-    JSON.parse(
-        localStorage.getItem("cx_transactions")
-    ) || [];
+let rouletteChoice = "red";
+let diceChoice = "low";
 
 
-/* =====================================================
+/* =========================
+   SAVE
+========================= */
+
+function save(){
+
+    localStorage.setItem(
+        "royalCasino",
+        JSON.stringify(state)
+    );
+
+    updateUI();
+}
+
+
+/* =========================
+   FORMAT
+========================= */
+
+function money(n){
+
+    return Math.floor(n).toLocaleString();
+
+}
+
+
+/* =========================
+   UI
+========================= */
+
+function updateUI(){
+
+    document.getElementById("sideBalance").textContent =
+        money(state.balance)+" 🪙";
+
+    document.getElementById("topBalance").textContent =
+        money(state.balance);
+
+    document.getElementById("statBalance").textContent =
+        money(state.balance)+" 🪙";
+
+    document.getElementById("statGames").textContent =
+        state.games;
+
+    document.getElementById("statWins").textContent =
+        state.wins;
+
+    document.getElementById("statLevel").textContent =
+        "Level "+state.level;
+
+    document.getElementById("sGames").textContent =
+        state.games;
+
+    document.getElementById("sWins").textContent =
+        state.wins;
+
+    document.getElementById("sLosses").textContent =
+        state.losses;
+
+    let rate = state.games ?
+        Math.round((state.wins/state.games)*100) : 0;
+
+    document.getElementById("sRate").textContent =
+        rate+"%";
+
+    document.getElementById("profileLevel").textContent =
+        state.level;
+
+    document.getElementById("pGames").textContent =
+        state.games;
+
+    document.getElementById("pWins").textContent =
+        state.wins;
+
+    document.getElementById("pXP").textContent =
+        state.xp;
+
+    document.getElementById("pBest").textContent =
+        money(state.bestBalance);
+
+    let xpInLevel = state.xp % 100;
+
+    document.getElementById("xpBar").style.width =
+        xpInLevel+"%";
+
+    renderHistory();
+
+    drawChart();
+
+}
+
+
+/* =========================
    PAGE NAVIGATION
-===================================================== */
+========================= */
 
-function showPage(page,button){
+function showPage(id,button){
 
-    document
-        .querySelectorAll(".page")
-        .forEach(p=>{
-            p.classList.remove("active");
-        });
+    document.querySelectorAll(".page")
+        .forEach(p=>p.classList.remove("active"));
 
-    const target =
-        document.getElementById(page);
+    let page = document.getElementById(id);
 
-    if(target)
-        target.classList.add("active");
+    if(page){
+        page.classList.add("active");
+    }
 
+    document.querySelectorAll(".nav button,.mobileNav button")
+        .forEach(b=>b.classList.remove("active"));
 
-    document
-        .querySelectorAll(".nav-btn")
-        .forEach(b=>{
-            b.classList.remove("active");
-        });
-
-
-    document
-        .querySelectorAll(".mobile-nav button")
-        .forEach(b=>{
-            b.classList.remove("active");
-        });
-
-
-    if(button)
+    if(button){
         button.classList.add("active");
-
+    }
 
     window.scrollTo({
         top:0,
@@ -1381,1030 +1501,837 @@ function showPage(page,button){
 }
 
 
-/* =====================================================
-   FETCH LIVE PRICES
-===================================================== */
-
-async function loadPrices(){
-
-    try{
-
-        const ids =
-            Object.keys(coins).join(",");
-
-        const url =
-        "https://api.coingecko.com/api/v3/simple/price"
-        +
-        "?ids="
-        + ids
-        +
-        "&vs_currencies=usd"
-        +
-        "&include_24hr_change=true";
-
-
-        const response =
-            await fetch(url);
-
-        const data =
-            await response.json();
-
-        prices=data;
-
-
-        renderMarkets();
-
-        renderDashboard();
-
-        updateWallet();
-
-        updateTrade();
-
-    }catch(error){
-
-        console.log(error);
-
-        showToast(
-            "Market data unavailable"
-        );
-
-    }
-
-}
-
-
-/* =====================================================
-   FORMAT
-===================================================== */
-
-function money(value){
-
-    return Number(value).toLocaleString(
-        "en-US",
-        {
-            minimumFractionDigits:2,
-            maximumFractionDigits:2
-        }
-    );
-
-}
-
-
-function coinPrice(value){
-
-    if(value >= 1000)
-        return money(value);
-
-    if(value >= 1)
-        return value.toFixed(2);
-
-    return value.toFixed(5);
-
-}
-
-
-/* =====================================================
-   MARKETS
-===================================================== */
-
-function renderMarkets(){
-
-    const table =
-        document.getElementById("marketsTable");
-
-    const search =
-        (
-            document.getElementById("coinSearch")
-            ?.value || ""
-        ).toLowerCase();
-
-
-    table.innerHTML = `
-
-        <div class="market-row market-header">
-
-            <div>ASSET</div>
-            <div>PRICE</div>
-            <div>24H CHANGE</div>
-            <div>ACTION</div>
-
-        </div>
-
-    `;
-
-
-    Object.entries(coins)
-    .filter(([id,c])=>{
-
-        return (
-            c.name.toLowerCase().includes(search)
-            ||
-            c.symbol.toLowerCase().includes(search)
-        );
-
-    })
-    .forEach(([id,c])=>{
-
-        const data=prices[id];
-
-        if(!data)
-            return;
-
-
-        const change =
-            data.usd_24h_change || 0;
-
-
-        const direction =
-            change >= 0
-            ? "green"
-            : "red";
-
-
-        const row =
-            document.createElement("div");
-
-        row.className="market-row";
-
-
-        row.innerHTML=`
-
-            <div class="coin-info">
-
-                <div class="coin-icon">
-                    ${c.icon}
-                </div>
-
-                <div>
-
-                    <div class="coin-name">
-                        ${c.name}
-                    </div>
-
-                    <div class="coin-symbol">
-                        ${c.symbol}
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div>
-                $${coinPrice(data.usd)}
-            </div>
-
-
-            <div class="${direction}">
-                ${change >= 0 ? "+" : ""}
-                ${change.toFixed(2)}%
-            </div>
-
-
-            <div>
-
-                <button
-                    class="trade-small"
-                    onclick="selectTrade('${id}')"
-                >
-                    Trade
-                </button>
-
-            </div>
-
-        `;
-
-
-        table.appendChild(row);
-
-    });
-
-}
-
-
-/* =====================================================
-   DASHBOARD
-===================================================== */
-
-function renderDashboard(){
-
-    const box =
-        document.getElementById("dashboardCoins");
-
-    box.innerHTML = `
-
-        <div class="market-row market-header">
-
-            <div>ASSET</div>
-            <div>PRICE</div>
-            <div>24H</div>
-            <div></div>
-
-        </div>
-
-    `;
-
-
-    Object.entries(coins)
-    .slice(0,4)
-    .forEach(([id,c])=>{
-
-        const data=prices[id];
-
-        if(!data)
-            return;
-
-
-        const change =
-            data.usd_24h_change || 0;
-
-
-        const row =
-            document.createElement("div");
-
-        row.className="market-row";
-
-
-        row.innerHTML=`
-
-            <div class="coin-info">
-
-                <div class="coin-icon">
-                    ${c.icon}
-                </div>
-
-                <div>
-
-                    <div class="coin-name">
-                        ${c.name}
-                    </div>
-
-                    <div class="coin-symbol">
-                        ${c.symbol}
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div>
-                $${coinPrice(data.usd)}
-            </div>
-
-
-            <div class="${change>=0?'green':'red'}">
-                ${change>=0?"+":""}
-                ${change.toFixed(2)}%
-            </div>
-
-
-            <div>
-
-                <button
-                    class="trade-small"
-                    onclick="selectTrade('${id}')"
-                >
-                    Trade
-                </button>
-
-            </div>
-
-        `;
-
-
-        box.appendChild(row);
-
-    });
-
-}
-
-
-/* =====================================================
-   SELECT TRADE
-===================================================== */
-
-function selectTrade(id){
-
-    document.getElementById("tradeSelect")
-        .value=id;
-
-    showPage("trade");
-
-    updateTrade();
-
-}
-
-
-/* =====================================================
-   TRADE UI
-===================================================== */
-
-function updateTrade(){
-
-    const id =
-        document.getElementById("tradeSelect")
-        .value;
-
-    const data =
-        prices[id];
-
-    if(!data)
-        return;
-
-
-    const coin =
-        coins[id];
-
-
-    document.getElementById("chartCoin")
-        .innerText=coin.name;
-
-
-    document.getElementById("tradePrice")
-        .innerText=coinPrice(data.usd);
-
-
-    const change =
-        data.usd_24h_change || 0;
-
-
-    const changeEl =
-        document.getElementById("tradeChange");
-
-
-    changeEl.innerText =
-        (change>=0?"+":"")
-        +
-        change.toFixed(2)
-        +
-        "%";
-
-
-    changeEl.className =
-        change>=0
-        ? "green"
-        : "red";
-
-
-    historyPrices.push(data.usd);
-
-
-    if(historyPrices.length>40)
-        historyPrices.shift();
-
-
-    drawChart();
-
-}
-
-
-document
-    .getElementById("tradeSelect")
-    .addEventListener(
-        "change",
-        updateTrade
-    );
-
-
-/* =====================================================
-   CHART
-===================================================== */
-
-function drawChart(){
-
-    const canvas =
-        document.getElementById("priceChart");
-
-    if(!canvas)
-        return;
-
-
-    const ctx =
-        canvas.getContext("2d");
-
-
-    const width =
-        canvas.clientWidth * 2;
-
-    const height =
-        canvas.clientHeight * 2;
-
-
-    canvas.width=width;
-    canvas.height=height;
-
-
-    ctx.clearRect(
-        0,
-        0,
-        width,
-        height
-    );
-
-
-    if(historyPrices.length<2)
-        return;
-
-
-    const min =
-        Math.min(...historyPrices);
-
-    const max =
-        Math.max(...historyPrices);
-
-
-    const range =
-        max-min || 1;
-
-
-    ctx.beginPath();
-
-
-    historyPrices.forEach(
-        (price,index)=>{
-
-            const x =
-                index *
-                width /
-                (historyPrices.length-1);
-
-
-            const y =
-                height -
-                (
-                    (price-min)
-                    /
-                    range
-                )
-                *
-                (height-40)
-                -
-                20;
-
-
-            if(index===0)
-                ctx.moveTo(x,y);
-            else
-                ctx.lineTo(x,y);
-
-        }
-    );
-
-
-    ctx.strokeStyle="#20b8ff";
-    ctx.lineWidth=5;
-
-    ctx.stroke();
-
-}
-
-
-/* =====================================================
-   BUY
-===================================================== */
-
-function buy(){
-
-    const id =
-        document.getElementById("tradeSelect")
-        .value;
-
-    const amount =
-        Number(
-            document.getElementById("tradeAmount")
-            .value
-        );
-
-
-    const price =
-        prices[id]?.usd;
-
-
-    if(!amount || amount<=0){
-
-        showToast(
-            "Enter a valid amount"
-        );
-
-        return;
-
-    }
-
-
-    if(!price){
-
-        showToast(
-            "Price unavailable"
-        );
-
-        return;
-
-    }
-
-
-    if(amount>balance){
-
-        showToast(
-            "Not enough demo USD"
-        );
-
-        return;
-
-    }
-
-
-    const quantity =
-        amount/price;
-
-
-    balance-=amount;
-
-    holdings[id]+=quantity;
-
-
-    transactions.unshift({
-
-        type:"BUY",
-
-        coin:id,
-
-        amount:amount,
-
-        quantity:quantity,
-
-        time:new Date()
-        .toLocaleString()
-
-    });
-
-
-    save();
-
-    updateAll();
-
-
-    showToast(
-        "BUY completed successfully 🚀"
-    );
-
-}
-
-
-/* =====================================================
-   SELL
-===================================================== */
-
-function sell(){
-
-    const id =
-        document.getElementById("tradeSelect")
-        .value;
-
-    const amount =
-        Number(
-            document.getElementById("tradeAmount")
-            .value
-        );
-
-
-    const price =
-        prices[id]?.usd;
-
-
-    if(!amount || amount<=0){
-
-        showToast(
-            "Enter a valid amount"
-        );
-
-        return;
-
-    }
-
-
-    if(!price){
-
-        showToast(
-            "Price unavailable"
-        );
-
-        return;
-
-    }
-
-
-    const quantity =
-        amount/price;
-
-
-    if(holdings[id]<quantity){
-
-        showToast(
-            "Not enough crypto"
-        );
-
-        return;
-
-    }
-
-
-    holdings[id]-=quantity;
-
-    balance+=amount;
-
-
-    transactions.unshift({
-
-        type:"SELL",
-
-        coin:id,
-
-        amount:amount,
-
-        quantity:quantity,
-
-        time:new Date()
-        .toLocaleString()
-
-    });
-
-
-    save();
-
-    updateAll();
-
-
-    showToast(
-        "SELL completed successfully"
-    );
-
-}
-
-
-/* =====================================================
-   WALLET
-===================================================== */
-
-function updateWallet(){
-
-    document.getElementById("headerBalance")
-        .innerText=money(balance);
-
-
-    document.getElementById("statBalance")
-        .innerText=money(balance);
-
-
-    document.getElementById("walletBalance")
-        .innerText=money(balance);
-
-
-    let cryptoValue=0;
-
-
-    Object.keys(coins)
-    .forEach(id=>{
-
-        if(prices[id]){
-
-            cryptoValue +=
-                holdings[id] *
-                prices[id].usd;
-
-        }
-
-    });
-
-
-    const total =
-        balance+cryptoValue;
-
-
-    document.getElementById("portfolioValue")
-        .innerText=money(total);
-
-
-    document.getElementById("walletPortfolio")
-        .innerText=money(total);
-
-
-    const profit =
-        total-10000;
-
-
-    const profitEl =
-        document.getElementById("profitLoss");
-
-
-    profitEl.innerText =
-        (profit>=0?"+":"")
-        +
-        "$"
-        +
-        money(profit);
-
-
-    profitEl.className =
-        "stat-value "
-        +
-        (
-            profit>=0
-            ? "green"
-            : "red"
-        );
-
-
-    const list =
-        document.getElementById("assetsList");
-
-
-    list.innerHTML="";
-
-
-    Object.entries(coins)
-    .forEach(([id,c])=>{
-
-        const quantity =
-            holdings[id] || 0;
-
-
-        const value =
-            prices[id]
-            ? quantity*prices[id].usd
-            : 0;
-
-
-        const div =
-            document.createElement("div");
-
-
-        div.className="asset";
-
-
-        div.innerHTML=`
-
-            <div class="asset-left">
-
-                <div class="coin-icon">
-                    ${c.icon}
-                </div>
-
-                <div>
-
-                    <b>${c.name}</b>
-
-                    <div class="muted">
-                        ${quantity.toFixed(6)}
-                        ${c.symbol}
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <b>
-                $${money(value)}
-            </b>
-
-        `;
-
-
-        list.appendChild(div);
-
-    });
-
-}
-
-
-/* =====================================================
-   HISTORY
-===================================================== */
-
-function updateHistory(){
-
-    const list =
-        document.getElementById("historyList");
-
-
-    list.innerHTML="";
-
-
-    if(transactions.length===0){
-
-        list.innerHTML=`
-
-            <p class="muted">
-                No transactions yet.
-            </p>
-
-        `;
-
-        return;
-
-    }
-
-
-    transactions
-    .slice(0,30)
-    .forEach(t=>{
-
-        const coin =
-            coins[t.coin];
-
-
-        const row =
-            document.createElement("div");
-
-
-        row.className="history-row";
-
-
-        row.innerHTML=`
-
-            <span class="${
-                t.type==="BUY"
-                ?"green"
-                :"red"
-            }">
-
-                ${t.type}
-
-            </span>
-
-
-            <span>
-                ${coin.symbol}
-            </span>
-
-
-            <span>
-                $${money(t.amount)}
-            </span>
-
-        `;
-
-
-        list.appendChild(row);
-
-    });
-
-}
-
-
-/* =====================================================
-   SAVE
-===================================================== */
-
-function save(){
-
-    localStorage.setItem(
-        "cx_balance",
-        balance
-    );
-
-
-    localStorage.setItem(
-        "cx_holdings",
-        JSON.stringify(holdings)
-    );
-
-
-    localStorage.setItem(
-        "cx_transactions",
-        JSON.stringify(transactions)
-    );
-
-}
-
-
-/* =====================================================
-   UPDATE EVERYTHING
-===================================================== */
-
-function updateAll(){
-
-    updateWallet();
-
-    updateHistory();
-
-    renderMarkets();
-
-    renderDashboard();
-
-}
-
-
-/* =====================================================
-   PROFILE
-===================================================== */
-
-function saveProfile(){
-
-    const username =
-        document.getElementById("username")
-        .value;
-
-
-    const email =
-        document.getElementById("email")
-        .value;
-
-
-    localStorage.setItem(
-        "cx_username",
-        username
-    );
-
-
-    localStorage.setItem(
-        "cx_email",
-        email
-    );
-
-
-    showToast(
-        "Profile saved ✅"
-    );
-
-}
-
-
-function loadProfile(){
-
-    const username =
-        localStorage.getItem(
-            "cx_username"
-        );
-
-
-    const email =
-        localStorage.getItem(
-            "cx_email"
-        );
-
-
-    if(username)
-        document.getElementById("username")
-            .value=username;
-
-
-    if(email)
-        document.getElementById("email")
-            .value=email;
-
-}
-
-
-/* =====================================================
+/* =========================
    TOAST
-===================================================== */
+========================= */
 
-function showToast(message){
+function toast(message){
 
-    const toast =
-        document.getElementById("toast");
+    let t = document.getElementById("toast");
+
+    t.textContent = message;
+
+    t.classList.add("show");
+
+    setTimeout(()=>{
+        t.classList.remove("show");
+    },2200);
+
+}
 
 
-    toast.innerText=message;
+/* =========================
+   XP
+========================= */
 
-    toast.style.display="block";
+function addXP(amount){
 
+    state.xp += amount;
+
+    let newLevel =
+        Math.floor(state.xp/100)+1;
+
+    if(newLevel > state.level){
+
+        state.level = newLevel;
+
+        toast("🎉 Level Up! Level "+state.level);
+
+    }
+
+}
+
+
+/* =========================
+   GAME RECORD
+========================= */
+
+function recordGame(
+    game,
+    bet,
+    result,
+    win
+){
+
+    state.games++;
+
+    if(win){
+        state.wins++;
+    }else{
+        state.losses++;
+    }
+
+    addXP(win ? 15 : 5);
+
+    state.bestBalance =
+        Math.max(
+            state.bestBalance,
+            state.balance
+        );
+
+    state.chart.push(state.balance);
+
+    if(state.chart.length>30){
+        state.chart.shift();
+    }
+
+    state.history.unshift({
+
+        game:game,
+        bet:bet,
+        result:result,
+        balance:state.balance
+
+    });
+
+    if(state.history.length>30){
+        state.history.pop();
+    }
+
+    save();
+
+}
+
+
+/* =========================
+   SLOTS
+========================= */
+
+const symbols = [
+    "🍒",
+    "🍋",
+    "⭐",
+    "7️⃣",
+    "💎",
+    "🔔"
+];
+
+
+function spinSlots(){
+
+    let amount =
+        Number(document.getElementById("slotAmount").value);
+
+    if(amount<=0 || !Number.isFinite(amount)){
+        toast("შეიყვანე სწორი თანხა");
+        return;
+    }
+
+    if(amount>state.balance){
+        toast("არ გაქვს საკმარისი ვირტუალური მონეტები");
+        return;
+    }
+
+    state.balance -= amount;
+
+    let reels = [
+        document.getElementById("r1"),
+        document.getElementById("r2"),
+        document.getElementById("r3")
+    ];
+
+    reels.forEach(r=>{
+        r.classList.add("spin");
+    });
+
+    let a = symbols[
+        Math.floor(Math.random()*symbols.length)
+    ];
+
+    let b = symbols[
+        Math.floor(Math.random()*symbols.length)
+    ];
+
+    let c = symbols[
+        Math.floor(Math.random()*symbols.length)
+    ];
 
     setTimeout(()=>{
 
-        toast.style.display="none";
+        reels[0].textContent=a;
+        reels[1].textContent=b;
+        reels[2].textContent=c;
+
+        reels.forEach(r=>{
+            r.classList.remove("spin");
+        });
+
+        let multiplier=0;
+
+        if(a==="💎" && b==="💎" && c==="💎"){
+            multiplier=10;
+        }
+        else if(a==="⭐" && b==="⭐" && c==="⭐"){
+            multiplier=5;
+        }
+        else if(a==="🍒" && b==="🍒" && c==="🍒"){
+            multiplier=3;
+        }
+        else if(a===b || b===c || a===c){
+            multiplier=2;
+        }
+
+        if(multiplier>0){
+
+            let prize = amount*multiplier;
+
+            state.balance += prize;
+
+            document.getElementById("slotResult")
+                .textContent =
+                "🎉 WIN! +"+money(prize)+" 🪙";
+
+            recordGame(
+                "Slots",
+                amount,
+                "WIN x"+multiplier,
+                true
+            );
+
+            toast("🎉 მოიგე "+money(prize)+" მონეტა!");
+
+        }else{
+
+            document.getElementById("slotResult")
+                .textContent =
+                "😢 No match";
+
+            recordGame(
+                "Slots",
+                amount,
+                "LOSS",
+                false
+            );
+
+        }
+
+    },900);
+
+}
+
+
+/* =========================
+   ROULETTE
+========================= */
+
+function selectRoulette(choice){
+
+    rouletteChoice=choice;
+
+    document.getElementById("redBet")
+        .classList.toggle(
+            "selected",
+            choice==="red"
+        );
+
+    document.getElementById("blackBet")
+        .classList.toggle(
+            "selected",
+            choice==="black"
+        );
+
+}
+
+
+function spinRoulette(){
+
+    let amount =
+        Number(document.getElementById("rouletteAmount").value);
+
+    if(amount<=0 || amount>state.balance){
+        toast("არასწორი თანხა");
+        return;
+    }
+
+    state.balance-=amount;
+
+    let wheel=document.getElementById("wheel");
+
+    wheel.classList.remove("spinWheel");
+
+    void wheel.offsetWidth;
+
+    wheel.classList.add("spinWheel");
+
+    setTimeout(()=>{
+
+        let result =
+            Math.random()<0.5 ?
+            "red" :
+            "black";
+
+        if(result===rouletteChoice){
+
+            let prize=amount*2;
+
+            state.balance+=prize;
+
+            document.getElementById("rouletteResult")
+                .textContent =
+                "🎉 "+result.toUpperCase()+
+                " — WIN! +"+money(prize);
+
+            recordGame(
+                "Roulette",
+                amount,
+                "WIN "+result,
+                true
+            );
+
+        }else{
+
+            document.getElementById("rouletteResult")
+                .textContent =
+                "❌ "+result.toUpperCase()+
+                " — LOSS";
+
+            recordGame(
+                "Roulette",
+                amount,
+                "LOSS "+result,
+                false
+            );
+
+        }
 
     },2500);
 
 }
 
 
-/* =====================================================
+/* =========================
+   DICE
+========================= */
+
+function selectDice(choice){
+
+    diceChoice=choice;
+
+    document.getElementById("lowChoice")
+        .classList.toggle(
+            "selected",
+            choice==="low"
+        );
+
+    document.getElementById("highChoice")
+        .classList.toggle(
+            "selected",
+            choice==="high"
+        );
+
+}
+
+
+function rollDice(){
+
+    let amount =
+        Number(document.getElementById("diceAmount").value);
+
+    if(amount<=0 || amount>state.balance){
+        toast("არასწორი თანხა");
+        return;
+    }
+
+    state.balance-=amount;
+
+    let dice=document.getElementById("dice");
+
+    dice.classList.remove("roll");
+
+    void dice.offsetWidth;
+
+    dice.classList.add("roll");
+
+    setTimeout(()=>{
+
+        let result =
+            Math.floor(Math.random()*6)+1;
+
+        let emoji=[
+            "⚀","⚁","⚂",
+            "⚃","⚄","⚅"
+        ][result-1];
+
+        dice.textContent=emoji;
+
+        let won =
+            diceChoice==="low"
+            ? result<=3
+            : result>=4;
+
+        if(won){
+
+            let prize=amount*2;
+
+            state.balance+=prize;
+
+            document.getElementById("diceResult")
+                .textContent =
+                "🎉 "+result+
+                " — WIN +"+money(prize)+" 🪙";
+
+        }else{
+
+            document.getElementById("diceResult")
+                .textContent =
+                "😢 "+result+" — LOSS";
+
+        }
+
+        recordGame(
+            "Dice",
+            amount,
+            won ? "WIN "+result : "LOSS "+result,
+            won
+        );
+
+    },650);
+
+}
+
+
+/* =========================
+   BLACKJACK
+========================= */
+
+let deck=[];
+let player=[];
+let dealer=[];
+let blackjackActive=false;
+
+
+function createDeck(){
+
+    const suits=[
+        "♠","♥","♦","♣"
+    ];
+
+    const values=[
+        "A","2","3","4","5",
+        "6","7","8","9","10",
+        "J","Q","K"
+    ];
+
+    let d=[];
+
+    suits.forEach(s=>{
+        values.forEach(v=>{
+            d.push({
+                suit:s,
+                value:v
+            });
+        });
+    });
+
+    return d.sort(
+        ()=>Math.random()-.5
+    );
+
+}
+
+
+function cardValue(card){
+
+    if(["J","Q","K"].includes(card.value)){
+        return 10;
+    }
+
+    if(card.value==="A"){
+        return 11;
+    }
+
+    return Number(card.value);
+
+}
+
+
+function handValue(hand){
+
+    let total=0;
+    let aces=0;
+
+    hand.forEach(c=>{
+
+        total+=cardValue(c);
+
+        if(c.value==="A"){
+            aces++;
+        }
+
+    });
+
+    while(total>21 && aces>0){
+        total-=10;
+        aces--;
+    }
+
+    return total;
+
+}
+
+
+function cardHTML(card){
+
+    let red =
+        card.suit==="♥" ||
+        card.suit==="♦";
+
+    return `
+        <div class="playCard ${red?'redCard':''}">
+            ${card.value}${card.suit}
+        </div>
+    `;
+
+}
+
+
+function renderBlackjack(){
+
+    document.getElementById("playerCards")
+        .innerHTML =
+        player.map(cardHTML).join("");
+
+    document.getElementById("dealerCards")
+        .innerHTML =
+        dealer.map(cardHTML).join("");
+
+    document.getElementById("playerScore")
+        .textContent=handValue(player);
+
+    document.getElementById("dealerScore")
+        .textContent=handValue(dealer);
+
+}
+
+
+function startBlackjack(){
+
+    if(blackjackActive){
+        toast("თამაში უკვე დაწყებულია");
+        return;
+    }
+
+    if(state.balance<100){
+        toast("საჭიროა მინიმუმ 100 ვირტუალური მონეტა");
+        return;
+    }
+
+    state.balance-=100;
+
+    deck=createDeck();
+
+    player=[
+        deck.pop(),
+        deck.pop()
+    ];
+
+    dealer=[
+        deck.pop(),
+        deck.pop()
+    ];
+
+    blackjackActive=true;
+
+    renderBlackjack();
+
+    document.getElementById("blackjackResult")
+        .textContent="Your move";
+
+}
+
+
+function hit(){
+
+    if(!blackjackActive){
+        toast("ჯერ დაიწყე თამაში");
+        return;
+    }
+
+    player.push(deck.pop());
+
+    renderBlackjack();
+
+    let score=handValue(player);
+
+    if(score>21){
+
+        blackjackActive=false;
+
+        document.getElementById("blackjackResult")
+            .textContent="💥 Bust — You lose";
+
+        recordGame(
+            "Blackjack",
+            100,
+            "BUST",
+            false
+        );
+
+    }
+
+}
+
+
+function stand(){
+
+    if(!blackjackActive){
+        toast("ჯერ დაიწყე თამაში");
+        return;
+    }
+
+    while(
+        handValue(dealer)<17
+    ){
+        dealer.push(deck.pop());
+    }
+
+    let p=handValue(player);
+    let d=handValue(dealer);
+
+    blackjackActive=false;
+
+    renderBlackjack();
+
+    if(
+        p> d ||
+        d>21
+    ){
+
+        let prize=200;
+
+        state.balance+=prize;
+
+        document.getElementById("blackjackResult")
+            .textContent =
+            "🎉 You Win! +200 🪙";
+
+        recordGame(
+            "Blackjack",
+            100,
+            "WIN",
+            true
+        );
+
+    }
+    else if(p===d){
+
+        state.balance+=100;
+
+        document.getElementById("blackjackResult")
+            .textContent =
+            "🤝 Draw";
+
+        recordGame(
+            "Blackjack",
+            100,
+            "DRAW",
+            true
+        );
+
+    }
+    else{
+
+        document.getElementById("blackjackResult")
+            .textContent =
+            "😢 Dealer wins";
+
+        recordGame(
+            "Blackjack",
+            100,
+            "LOSS",
+            false
+        );
+
+    }
+
+}
+
+
+/* =========================
+   DAILY BONUS
+========================= */
+
+function dailyBonus(){
+
+    let today =
+        new Date().toISOString().slice(0,10);
+
+    if(state.lastBonus===today){
+
+        toast("🎁 დღევანდელი ბონუსი უკვე აიღე");
+
+        return;
+    }
+
+    state.balance+=500;
+
+    state.lastBonus=today;
+
+    addXP(20);
+
+    save();
+
+    toast("🎁 +500 ვირტუალური მონეტა!");
+
+}
+
+
+/* =========================
+   HISTORY
+========================= */
+
+function renderHistory(){
+
+    let table=
+        document.getElementById("historyTable");
+
+    if(!state.history.length){
+
+        table.innerHTML=`
+            <tr>
+                <td colspan="4"
+                    style="text-align:center;color:#777">
+                    ჯერ თამაშები არ არის
+                </td>
+            </tr>
+        `;
+
+        return;
+    }
+
+    table.innerHTML =
+        state.history.map(h=>`
+
+        <tr>
+
+            <td>${h.game}</td>
+
+            <td>${money(h.bet)} 🪙</td>
+
+            <td class="${
+                h.result.includes("WIN")
+                ?"green":"red"
+            }">
+                ${h.result}
+            </td>
+
+            <td>${money(h.balance)} 🪙</td>
+
+        </tr>
+
+    `).join("");
+
+}
+
+
+/* =========================
+   CHART
+========================= */
+
+function drawChart(){
+
+    let canvas =
+        document.getElementById("chart");
+
+    if(!canvas)return;
+
+    let ctx=canvas.getContext("2d");
+
+    let rect =
+        canvas.getBoundingClientRect();
+
+    canvas.width=rect.width*devicePixelRatio;
+    canvas.height=rect.height*devicePixelRatio;
+
+    ctx.scale(
+        devicePixelRatio,
+        devicePixelRatio
+    );
+
+    let w=rect.width;
+    let h=rect.height;
+
+    ctx.clearRect(0,0,w,h);
+
+    let data=state.chart;
+
+    if(data.length<2){
+
+        ctx.fillStyle="#777";
+
+        ctx.font="14px Arial";
+
+        ctx.fillText(
+            "Play games to generate statistics",
+            20,30
+        );
+
+        return;
+    }
+
+    let min=Math.min(...data);
+    let max=Math.max(...data);
+
+    if(min===max){
+        max++;
+    }
+
+    ctx.beginPath();
+
+    data.forEach((value,i)=>{
+
+        let x =
+            (i/(data.length-1))*w;
+
+        let y =
+            h -
+            ((value-min)/(max-min))*h*0.8 -
+            20;
+
+        if(i===0){
+            ctx.moveTo(x,y);
+        }else{
+            ctx.lineTo(x,y);
+        }
+
+    });
+
+    ctx.strokeStyle="#f5c451";
+    ctx.lineWidth=3;
+    ctx.stroke();
+
+    ctx.lineTo(w,h);
+    ctx.lineTo(0,h);
+    ctx.closePath();
+
+    ctx.fillStyle="rgba(245,196,81,.08)";
+    ctx.fill();
+
+}
+
+
+/* =========================
+   RESET DEMO
+========================= */
+
+function resetDemo(){
+
+    localStorage.removeItem("royalCasino");
+
+    location.reload();
+
+}
+
+
+/* =========================
    START
-===================================================== */
+========================= */
 
-loadProfile();
+updateUI();
 
-loadPrices();
-
-updateAll();
-
-
-/* refresh market */
-
-setInterval(
-    loadPrices,
-    30000
-);
-
-
-/* update chart */
-
-setInterval(
-    updateTrade,
-    10000
+window.addEventListener(
+    "resize",
+    drawChart
 );
 
 </script>
