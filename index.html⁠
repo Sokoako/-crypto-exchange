@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEXUS PRO - Advanced Crypto Exchange</title>
+    <title>Binance - Live Crypto Trading Platform</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
@@ -27,22 +27,22 @@
 <body class="min-h-screen flex flex-col justify-between">
 
     <!-- Top Navigation -->
-    <header class="border-b border-[#1e2329] bg-[#12161c]/80 backdrop-blur-md sticky top-0 z-50 px-4 lg:px-8 py-3.5 flex justify-between items-center">
+    <header class="border-b border-[#1e2329] bg-[#12161c]/90 backdrop-blur-md sticky top-0 z-50 px-4 lg:px-8 py-3.5 flex justify-between items-center">
         <div class="flex items-center gap-6">
             <div class="flex items-center gap-2.5">
-                <div class="bg-amber-500 p-2 rounded-lg text-slate-950 font-black text-lg shadow-lg shadow-amber-500/20">NX</div>
-                <span class="font-bold text-xl tracking-wider text-white">NEXUS<span class="text-amber-500">PRO</span></span>
+                <div class="bg-[#FCD535] p-2 rounded-lg text-slate-950 font-black text-lg shadow-lg shadow-[#FCD535]/20">BN</div>
+                <span class="font-bold text-xl tracking-wider text-white">BINANCE<span class="text-[#FCD535]"> PRO</span></span>
             </div>
             <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-slate-400">
-                <a href="#" class="text-white hover:text-amber-500 transition-colors">ბირჟა (Markets)</a>
-                <a href="#" class="hover:text-amber-500 transition-colors">ვაჭრობა (Trade)</a>
-                <a href="#" class="hover:text-amber-500 transition-colors">საფულე (Wallet)</a>
+                <a href="#" class="text-white hover:text-[#FCD535] transition-colors">ბირჟა (Markets)</a>
+                <a href="#" class="hover:text-[#FCD535] transition-colors">ვაჭრობა (Trade)</a>
+                <a href="#" class="hover:text-[#FCD535] transition-colors">საფულე (Wallet)</a>
             </nav>
         </div>
         <div class="flex items-center gap-3">
-            <div class="bg-[#1e2329] px-3.5 py-1.5 rounded-full text-xs font-semibold text-amber-400 border border-amber-500/20 flex items-center gap-2">
-                <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
-                LIVE FEED
+            <div class="bg-[#1e2329] px-3.5 py-1.5 rounded-full text-xs font-semibold text-[#FCD535] border border-[#FCD535]/20 flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-[#FCD535] animate-pulse"></span>
+                ONLINE
             </div>
         </div>
     </header>
@@ -54,7 +54,7 @@
         <div class="lg:col-span-2 space-y-6">
             <div class="bg-[#12161c] border border-[#1e2329] rounded-2xl p-5 shadow-xl">
                 <h2 class="text-base font-bold text-white mb-4 flex items-center justify-between">
-                    <span>ბაზრის მიმოხილვა (Market Trends)</span>
+                    <span>მარკეტები (Markets)</span>
                     <span class="text-xs text-slate-400 font-normal">Real-time Data</span>
                 </h2>
                 <div class="overflow-x-auto">
@@ -72,25 +72,25 @@
                                 <td class="py-3.5 font-bold text-white flex items-center gap-2">🪙 BTC / USDT</td>
                                 <td class="py-3.5 font-semibold text-white">$68,420.50</td>
                                 <td class="py-3.5 font-semibold text-emerald-400">+3.45%</td>
-                                <td class="py-3.5 text-right"><button onclick="quickSelect('BTC', 68420)" class="text-xs bg-amber-500/10 text-amber-400 border border-amber-500/30 px-3 py-1 rounded-lg hover:bg-amber-500 hover:text-slate-950 font-semibold transition-all">ვაჭრობა</button></td>
+                                <td class="py-3.5 text-right"><button onclick="quickSelect('BTC', 68420)" class="text-xs bg-[#FCD535]/10 text-[#FCD535] border border-[#FCD535]/30 px-3 py-1 rounded-lg hover:bg-[#FCD535] hover:text-slate-950 font-semibold transition-all">ვაჭრობა</button></td>
                             </tr>
                             <tr class="hover:bg-[#1e2329]/30 transition-colors">
                                 <td class="py-3.5 font-bold text-white flex items-center gap-2">Ξ ETH / USDT</td>
                                 <td class="py-3.5 font-semibold text-white">$3,540.10</td>
                                 <td class="py-3.5 font-semibold text-emerald-400">+1.82%</td>
-                                <td class="py-3.5 text-right"><button onclick="quickSelect('ETH', 3540)" class="text-xs bg-amber-500/10 text-amber-400 border border-amber-500/30 px-3 py-1 rounded-lg hover:bg-amber-500 hover:text-slate-950 font-semibold transition-all">ვაჭრობა</button></td>
+                                <td class="py-3.5 text-right"><button onclick="quickSelect('ETH', 3540)" class="text-xs bg-[#FCD535]/10 text-[#FCD535] border border-[#FCD535]/30 px-3 py-1 rounded-lg hover:bg-[#FCD535] hover:text-slate-950 font-semibold transition-all">ვაჭრობა</button></td>
                             </tr>
                             <tr class="hover:bg-[#1e2329]/30 transition-colors">
                                 <td class="py-3.5 font-bold text-white flex items-center gap-2">🟣 SOL / USDT</td>
                                 <td class="py-3.5 font-semibold text-white">$148.80</td>
                                 <td class="py-3.5 font-semibold text-rose-400">-0.95%</td>
-                                <td class="py-3.5 text-right"><button onclick="quickSelect('SOL', 148)" class="text-xs bg-amber-500/10 text-amber-400 border border-amber-500/30 px-3 py-1 rounded-lg hover:bg-amber-500 hover:text-slate-950 font-semibold transition-all">ვაჭრობა</button></td>
+                                <td class="py-3.5 text-right"><button onclick="quickSelect('SOL', 148)" class="text-xs bg-[#FCD535]/10 text-[#FCD535] border border-[#FCD535]/30 px-3 py-1 rounded-lg hover:bg-[#FCD535] hover:text-slate-950 font-semibold transition-all">ვაჭრობა</button></td>
                             </tr>
                             <tr class="hover:bg-[#1e2329]/30 transition-colors">
                                 <td class="py-3.5 font-bold text-white flex items-center gap-2">💵 USDT / USD</td>
                                 <td class="py-3.5 font-semibold text-white">$1.00</td>
                                 <td class="py-3.5 font-semibold text-slate-400">0.00%</td>
-                                <td class="py-3.5 text-right"><button onclick="quickSelect('USDT', 1)" class="text-xs bg-amber-500/10 text-amber-400 border border-amber-500/30 px-3 py-1 rounded-lg hover:bg-amber-500 hover:text-slate-950 font-semibold transition-all">ვაჭრობა</button></td>
+                                <td class="py-3.5 text-right"><button onclick="quickSelect('USDT', 1)" class="text-xs bg-[#FCD535]/10 text-[#FCD535] border border-[#FCD535]/30 px-3 py-1 rounded-lg hover:bg-[#FCD535] hover:text-slate-950 font-semibold transition-all">ვაჭრობა</button></td>
                             </tr>
                         </tbody>
                     </table>
@@ -127,13 +127,13 @@
         <div class="space-y-6">
             <!-- Total Balance Card -->
             <div class="bg-gradient-to-br from-[#12161c] to-[#181d26] border border-[#1e2329] rounded-2xl p-6 shadow-xl relative overflow-hidden">
-                <div class="absolute -right-6 -bottom-6 w-32 h-32 bg-amber-500/5 rounded-full blur-2xl"></div>
-                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">სულ ბალანსი (Total Balance)</p>
+                <div class="absolute -right-6 -bottom-6 w-32 h-32 bg-[#FCD535]/5 rounded-full blur-2xl"></div>
+                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">ჯამური ბალანსი (Total Balance)</p>
                 <h2 id="totalBalanceDisplay" class="text-3xl font-black text-white tracking-tight mb-4">$12,450.00</h2>
                 <div class="grid grid-cols-2 gap-3 pt-3 border-t border-[#1e2329]">
                     <div>
                         <span class="text-[11px] text-slate-400 block">ხელმისაწვდომი</span>
-                        <span class="text-sm font-bold text-amber-400">$10,200.00</span>
+                        <span class="text-sm font-bold text-[#FCD535]">$10,200.00</span>
                     </div>
                     <div>
                         <span class="text-[11px] text-slate-400 block">ორდერებში</span>
@@ -145,14 +145,14 @@
             <!-- Deposit / Withdraw Action Box -->
             <div class="bg-[#12161c] border border-[#1e2329] rounded-2xl p-5 shadow-xl">
                 <div class="flex bg-[#0b0e14] p-1 rounded-xl border border-[#1e2329] mb-5">
-                    <button onclick="setTab('deposit')" id="depBtn" class="flex-1 py-2 text-xs font-bold rounded-lg bg-amber-500 text-slate-950 transition-all shadow-md">შეტანა (Deposit)</button>
+                    <button onclick="setTab('deposit')" id="depBtn" class="flex-1 py-2 text-xs font-bold rounded-lg bg-[#FCD535] text-slate-950 transition-all shadow-md">შეტანა (Deposit)</button>
                     <button onclick="setTab('withdraw')" id="witBtn" class="flex-1 py-2 text-xs font-bold rounded-lg text-slate-400 hover:text-white transition-all">გატანა (Withdraw)</button>
                 </div>
 
                 <form onsubmit="executeAction(event)" class="space-y-4">
                     <div>
                         <label class="block text-xs font-medium text-slate-400 mb-1.5">ვალუტა</label>
-                        <select id="assetSelect" class="w-full bg-[#0b0e14] border border-[#1e2329] rounded-xl px-3 py-2.5 text-sm text-white font-medium focus:outline-none focus:border-amber-500">
+                        <select id="assetSelect" class="w-full bg-[#0b0e14] border border-[#1e2329] rounded-xl px-3 py-2.5 text-sm text-white font-medium focus:outline-none focus:border-[#FCD535]">
                             <option value="USDT">USDT (Tether)</option>
                             <option value="BTC">BTC (Bitcoin)</option>
                             <option value="ETH">Ethereum (ETH)</option>
@@ -162,11 +162,11 @@
                     <div>
                         <label class="block text-xs font-medium text-slate-400 mb-1.5">თანხის ოდენობა</label>
                         <div class="relative">
-                            <input type="number" step="any" id="sumInput" placeholder="0.00" class="w-full bg-[#0b0e14] border border-[#1e2329] rounded-xl px-3 py-2.5 text-sm text-white font-bold focus:outline-none focus:border-amber-500" required>
+                            <input type="number" step="any" id="sumInput" placeholder="0.00" class="w-full bg-[#0b0e14] border border-[#1e2329] rounded-xl px-3 py-2.5 text-sm text-white font-bold focus:outline-none focus:border-[#FCD535]" required>
                             <span id="inputBadge" class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 font-bold">USDT</span>
                         </div>
                     </div>
-                    <button type="submit" id="actionSubmitBtn" class="w-full py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-sm shadow-lg shadow-amber-500/20 transition-all">
+                    <button type="submit" id="actionSubmitBtn" class="w-full py-3 rounded-xl bg-[#FCD535] hover:bg-[#f0c929] text-slate-950 font-bold text-sm shadow-lg shadow-[#FCD535]/20 transition-all">
                         თანხის შეტანა
                     </button>
                 </form>
@@ -176,7 +176,7 @@
 
     <!-- Footer -->
     <footer class="border-t border-[#1e2329] bg-[#12161c] py-4 text-center text-xs text-slate-500">
-        &copy; 2026 NEXUS PRO Exchange. ყველა უფლება დაცულია.
+        &copy; 2026 Binance Proxy Exchange. ყველა უფლება დაცულია.
     </footer>
 
     <!-- JavaScript Engine -->
@@ -198,10 +198,10 @@
             const subBtn = document.getElementById('actionSubmitBtn');
 
             if (mode === 'deposit') {
-                depBtn.className = "flex-1 py-2 text-xs font-bold rounded-lg bg-amber-500 text-slate-950 transition-all shadow-md";
+                depBtn.className = "flex-1 py-2 text-xs font-bold rounded-lg bg-[#FCD535] text-slate-950 transition-all shadow-md";
                 witBtn.className = "flex-1 py-2 text-xs font-bold rounded-lg text-slate-400 hover:text-white transition-all";
                 subBtn.innerText = "თანხის შეტანა";
-                subBtn.className = "w-full py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-sm shadow-lg shadow-amber-500/20 transition-all";
+                subBtn.className = "w-full py-3 rounded-xl bg-[#FCD535] hover:bg-[#f0c929] text-slate-950 font-bold text-sm shadow-lg shadow-[#FCD535]/20 transition-all";
             } else {
                 witBtn.className = "flex-1 py-2 text-xs font-bold rounded-lg bg-rose-500 text-slate-950 transition-all shadow-md";
                 depBtn.className = "flex-1 py-2 text-xs font-bold rounded-lg text-slate-400 hover:text-white transition-all";
@@ -259,4 +259,3 @@
     </script>
 </body>
 </html>
-
