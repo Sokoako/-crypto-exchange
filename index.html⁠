@@ -3,197 +3,257 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEXUS PAY - Crypto Platform</title>
-    <!-- Tailwind CSS CDN -->
+    <title>NEXUS PRO - Advanced Crypto Exchange</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
-            background-color: #07090e;
-            color: #f3f4f6;
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #0b0e14;
+            color: #eaecef;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        /* Custom scrollbar for professional look */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0b0e14;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e2329;
+            border-radius: 3px;
         }
     </style>
 </head>
-<body class="min-h-screen p-4 md:p-8">
+<body class="min-h-screen flex flex-col justify-between">
 
     <!-- Top Navigation -->
-    <header class="max-w-6xl mx-auto flex justify-between items-center mb-10 border-b border-slate-800/60 pb-4">
-        <div class="flex items-center gap-3">
-            <div class="bg-gradient-to-tr from-emerald-500 to-cyan-500 p-2.5 rounded-xl shadow-lg shadow-emerald-500/20">
-                <svg class="w-6 h-6 text-slate-950" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+    <header class="border-b border-[#1e2329] bg-[#12161c]/80 backdrop-blur-md sticky top-0 z-50 px-4 lg:px-8 py-3.5 flex justify-between items-center">
+        <div class="flex items-center gap-6">
+            <div class="flex items-center gap-2.5">
+                <div class="bg-amber-500 p-2 rounded-lg text-slate-950 font-black text-lg shadow-lg shadow-amber-500/20">NX</div>
+                <span class="font-bold text-xl tracking-wider text-white">NEXUS<span class="text-amber-500">PRO</span></span>
             </div>
-            <span class="font-extrabold text-xl tracking-wider bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
-                NEXUS PAY
-            </span>
+            <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-slate-400">
+                <a href="#" class="text-white hover:text-amber-500 transition-colors">ბირჟა (Markets)</a>
+                <a href="#" class="hover:text-amber-500 transition-colors">ვაჭრობა (Trade)</a>
+                <a href="#" class="hover:text-amber-500 transition-colors">საფულე (Wallet)</a>
+            </nav>
         </div>
-        <div class="flex items-center gap-2 bg-slate-900/80 border border-slate-800 px-4 py-2 rounded-full text-sm">
-            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-            <span class="text-slate-400">Network:</span>
-            <span class="font-medium text-emerald-400">Mainnet Secure</span>
+        <div class="flex items-center gap-3">
+            <div class="bg-[#1e2329] px-3.5 py-1.5 rounded-full text-xs font-semibold text-amber-400 border border-amber-500/20 flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+                LIVE FEED
+            </div>
         </div>
     </header>
 
-    <main class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <!-- Balance Card & Quick Stats -->
-        <div class="lg:col-span-1 space-y-6">
-            <div class="relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-900/90 to-slate-950 border border-slate-800/80 rounded-3xl p-6 shadow-2xl">
-                <div class="absolute top-0 right-0 -mt-4 -mr-4 w-32 h-32 bg-emerald-500/10 rounded-full blur-3xl"></div>
-                <p class="text-sm font-medium text-slate-400 mb-1">ჯამური ბალანსი</p>
-                <h2 id="totalBalance" class="text-4xl font-black tracking-tight text-white mb-6">$5,432.50</h2>
-                <div class="grid grid-cols-2 gap-3">
-                    <div class="bg-slate-800/40 border border-slate-700/50 p-3 rounded-2xl">
-                        <span class="text-xs text-slate-400 block mb-1">აქტიური აქტივი</span>
-                        <span class="text-lg font-bold text-emerald-400">94.2%</span>
-                    </div>
-                    <div class="bg-slate-800/40 border border-slate-700/50 p-3 rounded-2xl">
-                        <span class="text-xs text-slate-400 block mb-1">უსაფრთხოება</span>
-                        <span class="text-lg font-bold text-cyan-400 flex items-center gap-1">100%</span>
-                    </div>
+    <!-- Main Content Grid -->
+    <main class="max-w-7xl w-full mx-auto p-4 lg:p-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        {/* Left Column: Markets & Prices */}
+        <div class="lg:col-span-2 space-y-6">
+            <div class="bg-[#12161c] border border-[#1e2329] rounded-2xl p-5 shadow-xl">
+                <h2 class="text-base font-bold text-white mb-4 flex items-center justify-between">
+                    <span>ბაზრის მიმოხილვა (Market Trends)</span>
+                    <span class="text-xs text-slate-400 font-normal">Real-time Data</span>
+                </h2>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm">
+                        <thead>
+                            <tr class="border-b border-[#1e2329] text-slate-400 text-xs">
+                                <th class="pb-3 font-semibold">აქტივი</th>
+                                <th class="pb-3 font-semibold">ფასი</th>
+                                <th class="pb-3 font-semibold">24სთ ცვლილება</th>
+                                <th class="pb-3 font-semibold text-right">მოქმედება</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-[#1e2329]/50">
+                            <tr class="hover:bg-[#1e2329]/30 transition-colors">
+                                <td class="py-3.5 font-bold text-white flex items-center gap-2">🪙 BTC / USDT</td>
+                                <td class="py-3.5 font-semibold text-white">$68,420.50</td>
+                                <td class="py-3.5 font-semibold text-emerald-400">+3.45%</td>
+                                <td class="py-3.5 text-right"><button onclick="quickSelect('BTC', 68420)" class="text-xs bg-amber-500/10 text-amber-400 border border-amber-500/30 px-3 py-1 rounded-lg hover:bg-amber-500 hover:text-slate-950 font-semibold transition-all">ვაჭრობა</button></td>
+                            </tr>
+                            <tr class="hover:bg-[#1e2329]/30 transition-colors">
+                                <td class="py-3.5 font-bold text-white flex items-center gap-2">Ξ ETH / USDT</td>
+                                <td class="py-3.5 font-semibold text-white">$3,540.10</td>
+                                <td class="py-3.5 font-semibold text-emerald-400">+1.82%</td>
+                                <td class="py-3.5 text-right"><button onclick="quickSelect('ETH', 3540)" class="text-xs bg-amber-500/10 text-amber-400 border border-amber-500/30 px-3 py-1 rounded-lg hover:bg-amber-500 hover:text-slate-950 font-semibold transition-all">ვაჭრობა</button></td>
+                            </tr>
+                            <tr class="hover:bg-[#1e2329]/30 transition-colors">
+                                <td class="py-3.5 font-bold text-white flex items-center gap-2">🟣 SOL / USDT</td>
+                                <td class="py-3.5 font-semibold text-white">$148.80</td>
+                                <td class="py-3.5 font-semibold text-rose-400">-0.95%</td>
+                                <td class="py-3.5 text-right"><button onclick="quickSelect('SOL', 148)" class="text-xs bg-amber-500/10 text-amber-400 border border-amber-500/30 px-3 py-1 rounded-lg hover:bg-amber-500 hover:text-slate-950 font-semibold transition-all">ვაჭრობა</button></td>
+                            </tr>
+                            <tr class="hover:bg-[#1e2329]/30 transition-colors">
+                                <td class="py-3.5 font-bold text-white flex items-center gap-2">💵 USDT / USD</td>
+                                <td class="py-3.5 font-semibold text-white">$1.00</td>
+                                <td class="py-3.5 font-semibold text-slate-400">0.00%</td>
+                                <td class="py-3.5 text-right"><button onclick="quickSelect('USDT', 1)" class="text-xs bg-amber-500/10 text-amber-400 border border-amber-500/30 px-3 py-1 rounded-lg hover:bg-amber-500 hover:text-slate-950 font-semibold transition-all">ვაჭრობა</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            {/* Transaction History Section */}
+            <div class="bg-[#12161c] border border-[#1e2329] rounded-2xl p-5 shadow-xl">
+                <h3 class="text-base font-bold text-white mb-4">ტრანზაქციების ისტორია</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm">
+                        <thead>
+                            <tr class="border-b border-[#1e2329] text-slate-400 text-xs">
+                                <th class="pb-3 font-semibold">ოპერაცია</th>
+                                <th class="pb-3 font-semibold">ოდენობა</th>
+                                <th class="pb-3 font-semibold">თარიღი</th>
+                                <th class="pb-3 font-semibold">სტატუსი</th>
+                            </tr>
+                        </thead>
+                        <tbody id="historyTableBody" class="divide-y divide-[#1e2329]/50">
+                            <tr>
+                                <td class="py-3 font-medium text-emerald-400">Deposit (USDT)</td>
+                                <td class="py-3 font-bold text-white">+1,250.00 USDT</td>
+                                <td class="py-3 text-slate-400 text-xs">2026-06-08 12:45</td>
+                                <td class="py-3"><span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs px-2.5 py-0.5 rounded-full">Completed</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
 
-        <!-- Deposit & Withdrawal Interface -->
-        <div class="lg:col-span-2 bg-slate-900/60 backdrop-blur-xl border border-slate-800/80 rounded-3xl p-6 md:p-8 shadow-2xl flex flex-col justify-between">
-            <div>
-                <div class="flex bg-slate-950/60 p-1.5 rounded-2xl border border-slate-800 mb-6">
-                    <button onclick="switchTab('deposit')" id="depositTabBtn" class="flex-1 py-3 rounded-xl font-semibold text-sm transition-all duration-300 bg-emerald-500 text-slate-950 shadow-lg shadow-emerald-500/20">
-                        თანხის შეტანა
-                    </button>
-                    <button onclick="switchTab('withdraw')" id="withdrawTabBtn" class="flex-1 py-3 rounded-xl font-semibold text-sm transition-all duration-300 text-slate-400 hover:text-white">
-                        თანხის გატანა
-                    </button>
+        {/* Right Column: Wallet Balance & Deposit/Withdraw Panel */}
+        <div class="space-y-6">
+            {/* Total Balance Card */}
+            <div class="bg-gradient-to-br from-[#12161c] to-[#181d26] border border-[#1e2329] rounded-2xl p-6 shadow-xl relative overflow-hidden">
+                <div class="absolute -right-6 -bottom-6 w-32 h-32 bg-amber-500/5 rounded-full blur-2xl"></div>
+                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">სულ ბალანსი (Total Balance)</p>
+                <h2 id="totalBalanceDisplay" class="text-3xl font-black text-white tracking-tight mb-4">$12,450.00</h2>
+                <div class="grid grid-cols-2 gap-3 pt-3 border-t border-[#1e2329]">
+                    <div>
+                        <span class="text-[11px] text-slate-400 block">ხელმისაწვდომი</span>
+                        <span class="text-sm font-bold text-amber-400">$10,200.00</span>
+                    </div>
+                    <div>
+                        <span class="text-[11px] text-slate-400 block">ორდერებში</span>
+                        <span class="text-sm font-bold text-slate-300">$2,250.00</span>
+                    </div>
+                </div>
+            </div>
+
+            {/* Deposit / Withdraw Action Box */}
+            <div class="bg-[#12161c] border border-[#1e2329] rounded-2xl p-5 shadow-xl">
+                <div class="flex bg-[#0b0e14] p-1 rounded-xl border border-[#1e2329] mb-5">
+                    <button onclick="setTab('deposit')" id="depBtn" class="flex-1 py-2 text-xs font-bold rounded-lg bg-amber-500 text-slate-950 transition-all shadow-md">შეტანა (Deposit)</button>
+                    <button onclick="setTab('withdraw')" id="witBtn" class="flex-1 py-2 text-xs font-bold rounded-lg text-slate-400 hover:text-white transition-all">გატანა (Withdraw)</button>
                 </div>
 
-                <form id="transactionForm" onsubmit="handleTransaction(event)" class="space-y-5">
+                <form onsubmit="executeAction(event)" class="space-y-4">
                     <div>
-                        <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">აირჩიეთ ვალუტა</label>
-                        <select id="currencySelect" class="w-full bg-slate-950 border border-slate-800 rounded-2xl px-4 py-3.5 text-white font-medium focus:outline-none focus:border-emerald-500 transition-colors">
+                        <label class="block text-xs font-medium text-slate-400 mb-1.5">ვალუტა</label>
+                        <select id="assetSelect" class="w-full bg-[#0b0e14] border border-[#1e2329] rounded-xl px-3 py-2.5 text-sm text-white font-medium focus:outline-none focus:border-amber-500">
                             <option value="USDT">USDT (Tether)</option>
                             <option value="BTC">BTC (Bitcoin)</option>
-                            <option value="ETH">ETH (Ethereum)</option>
-                            <option value="SOL">SOL (Solana)</option>
+                            <option value="ETH">Ethereum (ETH)</option>
+                            <option value="SOL">Solana (SOL)</option>
                         </select>
                     </div>
-
                     <div>
-                        <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">თანხის ოდენობა</label>
+                        <label class="block text-xs font-medium text-slate-400 mb-1.5">თანხის ოდენობა</label>
                         <div class="relative">
-                            <input type="number" step="any" id="amountInput" placeholder="0.00" class="w-full bg-slate-950 border border-slate-800 rounded-2xl pl-4 pr-20 py-3.5 text-white font-bold text-lg focus:outline-none focus:border-emerald-500 transition-colors" required>
-                            <div id="currencyBadge" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 font-semibold bg-slate-900 px-3 py-1 rounded-xl text-sm border border-slate-800">
-                                USDT
-                            </div>
+                            <input type="number" step="any" id="sumInput" placeholder="0.00" class="w-full bg-[#0b0e14] border border-[#1e2329] rounded-xl px-3 py-2.5 text-sm text-white font-bold focus:outline-none focus:border-amber-500" required>
+                            <span id="inputBadge" class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 font-bold">USDT</span>
                         </div>
                     </div>
-
-                    <button type="submit" id="submitBtn" class="w-full py-4 rounded-2xl font-bold text-slate-950 tracking-wide transition-all duration-300 shadow-xl bg-gradient-to-r from-emerald-400 to-emerald-500 hover:from-emerald-300 hover:to-emerald-400 shadow-emerald-500/20">
-                        ტრანზაქციის დადასტურება (Deposit)
+                    <button type="submit" id="actionSubmitBtn" class="w-full py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-sm shadow-lg shadow-amber-500/20 transition-all">
+                        თანხის შეტანა
                     </button>
                 </form>
             </div>
         </div>
     </main>
 
-    <!-- Transaction History -->
-    <section class="max-w-6xl mx-auto mt-10 bg-slate-900/60 backdrop-blur-xl border border-slate-800/80 rounded-3xl p-6 md:p-8 shadow-2xl">
-        <h3 class="text-lg font-bold text-white mb-6 flex items-center gap-2">
-            ტრანზაქციების ისტორია
-        </h3>
-        <div class="overflow-x-auto">
-            <table class="w-full text-left border-collapse">
-                <thead>
-                    <tr class="border-b border-slate-800 text-slate-400 text-xs uppercase tracking-wider">
-                        <th class="pb-3 font-semibold">ტიპი</th>
-                        <th class="pb-3 font-semibold">ოდენობა</th>
-                        <th class="pb-3 font-semibold">თარიღი</th>
-                        <th class="pb-3 font-semibold">სტატუსი</th>
-                    </tr>
-                </thead>
-                <tbody id="historyTableBody" class="divide-y divide-slate-800/40 text-sm">
-                    <tr class="hover:bg-slate-800/20 transition-colors">
-                        <td class="py-4 font-medium text-white">Deposit</td>
-                        <td class="py-4 font-bold text-white">+500 USDT</td>
-                        <td class="py-4 text-slate-400">2026-06-08 14:20</td>
-                        <td class="py-4"><span class="px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Completed</span></td>
-                    </tr>
-                    <tr class="hover:bg-slate-800/20 transition-colors">
-                        <td class="py-4 font-medium text-white">Withdraw</td>
-                        <td class="py-4 font-bold text-white">-120 BTC</td>
-                        <td class="py-4 text-slate-400">2026-06-07 09:15</td>
-                        <td class="py-4"><span class="px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Completed</span></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </section>
+    <!-- Footer -->
+    <footer class="border-t border-[#1e2329] bg-[#12161c] py-4 text-center text-xs text-slate-500">
+        &copy; 2026 NEXUS PRO Exchange. ყველა უფლება დაცულია.
+    </footer>
 
-    <!-- JavaScript Logic -->
+    <!-- JavaScript Engine -->
     <script>
-        let balance = 5432.50;
-        let currentTab = 'deposit';
+        let balance = 12450.00;
+        let currentMode = 'deposit';
 
-        const currencySelect = document.getElementById('currencySelect');
-        const currencyBadge = document.getElementById('currencyBadge');
+        const assetSelect = document.getElementById('assetSelect');
+        const inputBadge = document.getElementById('inputBadge');
 
-        currencySelect.addEventListener('change', (e) => {
-            currencyBadge.innerText = e.target.value;
+        assetSelect.addEventListener('change', (e) => {
+            inputBadge.innerText = e.target.value;
         });
 
-        function switchTab(tab) {
-            currentTab = tab;
-            const depositBtn = document.getElementById('depositTabBtn');
-            const withdrawBtn = document.getElementById('withdrawTabBtn');
-            const submitBtn = document.getElementById('submitBtn');
+        function setTab(mode) {
+            currentMode = mode;
+            const depBtn = document.getElementById('depBtn');
+            const witBtn = document.getElementById('witBtn');
+            const subBtn = document.getElementById('actionSubmitBtn');
 
-            if (tab === 'deposit') {
-                depositBtn.className = "flex-1 py-3 rounded-xl font-semibold text-sm transition-all duration-300 bg-emerald-500 text-slate-950 shadow-lg shadow-emerald-500/20";
-                withdrawBtn.className = "flex-1 py-3 rounded-xl font-semibold text-sm transition-all duration-300 text-slate-400 hover:text-white";
-                submitBtn.className = "w-full py-4 rounded-2xl font-bold text-slate-950 tracking-wide transition-all duration-300 shadow-xl bg-gradient-to-r from-emerald-400 to-emerald-500 hover:from-emerald-300 hover:to-emerald-400 shadow-emerald-500/20";
-                submitBtn.innerText = "ტრანზაქციის დადასტურება (Deposit)";
+            if (mode === 'deposit') {
+                depBtn.className = "flex-1 py-2 text-xs font-bold rounded-lg bg-amber-500 text-slate-950 transition-all shadow-md";
+                witBtn.className = "flex-1 py-2 text-xs font-bold rounded-lg text-slate-400 hover:text-white transition-all";
+                subBtn.innerText = "თანხის შეტანა";
+                subBtn.className = "w-full py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-sm shadow-lg shadow-amber-500/20 transition-all";
             } else {
-                withdrawBtn.className = "flex-1 py-3 rounded-xl font-semibold text-sm transition-all duration-300 bg-cyan-500 text-slate-950 shadow-lg shadow-cyan-500/20";
-                depositBtn.className = "flex-1 py-3 rounded-xl font-semibold text-sm transition-all duration-300 text-slate-400 hover:text-white";
-                submitBtn.className = "w-full py-4 rounded-2xl font-bold text-slate-950 tracking-wide transition-all duration-300 shadow-xl bg-gradient-to-r from-cyan-400 to-cyan-500 hover:from-cyan-300 hover:to-cyan-400 shadow-cyan-500/20";
-                submitBtn.innerText = "გატანის მოთხოვნა (Withdraw)";
+                witBtn.className = "flex-1 py-2 text-xs font-bold rounded-lg bg-rose-500 text-slate-950 transition-all shadow-md";
+                depBtn.className = "flex-1 py-2 text-xs font-bold rounded-lg text-slate-400 hover:text-white transition-all";
+                subBtn.innerText = "გატანის მოთხოვნა";
+                subBtn.className = "w-full py-3 rounded-xl bg-rose-500 hover:bg-rose-400 text-slate-950 font-bold text-sm shadow-lg shadow-rose-500/20 transition-all";
             }
         }
 
-        function handleTransaction(e) {
+        function quickSelect(asset) {
+            assetSelect.value = asset;
+            inputBadge.innerText = asset;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function executeAction(e) {
             e.preventDefault();
-            const amountInput = document.getElementById('amountInput');
-            const val = parseFloat(amountInput.value);
-            const currency = currencySelect.value;
+            const sumInput = document.getElementById('sumInput');
+            const val = parseFloat(sumInput.value);
+            const asset = assetSelect.value;
 
             if (!val || val <= 0) return;
 
-            if (currentTab === 'deposit') {
+            if (currentMode === 'deposit') {
                 balance += val;
-                addHistoryRow('Deposit', `+${val} ${currency}`, 'Completed');
+                appendHistory(asset, `+${val} ${asset}`, 'Deposit', 'Completed', 'text-emerald-400');
             } else {
                 if (val > balance) {
                     alert('არასაკმარისი ბალანსი!');
                     return;
                 }
                 balance -= val;
-                addHistoryRow('Withdraw', `-${val} ${currency}`, 'Pending');
+                appendHistory(asset, `-${val} ${asset}`, 'Withdraw', 'Pending', 'text-rose-400');
             }
 
-            document.getElementById('totalBalance').innerText = '$' + balance.toLocaleString('en-US', { minimumFractionDigits: 2 });
-            amountInput.value = '';
+            document.getElementById('totalBalanceDisplay').innerText = '$' + balance.toLocaleString('en-US', { minimumFractionDigits: 2 });
+            sumInput.value = '';
         }
 
-        function addHistoryRow(type, amount, status) {
+        function appendHistory(asset, amountStr, type, status, colorClass) {
             const tbody = document.getElementById('historyTableBody');
-            const dateStr = new Date().toISOString().slice(0, 19).replace('T', ' ');
-            const statusClass = status === 'Completed' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-amber-500/10 text-amber-400 border border-amber-500/20';
+            const now = new Date().toISOString().slice(0, 19).replace('T', ' ');
+            const statusBadge = status === 'Completed' 
+                ? '<span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs px-2.5 py-0.5 rounded-full">Completed</span>'
+                : '<span class="bg-amber-500/10 text-amber-400 border border-amber-500/20 text-xs px-2.5 py-0.5 rounded-full">Pending</span>';
 
             const row = document.createElement('tr');
-            row.className = "hover:bg-slate-800/20 transition-colors";
             row.innerHTML = `
-                <td class="py-4 font-medium text-white">${type}</td>
-                <td class="py-4 font-bold text-white">${amount}</td>
-                <td class="py-4 text-slate-400">${dateStr}</td>
-                <td class="py-4"><span class="px-3 py-1 rounded-full text-xs font-semibold ${statusClass}">${status}</span></td>
+                <td class="py-3 font-medium ${colorClass}">${type} (${asset})</td>
+                <td class="py-3 font-bold text-white">${amountStr}</td>
+                <td class="py-3 text-slate-400 text-xs">${now}</td>
+                <td class="py-3">${statusBadge}</td>
             `;
             tbody.prepend(row);
         }
