@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Binance - Live Crypto Trading Platform</title>
+    <title>NEXUS BOXES - Mystery Box Game</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
@@ -11,332 +11,202 @@
             color: #eaecef;
             font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
-        ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0b0e14;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #1e2329;
-            border-radius: 3px;
+        @keyframes pulse-box {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+        .box-anim {
+            animation: pulse-box 2s infinite ease-in-out;
         }
     </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between">
 
-    <!-- Top Navigation -->
-    <header class="border-b border-[#1e2329] bg-[#12161c]/90 backdrop-blur-md sticky top-0 z-50 px-4 lg:px-8 py-3.5 flex justify-between items-center">
-        <div class="flex items-center gap-6">
-            <div class="flex items-center gap-2.5">
-                <div class="bg-[#FCD535] p-2 rounded-lg text-slate-950 font-black text-lg shadow-lg shadow-[#FCD535]/20">BN</div>
-                <span class="font-bold text-xl tracking-wider text-white">BINANCE<span class="text-[#FCD535]"> PRO</span></span>
-            </div>
-            <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-slate-400">
-                <a href="#" class="text-white hover:text-[#FCD535] transition-colors">ბირჟა (Markets)</a>
-                <a href="#" class="hover:text-[#FCD535] transition-colors">ვაჭრობა (Trade)</a>
-                <a href="#" class="hover:text-[#FCD535] transition-colors">საფულე (Wallet)</a>
-            </nav>
+    <!-- Header -->
+    <header class="border-b border-[#1e2329] bg-[#12161c]/90 backdrop-blur-md sticky top-0 z-50 px-6 py-4 flex justify-between items-center">
+        <div class="flex items-center gap-2.5">
+            <div class="bg-amber-500 p-2 rounded-lg text-slate-950 font-black text-lg shadow-lg shadow-amber-500/20">NX</div>
+            <span class="font-bold text-xl tracking-wider text-white">MYSTERY<span class="text-amber-500">BOX</span></span>
         </div>
-        <div class="flex items-center gap-3">
-            <div class="bg-[#1e2329] px-3.5 py-1.5 rounded-full text-xs font-semibold text-[#FCD535] border border-[#FCD535]/20 flex items-center gap-2">
-                <span class="w-2 h-2 rounded-full bg-[#FCD535] animate-pulse"></span>
-                ONLINE
-            </div>
+        <div class="bg-[#1e2329] border border-[#2d3748] px-4 py-2 rounded-xl flex items-center gap-3">
+            <span class="text-xs text-slate-400">ბალანსი:</span>
+            <span id="userBalance" class="text-base font-black text-amber-400">$100.00</span>
+            <button onclick="addDemoMoney()" class="bg-amber-500/10 hover:bg-amber-500 hover:text-slate-950 text-amber-400 border border-amber-500/30 text-xs px-2.5 py-1 rounded-lg font-bold transition-all">+ $50</button>
         </div>
     </header>
 
-    <!-- Main Content Grid -->
-    <main class="max-w-7xl w-full mx-auto p-4 lg:p-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <!-- Main Content -->
+    <main class="max-w-5xl w-full mx-auto p-4 md:p-8 space-y-8">
         
-        <!-- Left Column: Markets & Prices -->
-        <div class="lg:col-span-2 space-y-6">
-            <div class="bg-[#12161c] border border-[#1e2329] rounded-2xl p-5 shadow-xl">
-                <h2 class="text-base font-bold text-white mb-4 flex items-center justify-between">
-                    <span>მარკეტები (Markets)</span>
-                    <span class="text-xs text-slate-400 font-normal">Real-time Data</span>
-                </h2>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-sm">
-                        <thead>
-                            <tr class="border-b border-[#1e2329] text-slate-400 text-xs">
-                                <th class="pb-3 font-semibold">აქტივი</th>
-                                <th class="pb-3 font-semibold">ფასი</th>
-                                <th class="pb-3 font-semibold">24სთ ცვლილება</th>
-                                <th class="pb-3 font-semibold text-right">მოქმედება</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-[#1e2329]/50">
-                            <tr class="hover:bg-[#1e2329]/30 transition-colors">
-                                <td class="py-3.5 font-bold text-white flex items-center gap-2">🪙 BTC / USDT</td>
-                                <td class="py-3.5 font-semibold text-white">$68,420.50</td>
-                                <td class="py-3.5 font-semibold text-emerald-400">+3.45%</td>
-                                <td class="py-3.5 text-right"><button onclick="quickSelect('BTC', 68420)" class="text-xs bg-[#FCD535]/10 text-[#FCD535] border border-[#FCD535]/30 px-3 py-1 rounded-lg hover:bg-[#FCD535] hover:text-slate-950 font-semibold transition-all">ვაჭრობა</button></td>
-                            </tr>
-                            <tr class="hover:bg-[#1e2329]/30 transition-colors">
-                                <td class="py-3.5 font-bold text-white flex items-center gap-2">Ξ ETH / USDT</td>
-                                <td class="py-3.5 font-semibold text-white">$3,540.10</td>
-                                <td class="py-3.5 font-semibold text-emerald-400">+1.82%</td>
-                                <td class="py-3.5 text-right"><button onclick="quickSelect('ETH', 3540)" class="text-xs bg-[#FCD535]/10 text-[#FCD535] border border-[#FCD535]/30 px-3 py-1 rounded-lg hover:bg-[#FCD535] hover:text-slate-950 font-semibold transition-all">ვაჭრობა</button></td>
-                            </tr>
-                            <tr class="hover:bg-[#1e2329]/30 transition-colors">
-                                <td class="py-3.5 font-bold text-white flex items-center gap-2">🟣 SOL / USDT</td>
-                                <td class="py-3.5 font-semibold text-white">$148.80</td>
-                                <td class="py-3.5 font-semibold text-rose-400">-0.95%</td>
-                                <td class="py-3.5 text-right"><button onclick="quickSelect('SOL', 148)" class="text-xs bg-[#FCD535]/10 text-[#FCD535] border border-[#FCD535]/30 px-3 py-1 rounded-lg hover:bg-[#FCD535] hover:text-slate-950 font-semibold transition-all">ვაჭრობა</button></td>
-                            </tr>
-                            <tr class="hover:bg-[#1e2329]/30 transition-colors">
-                                <td class="py-3.5 font-bold text-white flex items-center gap-2">💵 USDT / USD</td>
-                                <td class="py-3.5 font-semibold text-white">$1.00</td>
-                                <td class="py-3.5 font-semibold text-slate-400">0.00%</td>
-                                <td class="py-3.5 text-right"><button onclick="quickSelect('USDT', 1)" class="text-xs bg-[#FCD535]/10 text-[#FCD535] border border-[#FCD535]/30 px-3 py-1 rounded-lg hover:bg-[#FCD535] hover:text-slate-950 font-semibold transition-all">ვაჭრობა</button></td>
-                            </tr>
-                        </tbody>
-                    </table>
+        <!-- Box Selection -->
+        <div>
+            აირჩიე ყუთი:
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Bronze Box -->
+                <div onclick="selectBox('bronze', 10, 'ბრინჯაოს ყუთი')" id="card-bronze" class="cursor-pointer bg-[#12161c] border-2 border-[#1e2329] hover:border-amber-500/50 rounded-2xl p-6 text-center transition-all shadow-xl group">
+                    <div class="text-4xl mb-3 box-anim">🥉</div>
+                    <h3 class="font-bold text-white text-lg mb-1">ბრინჯაოს ყუთი</h3>
+                    <p class="text-xs text-slate-400 mb-4">შანსი: მოიგე $5-მდე ან წააგე</p>
+                    <div class="text-amber-400 font-black text-xl mb-4">$10.00</div>
+                    <span class="inline-block w-full py-2.5 rounded-xl bg-[#1e2329] group-hover:bg-amber-500 group-hover:text-slate-950 font-bold text-xs transition-all">არჩევა</span>
                 </div>
-            </div>
 
-            <!-- Transaction History Section -->
-            <div class="bg-[#12161c] border border-[#1e2329] rounded-2xl p-5 shadow-xl">
-                <h3 class="text-base font-bold text-white mb-4">ტრანზაქციების ისტორია</h3>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-sm">
-                        <thead>
-                            <tr class="border-b border-[#1e2329] text-slate-400 text-xs">
-                                <th class="pb-3 font-semibold">ოპერაცია</th>
-                                <th class="pb-3 font-semibold">ოდენობა</th>
-                                <th class="pb-3 font-semibold">თარიღი</th>
-                                <th class="pb-3 font-semibold">სტატუსი</th>
-                            </tr>
-                        </thead>
-                        <tbody id="historyTableBody" class="divide-y divide-[#1e2329]/50">
-                            <tr>
-                                <td class="py-3 font-medium text-emerald-400">Deposit (USDT)</td>
-                                <td class="py-3 font-bold text-white">+1,250.00 USDT</td>
-                                <td class="py-3 text-slate-400 text-xs">2026-06-08 12:45</td>
-                                <td class="py-3"><span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs px-2.5 py-0.5 rounded-full">Completed</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <!-- Silver Box -->
+                <div onclick="selectBox('silver', 25, 'ვერცხლის ყუთი')" id="card-silver" class="cursor-pointer bg-[#12161c] border-2 border-amber-500 rounded-2xl p-6 text-center transition-all shadow-xl group relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-amber-500 text-slate-950 text-[10px] font-bold px-3 py-1 rounded-bl-xl">პოპულარული</div>
+                    <div class="text-4xl mb-3 box-anim">🥈</div>
+                    <h3 class="font-bold text-white text-lg mb-1">ვერცხლის ყუთი</h3>
+                    <p class="text-xs text-slate-400 mb-4">შანსი: მოიგე $60-მდე</p>
+                    <div class="text-amber-400 font-black text-xl mb-4">$25.00</div>
+                    <span class="inline-block w-full py-2.5 rounded-xl bg-amber-500 text-slate-950 font-bold text-xs transition-all">არჩევა</span>
+                </div>
+
+                <!-- Gold Box -->
+                <div onclick="selectBox('gold', 75, 'ოქროს ყუთი')" id="card-gold" class="cursor-pointer bg-[#12161c] border-2 border-[#1e2329] hover:border-amber-500/50 rounded-2xl p-6 text-center transition-all shadow-xl group">
+                    <div class="text-4xl mb-3 box-anim">🥇</div>
+                    <h3 class="font-bold text-white text-lg mb-1">ოქროს ყუთი</h3>
+                    <p class="text-xs text-slate-400 mb-4">შანსი: მოიგე $200-მდე</p>
+                    <div class="text-amber-400 font-black text-xl mb-4">$75.00</div>
+                    <span class="inline-block w-full py-2.5 rounded-xl bg-[#1e2329] group-hover:bg-amber-500 group-hover:text-slate-950 font-bold text-xs transition-all">არჩევა</span>
                 </div>
             </div>
         </div>
 
-        <!-- Right Column: Wallet Balance & Deposit/Withdraw Panel -->
-        <div class="space-y-6">
-            <!-- Total Balance Card -->
-            <div class="bg-gradient-to-br from-[#12161c] to-[#181d26] border border-[#1e2329] rounded-2xl p-6 shadow-xl relative overflow-hidden">
-                <div class="absolute -right-6 -bottom-6 w-32 h-32 bg-[#FCD535]/5 rounded-full blur-2xl"></div>
-                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">ჯამური ბალანსი (Total Balance)</p>
-                <h2 id="totalBalanceDisplay" class="text-3xl font-black text-white tracking-tight mb-4">$12,450.00</h2>
-                <div class="grid grid-cols-2 gap-3 pt-3 border-t border-[#1e2329]">
-                    <div>
-                        <span class="text-[11px] text-slate-400 block">ხელმისაწვდომი</span>
-                        <span class="text-sm font-bold text-[#FCD535]">$10,200.00</span>
-                    </div>
-                    <div>
-                        <span class="text-[11px] text-slate-400 block">ორდერებში</span>
-                        <span class="text-sm font-bold text-slate-300">$2,250.00</span>
-                    </div>
-                </div>
+        <!-- Opening Arena / Result Box -->
+        <div class="bg-[#12161c] border border-[#1e2329] rounded-2xl p-8 text-center shadow-xl relative">
+            <div id="selectedBoxInfo" class="text-sm text-slate-400 mb-2">არჩეულია: <strong class="text-white">ვერცხლის ყუთი ($25.00)</strong></div>
+            
+            <div id="resultDisplay" class="py-8 text-3xl font-black text-white min-h-[120px] flex items-center justify-center">
+                🎁 მზად არის გასახსნელად!
             </div>
 
-            <!-- Deposit / Withdraw Action Box -->
-            <div class="bg-[#12161c] border border-[#1e2329] rounded-2xl p-5 shadow-xl">
-                <div class="flex bg-[#0b0e14] p-1 rounded-xl border border-[#1e2329] mb-5">
-                    <button onclick="setTab('deposit')" id="depBtn" class="flex-1 py-2 text-xs font-bold rounded-lg bg-[#FCD535] text-slate-950 transition-all shadow-md">შეტანა (Deposit)</button>
-                    <button onclick="setTab('withdraw')" id="witBtn" class="flex-1 py-2 text-xs font-bold rounded-lg text-slate-400 hover:text-white transition-all">გატანა (Withdraw)</button>
-                </div>
+            <button onclick="openBox()" id="openBtn" class="w-full md:w-auto px-12 py-4 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-base shadow-lg shadow-amber-500/20 transition-all">
+                ყუთის გახსნა ($25)
+            </button>
+        </div>
 
-                <form onsubmit="executeAction(event)" class="space-y-4">
-                    <div>
-                        <label class="block text-xs font-medium text-slate-400 mb-1.5">ვალუტა</label>
-                        <select id="assetSelect" class="w-full bg-[#0b0e14] border border-[#1e2329] rounded-xl px-3 py-2.5 text-sm text-white font-medium focus:outline-none focus:border-[#FCD535]">
-                            <option value="USDT">USDT (Tether)</option>
-                            <option value="BTC">BTC (Bitcoin)</option>
-                            <option value="ETH">Ethereum (ETH)</option>
-                            <option value="SOL">Solana (SOL)</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-medium text-slate-400 mb-1.5">თანხის ოდენობა</label>
-                        <div class="relative">
-                            <input type="number" step="any" id="sumInput" placeholder="0.00" class="w-full bg-[#0b0e14] border border-[#1e2329] rounded-xl px-3 py-2.5 text-sm text-white font-bold focus:outline-none focus:border-[#FCD535]" required>
-                            <span id="inputBadge" class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 font-bold">USDT</span>
-                        </div>
-                    </div>
-                    <button type="submit" id="actionSubmitBtn" class="w-full py-3 rounded-xl bg-[#FCD535] hover:bg-[#f0c929] text-slate-950 font-bold text-sm shadow-lg shadow-[#FCD535]/20 transition-all">
-                        თანხის შეტანა
-                    </button>
-                </form>
+        <!-- History Section -->
+        <div class="bg-[#12161c] border border-[#1e2329] rounded-2xl p-6 shadow-xl">
+            <h3 class="text-sm font-bold text-white mb-4">ბოლო გახსნები</h3>
+            <div id="historyList" class="space-y-2.5">
+                <div class="text-xs text-slate-500 text-center py-2">ჯერ ისტორია ცარიელია</div>
             </div>
         </div>
+
     </main>
 
     <!-- Footer -->
     <footer class="border-t border-[#1e2329] bg-[#12161c] py-4 text-center text-xs text-slate-500">
-        &copy; 2026 Binance Proxy Exchange. ყველა უფლება დაცულია.
+        &copy; 2026 Mystery Box Game. ყველა უფლება დაცულია.
     </footer>
 
-    <!-- JavaScript Engine -->
+    <!-- Game Logic -->
     <script>
-        let balance = 12450.00;
-        let currentMode = 'deposit';
+        let balance = 100.00;
+        let currentBox = {
+            id: 'silver',
+            price: 25.00,
+            name: 'ვერცხლის ყუთი'
+        };
 
-        const assetSelect = document.getElementById('assetSelect');
-        const inputBadge = document.getElementById('inputBadge');
-
-        assetSelect.addEventListener('change', (e) => {
-            inputBadge.innerText = e.target.value;
-        });
-
-        function setTab(mode) {
-            currentMode = mode;
-            const depBtn = document.getElementById('depBtn');
-            const witBtn = document.getElementById('witBtn');
-            const subBtn = document.getElementById('actionSubmitBtn');
-
-            if (mode === 'deposit') {
-                depBtn.className = "flex-1 py-2 text-xs font-bold rounded-lg bg-[#FCD535] text-slate-950 transition-all shadow-md";
-                witBtn.className = "flex-1 py-2 text-xs font-bold rounded-lg text-slate-400 hover:text-white transition-all";
-                subBtn.innerText = "თანხის შეტანა";
-                subBtn.className = "w-full py-3 rounded-xl bg-[#FCD535] hover:bg-[#f0c929] text-slate-950 font-bold text-sm shadow-lg shadow-[#FCD535]/20 transition-all";
-            } else {
-                witBtn.className = "flex-1 py-2 text-xs font-bold rounded-lg bg-rose-500 text-slate-950 transition-all shadow-md";
-                depBtn.className = "flex-1 py-2 text-xs font-bold rounded-lg text-slate-400 hover:text-white transition-all";
-                subBtn.innerText = "გატანის მოთხოვნა";
-                subBtn.className = "w-full py-3 rounded-xl bg-rose-500 hover:bg-rose-400 text-slate-950 font-bold text-sm shadow-lg shadow-rose-500/20 transition-all";
-            }
+        function selectBox(id, price, name) {
+            currentBox = { id, price, name };
+            document.getElementById('selectedBoxInfo').innerHTML = `არჩეულია: <strong class="text-white">${name} ($${price.toFixed(2)})</strong>`;
+            document.getElementById('openBtn').innerText = `ყუთის გახსნა ($${price})`;
         }
 
-        function quickSelect(asset) {
-            assetSelect.value = asset;
-            inputBadge.innerText = asset;
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+        function addDemoMoney() {
+            balance += 50.00;
+            updateBalance();
         }
 
-        function executeAction(e) {
-            e.preventDefault();
-            const sumInput = document.getElementById('sumInput');
-            const val = parseFloat(sumInput.value);
-            const asset = assetSelect.value;
-
-            if (!val || val <= 0) return;
-
-            if (currentMode === 'deposit') {
-                balance += val;
-                appendHistory(asset, `+${val} ${asset}`, 'Deposit', 'Completed', 'text-emerald-400');
-            } else {
-                if (val > balance) {
-                    alert('არასაკმარისი ბალანსი!');
-                    return;
-                }
-                balance -= val;
-                appendHistory(asset, `-${val} ${asset}`, 'Withdraw', 'Pending', 'text-rose-400');
-            }
-
-            document.getElementById('totalBalanceDisplay').innerText = '$' + balance.toLocaleString('en-US', { minimumFractionDigits: 2 });
-            sumInput.value = '';
+        function updateBalance() {
+            document.getElementById('userBalance').innerText = '$' + balance.toFixed(2);
         }
 
-        function appendHistory(asset, amountStr, type, status, colorClass) {
-            const tbody = document.getElementById('historyTableBody');
-            const now = new Date().toISOString().slice(0, 19).replace('T', ' ');
-            const statusBadge = status === 'Completed' 
-                ? '<span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs px-2.5 py-0.5 rounded-full">Completed</span>'
-                : '<span class="bg-amber-500/10 text-amber-400 border border-amber-500/20 text-xs px-2.5 py-0.5 rounded-full">Pending</span>';
+        function openBox() {
+            const openBtn = document.getElementById('openBtn');
+            const resultDisplay = document.getElementById('resultDisplay');
 
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td class="py-3 font-medium ${colorClass}">${type} (${asset})</td>
-                <td class="py-3 font-bold text-white">${amountStr}</td>
-                <td class="py-3 text-slate-400 text-xs">${now}</td>
-                <td class="py-3">${statusBadge}</td>
-            `;
-            tbody.prepend(row);
-        }
-    </script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="ka">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MetaMask Integration</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="min-h-screen bg-[#0b0e14] text-[#eaecef] p-6 flex flex-col items-center justify-center font-sans">
-    
-    <div class="max-w-md w-full bg-[#12161c] border border-[#1e2329] rounded-2xl p-6 shadow-2xl">
-        <div class="flex items-center justify-between mb-6">
-            <h1 class="text-xl font-bold text-white tracking-wide">WEB3 საფულე</h1>
-            <span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse"></span>
-        </div>
-
-        <div id="errorBox" class="hidden mb-4 p-3 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs font-medium"></div>
-
-        <div id="connectSection">
-            <button onclick="connectWallet()" id="connectBtn" class="w-full py-3.5 rounded-xl bg-[#FCD535] hover:bg-[#f0c929] text-slate-950 font-bold text-sm shadow-lg shadow-[#FCD535]/20 transition-all flex items-center justify-center gap-2">
-                🔗 MetaMask-ის მიერთება
-            </button>
-        </div>
-
-        <div id="walletSection" class="hidden space-y-4">
-            <div class="bg-[#0b0e14] p-3.5 rounded-xl border border-[#1e2329]">
-                <span class="text-[11px] text-slate-400 block mb-1">დაკავშირებული ანგარიში</span>
-                <p id="accountText" class="text-xs font-mono font-bold text-amber-400 break-all"></p>
-            </div>
-
-            <div class="bg-[#0b0e14] p-3.5 rounded-xl border border-[#1e2329] flex justify-between items-center">
-                <span class="text-xs text-slate-400">ETH ბალანსი:</span>
-                <span id="balanceText" class="text-sm font-bold text-white">იტვირთება...</span>
-            </div>
-
-            <button onclick="disconnectWallet()" class="w-full py-2.5 rounded-xl bg-[#1e2329] hover:bg-rose-500/10 hover:text-rose-400 text-slate-400 font-semibold text-xs transition-all border border-[#1e2329]">
-                გასვლა (Disconnect)
-            </button>
-        </div>
-    </div>
-
-    <script>
-        async function connectWallet() {
-            const errorBox = document.getElementById('errorBox');
-            errorBox.classList.add('hidden');
-
-            if (typeof window.ethereum === 'undefined') {
-                errorBox.innerText = 'MetaMask არ არის დაინსტალირებული ბრაუზერში!';
-                errorBox.classList.remove('hidden');
+            if (balance < currentBox.price) {
+                alert('არასაკმარისი ბალანსი! დაამატე ბალანსი ღილაკით "+ $50".');
                 return;
             }
 
-            try {
-                const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-                const userAccount = accounts[0];
+            // ჩამოეჭრას საფასური
+            balance -= currentBox.price;
+            updateBalance();
 
-                document.getElementById('accountText').innerText = userAccount;
-                document.getElementById('connectSection').classList.add('hidden');
-                document.getElementById('walletSection').classList.remove('hidden');
+            openBtn.disabled = true;
+            openBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            resultDisplay.innerHTML = '<span class="animate-pulse text-amber-400">იხსნება... 🎲</span>';
 
-                // ბალანსის წამოღება
-                const rawBalance = await window.ethereum.request({
-                    method: 'eth_getBalance',
-                    params: [userAccount, 'latest'],
-                });
+            setTimeout(() => {
+                let winAmount = calculateReward(currentBox.id);
+                balance += winAmount;
+                updateBalance();
 
-                const ethBalance = parseInt(rawBalance, 16) / Math.pow(10, 18);
-                document.getElementById('balanceText').innerText = ethBalance.toFixed(4) + ' ETH';
-            } catch (err) {
-                errorBox.innerText = 'კავშირი გაუქმდა ან შეცდომა მოხდა.';
-                errorBox.classList.remove('hidden');
+                if (winAmount > 0) {
+                    resultDisplay.innerHTML = `<span class="text-emerald-400">🎉 მოიგე +$${winAmount.toFixed(2)}!</span>`;
+                } else {
+                    resultDisplay.innerHTML = `<span class="text-rose-400">❌ სამწუხაროდ, ყუთი ცარიელი აღმოჩნდა.</span>`;
+                }
+
+                addHistory(currentBox.name, winAmount, currentBox.price);
+
+                openBtn.disabled = false;
+                openBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            }, 1200);
+        }
+
+        function calculateReward(boxId) {
+            const rand = Math.random() * 100; // 0-დან 100-მდე
+
+            if (boxId === 'bronze') {
+                // ფასი: $10
+                if (rand < 50) return 0;          // 50% შანსი - წაგება
+                if (rand < 85) return 5.00;       // 35% შანსი - ნახევარი თანხა ბრუნდება
+                if (rand < 97) return 15.00;      // 12% შანსი - მცირე მოგება
+                return 25.00;                     // 3% შანსი - ჯეკპოტი
+            } 
+            else if (boxId === 'silver') {
+                // ფასი: $25
+                if (rand < 45) return 0;          // 45% შანსი - წაგება
+                if (rand < 80) return 20.00;      // 35% შანსი - თითქმის იბრუნებს
+                if (rand < 96) return 45.00;      // 16% შანსი - კარგი მოგება
+                return 65.00;                     // 4% შანსი - დიდი ჯეკპოტი
+            } 
+            else {
+                // ფასი: $75 (Gold)
+                if (rand < 40) return 0;          // 40% შანსი - წაგება
+                if (rand < 75) return 60.00;      // 35% შანსი
+                if (rand < 95) return 120.00;     // 20% შანსი
+                return 200.00;                    // 5% შანსი - დიდი ჯეკპოტი
             }
         }
 
-        function disconnectWallet() {
-            document.getElementById('walletSection').classList.add('hidden');
-            document.getElementById('connectSection').classList.remove('hidden');
-            document.getElementById('balanceText').innerText = 'იტვირთება...';
+        function addHistory(boxName, win, price) {
+            const historyList = document.getElementById('historyList');
+            if (historyList.children.length === 1 && historyList.children[0].tagName === 'DIV' && historyList.children[0].classList.contains('text-center')) {
+                historyList.innerHTML = '';
+            }
+
+            const net = win - price;
+            const colorClass = net >= 0 ? 'text-emerald-400' : 'text-rose-400';
+            const sign = net >= 0 ? '+' : '';
+
+            const row = document.createElement('div');
+            row.className = "flex justify-between items-center bg-[#0b0e14] px-4 py-2.5 rounded-xl border border-[#1e2329] text-xs";
+            row.innerHTML = `
+                <span class="text-slate-300 font-medium">${boxName}</span>
+                <span class="${colorClass} font-bold">${sign}$${net.toFixed(2)} (მოგება: $${win.toFixed(2)})</span>
+            `;
+            
+            historyList.prepend(row);
+
+            // შევინარჩუნოთ მაქსიმუმ ბოლო 5 ჩანაწერი
+            if (historyList.children.length > 5) {
+                historyList.removeChild(historyList.lastChild);
+            }
         }
     </script>
 </body>
