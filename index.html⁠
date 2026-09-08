@@ -11,7 +11,6 @@
             color: #eaecef;
             font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
-        /* Custom scrollbar for professional look */
         ::-webkit-scrollbar {
             width: 6px;
             height: 6px;
@@ -51,7 +50,7 @@
     <!-- Main Content Grid -->
     <main class="max-w-7xl w-full mx-auto p-4 lg:p-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
         
-        {/* Left Column: Markets & Prices */}
+        <!-- Left Column: Markets & Prices -->
         <div class="lg:col-span-2 space-y-6">
             <div class="bg-[#12161c] border border-[#1e2329] rounded-2xl p-5 shadow-xl">
                 <h2 class="text-base font-bold text-white mb-4 flex items-center justify-between">
@@ -98,7 +97,7 @@
                 </div>
             </div>
 
-            {/* Transaction History Section */}
+            <!-- Transaction History Section -->
             <div class="bg-[#12161c] border border-[#1e2329] rounded-2xl p-5 shadow-xl">
                 <h3 class="text-base font-bold text-white mb-4">ტრანზაქციების ისტორია</h3>
                 <div class="overflow-x-auto">
@@ -124,9 +123,9 @@
             </div>
         </div>
 
-        {/* Right Column: Wallet Balance & Deposit/Withdraw Panel */}
+        <!-- Right Column: Wallet Balance & Deposit/Withdraw Panel -->
         <div class="space-y-6">
-            {/* Total Balance Card */}
+            <!-- Total Balance Card -->
             <div class="bg-gradient-to-br from-[#12161c] to-[#181d26] border border-[#1e2329] rounded-2xl p-6 shadow-xl relative overflow-hidden">
                 <div class="absolute -right-6 -bottom-6 w-32 h-32 bg-amber-500/5 rounded-full blur-2xl"></div>
                 <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">სულ ბალანსი (Total Balance)</p>
@@ -143,7 +142,7 @@
                 </div>
             </div>
 
-            {/* Deposit / Withdraw Action Box */}
+            <!-- Deposit / Withdraw Action Box -->
             <div class="bg-[#12161c] border border-[#1e2329] rounded-2xl p-5 shadow-xl">
                 <div class="flex bg-[#0b0e14] p-1 rounded-xl border border-[#1e2329] mb-5">
                     <button onclick="setTab('deposit')" id="depBtn" class="flex-1 py-2 text-xs font-bold rounded-lg bg-amber-500 text-slate-950 transition-all shadow-md">შეტანა (Deposit)</button>
@@ -260,3 +259,4 @@
     </script>
 </body>
 </html>
+
